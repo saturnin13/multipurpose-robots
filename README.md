@@ -18,7 +18,7 @@ action can be triggered.
 0. go to
 ```bash
 cd ~/MECSEE129/arduino_examples/
-``
+```
 
 1. copy the file flash_arduino.sh to the pi@pibennysat an from the directory
 ```bash
@@ -32,7 +32,8 @@ scp subscriber_example.ino 192.168.1.124:/Users/bennyroder/Desktop/Experimental\
 
 3. Use
 ```bash
-ls```
+ls
+```
 to see if the files show up
 
 ## flash the Arduino
@@ -87,7 +88,7 @@ rostopic pub toggle_led std_msgs/Empty --once
 _Now we expect the arduino to light one LED up (onboard LED)_
 If we send the last message (5.) again, the LED should turn off.
 For the future, we can change the line
-```cpp
+```bash
 digitalWrite(13, HIGH-digitalRead(13)
 ```
 to whatever we want to trigger from the PC (e.g. emergency stop or Tic Tac dropping)
