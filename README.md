@@ -16,8 +16,9 @@ action can be triggered.
 
 ## Copy the files
 0. go to
+
 ```bash
-cd ~/MECSEE129/arduino_examples/
+cd ~/MECSEE129/arduino_examples
 ```
 
 1. copy the file flash_arduino.sh to the pi@pibennysat an from the directory
@@ -88,7 +89,9 @@ rostopic pub toggle_led std_msgs/Empty --once
 _Now we expect the arduino to light one LED up (onboard LED)_
 If we send the last message (5.) again, the LED should turn off.
 For the future, we can change the line
+
 ```bash
 digitalWrite(13, HIGH-digitalRead(13)
 ```
+
 to whatever we want to trigger from the PC (e.g. emergency stop or Tic Tac dropping)
