@@ -59,6 +59,11 @@ source ~/catkin_ws/devel/setup.bash
 ```bash
 rosrun rosserial_arduino serial_node.py_port:=/dev/ttyArduino
 ```
+## Terminal 2
+1. start roscore
+```bash
+roscore
+```
 
 ## Terminal 3
 1. ssh into the pi
@@ -66,27 +71,23 @@ rosrun rosserial_arduino serial_node.py_port:=/dev/ttyArduino
 ssh pi@192.168.1.124
 ```
 
-2. start roscore
-```bash
-roscore
-```
-
-3. Source the catkin thing
+2. Source the catkin thing
 ```bash
 source ~/catkin_ws/devel/setup.bash
 ```
 
-4. Show all topics (should cointain /toggle_led for the given example)
+3. Show all topics (should cointain /toggle_led for the given example)
 ```bash
 rostopic list
 ```
 
-5. This line will trigger the action (light LED in the example) on the arduino, as it is the specified message
+4. This line will trigger the action (light LED in the example) on the arduino, as it is the specified message
 ```bash
 rostopic pub toggle_led std_msgs/Empty --once
 ```
 
-_Now we expect the arduino to light one LED up (onboard LED)_
+## _Now we expect the arduino to light one LED up (onboard LED)_
+
 If we send the last message (5.) again, the LED should turn off.
 For the future, we can change the line
 
