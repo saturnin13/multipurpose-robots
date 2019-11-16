@@ -18,76 +18,76 @@ action can be triggered.
 0. go to
 ```bash
 cd ~/MECSEE129/arduino_examples/
-```
+``
 
 1. copy the file flash_arduino.sh to the pi@pibennysat an from the directory
-``bash
+```bash
 scp flash_arduino.sh pi@pibennysat:"/Users/bennyroder/Desktop/Experimental\\ Robotics/Pi\\ Lab/MECSEE129-master/arduino_examples"
-``
+```
 
 2. copy the file (ATTENTION: i renamed the file from rosBlink_test.ino to subscriber_example.ino)
-``bash
+```bash
 scp subscriber_example.ino 192.168.1.124:/Users/bennyroder/Desktop/Experimental\ Robotics/Pi\ Lab/MECSEE129-master/arduino_examples/
-``
+```
 
 3. Use
-``bash
-ls``
+```bash
+ls```
 to see if the files show up
 
 ## flash the Arduino
-``bash
+```bash
 ./flash_arduino.sh
-``
+```
 Its just that
 
 
 ## Terminal 1
 1. First do
-``bash
+```bash
 cd ~/catkin_ws/
-``
+```
 
 2. Then do
-``bash
+```bash
 source ~/catkin_ws/devel/setup.bash
-``
+```
 
 3. and
-``bash
+```bash
 rosrun rosserial_arduino serial_node.py_port:=/dev/ttyArduino
-``
+```
 
 ## Terminal 3
 1. ssh into the pi
-``bash
+```bash
 ssh pi@192.168.1.124
-``
+```
 
 2. start roscore
-``bash
+```bash
 roscore
-``
+```
 
 3. Source the catkin thing
-``bash
+```bash
 source ~/catkin_ws/devel/setup.bash
-``
+```
 
 4. Show all topics (should cointain /toggle_led for the given example)
-``bash
+```bash
 rostopic list
-``
+```
 
 5. This line will trigger the action (light LED in the example) on the arduino, as it is the specified message
-``bash
+```bash
 rostopic pub toggle_led std_msgs/Empty --once
-``
+```
 
 _Now we expect the arduino to light one LED up (onboard LED)_
 If we send the last message (5.) again, the LED should turn off.
 For the future, we can change the line
-``cpp
+```cpp
 digitalWrite(13, HIGH-digitalRead(13)
-``
+```
 to whatever we want to trigger from the PC (e.g. emergency stop or Tic Tac dropping)
