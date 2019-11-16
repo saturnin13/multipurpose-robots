@@ -16,9 +16,9 @@ action can be triggered.
 
 ## Copy the files
 0. go to
-``bash
+```bash
 cd ~/MECSEE129/arduino_examples/
-``
+```
 
 1. copy the file flash_arduino.sh to the pi@pibennysat an from the directory
 ``bash
