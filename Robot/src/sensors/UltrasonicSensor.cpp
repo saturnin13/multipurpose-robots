@@ -1,5 +1,5 @@
 #include "UltrasonicSensor.hpp"
-#include "Arduino.h"
+#include <Arduino.h>
 
 // The minimum number of milliseconds that should pass
 // between each sample.

@@ -6,10 +6,16 @@
 class IRSensor : public Sensor {
 
   public:
-    IRSensor();
+    IRSensor(int ledPin, int ldrPin);
 
     void update();
     void reset();
+
+    unsigned int value;
+
+  private:
+    const int ledPin;
+    const int ldrPin;
 };
 
 #endif

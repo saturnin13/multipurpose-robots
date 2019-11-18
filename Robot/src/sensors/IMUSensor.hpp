@@ -6,7 +6,7 @@
 class IMUSensor : public Sensor {
 
   public:
-    IMUSensor::IMUSensor();
+    IMUSensor();
 
     void update();
     void reset();
