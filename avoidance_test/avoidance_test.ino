@@ -8,7 +8,7 @@ pinMode(tracingPin, INPUT);
 }
 void loop()
 {
-int val = analogRead(tracingPin);
+int val = digitalRead(tracingPin);
 if(val == 0)
 { 
 Serial.println(val);}
