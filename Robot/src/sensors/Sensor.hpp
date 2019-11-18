@@ -8,6 +8,10 @@ class Sensor {
 
     // Reset the internal state of the sensor.
     virtual void reset() = 0;
+
+    // The timestamp (in milliseconds) for when the sensor data was last updated.
+    unsigned long lastUpdate = 0;
+
 };
 
 #endif
