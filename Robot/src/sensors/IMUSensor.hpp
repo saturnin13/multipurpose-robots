@@ -5,11 +5,13 @@
 
 class IMUSensor : public Sensor {
 
-    public:
-        IMUSensor();
+  public:
+    IMUSensor::IMUSensor();
 
-        void update();
-        void reset();
+    void update();
+    void reset();
+
+    double xAngle, yAngle, zAngle;
 };
 
 #endif

@@ -40,6 +40,7 @@ void UltrasonicSensor::update() {
 
 void UltrasonicSensor::reset() {
     this->distance = 0;
+    this->lastUpdate = 0;
 }
 
 long UltrasonicSensor::microsecondsToMillimeters(long time) {
