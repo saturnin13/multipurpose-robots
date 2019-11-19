@@ -9,7 +9,6 @@ int LinePin5 = 4;
 void setup() {
   // put your setup code here, to run once:
         Serial.begin(9600);
-
 }
 
 void loop() {
@@ -19,13 +18,13 @@ void loop() {
   int l3 = analogRead(LinePin3);
   int l4 = analogRead(LinePin4);
   int l5 = analogRead(LinePin5);
-  Serial.print("Value: ");
+  //Serial.print("Value: ");
   Serial.print(l1);Serial.print(" , ");
   Serial.print(l2);Serial.print(" , ");
   Serial.print(l3);Serial.print(" , ");
   Serial.print(l4);Serial.print(" , ");
   Serial.println(l5);
-  delay(1000);
+  delay(100);
 
   
 }
