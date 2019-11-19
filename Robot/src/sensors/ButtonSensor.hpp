@@ -3,6 +3,9 @@
 
 #include "Sensor.hpp"
 
+// Debouncing delay in milliseconds
+#define DEBOUNCE_DELAY 150
+
 class ButtonSensor : public Sensor {
 
   public:
@@ -15,6 +18,9 @@ class ButtonSensor : public Sensor {
 
   private:
     const int pin;
+    unsigned long lastDebounceTime = 0;
+    int previousButtonState = -1;
+
 };
 
 #endif
