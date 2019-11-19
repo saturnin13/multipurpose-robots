@@ -115,4 +115,3 @@ to whatever we want to trigger from the PC (e.g. emergency stop or Tic Tac dropp
 rostopic echo /receiver_data
 ```
 _Now we expect the the arduino to print stuff to the console_
-
