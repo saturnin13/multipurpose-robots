@@ -3,6 +3,10 @@
 
 #include "Actuator.hpp"
 
-class LED : public Actuator {};
+class LED : public Actuator {
+  public:
+    LED();
+    void enact();
+};
 
 #endif

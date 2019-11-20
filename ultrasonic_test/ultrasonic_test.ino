@@ -8,8 +8,6 @@ int distance;
 //not reliable for distances lower than 3cm
 void setup()
 {
-     
-      
       //ultra sonic
       pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
       pinMode(echoPin, INPUT); // Sets the echoPin as an Input
@@ -35,5 +33,4 @@ void loop()
 
 
       delay(100);
-      
 }

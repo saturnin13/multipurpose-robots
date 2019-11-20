@@ -3,6 +3,10 @@
 
 #include "Actuator.hpp"
 
-class TicTacDropper : public Actuator {};
+class TicTacDropper : public Actuator {
+  public:
+    TicTacDropper();
+    void enact();
+};
 
 #endif
