@@ -18,7 +18,7 @@ void ButtonSensor::update() {
 
     if (this->lastDebounceTime != 0 && (now - this->lastDebounceTime) > DEBOUNCE_DELAY) {
         // The same button value has been held for longer than the debounce delay.
-        this->pressed = (currentState == HIGH) ? true : false;
+        this->pressed = (currentState == LOW) ? true : false;
         this->lastDebounceTime = 0;
     }
 
