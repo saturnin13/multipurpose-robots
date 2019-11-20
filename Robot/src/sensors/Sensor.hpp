@@ -11,7 +11,6 @@ class Sensor {
 
     // The timestamp (in milliseconds) for when the sensor data was last updated.
     unsigned long lastUpdate = 0;
-
 };
 
 #endif
