@@ -4,7 +4,7 @@
 class Actuator {
   public:
     // Perform the action of the actuator.
-    // virtual void enact() = 0;
+    virtual void enact() = 0;
 };
 
 #endif

@@ -33,7 +33,7 @@ void LED::configure(LEDState state) {
 
 }
 
-void LED::tick() {
+void LED::enact() {
 
     unsigned long now = millis();
     unsigned long elapsed = now - lastCycleTime;

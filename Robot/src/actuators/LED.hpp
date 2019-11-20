@@ -16,7 +16,7 @@ class LED : public Actuator {
     LED(int redPin, int greenPin, int bluePin);
 
     void configure(LEDState state);
-    void tick();
+    void enact();
 
   private:
     const int redPin;
