@@ -7,8 +7,24 @@ ButtonSensor::ButtonSensor(int pin) : pin(pin) {
 }
 
 void ButtonSensor::update() {
-    this->pressed = (digitalRead(this->pin) == HIGH) ? true : false;
-    this->lastUpdate = millis();
+
+    unsigned long now = millis();
+    int currentState = digitalRead(this->pin);
+
+    if (currentState != this->previousButtonState) {
+        // Reset the debouncing timer.
+        lastDebounceTime = now;
+    }
+
+    if (this->lastDebounceTime != 0 && (now - this->lastDebounceTime) > DEBOUNCE_DELAY) {
+        // The same button value has been held for longer than the debounce delay.
+        this->pressed = (currentState == HIGH) ? true : false;
+        this->lastDebounceTime = 0;
+    }
+
+    this->previousButtonState = currentState;
+    this->lastUpdate = now;
+
 }
 
 void ButtonSensor::reset() {
