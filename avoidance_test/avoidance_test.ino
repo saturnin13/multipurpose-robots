@@ -3,7 +3,7 @@ const int buttonPin = 8;    // the number of the pushbutton pin
 const int ledPin = 13;      // the number of the LED pin
 
 // Variables will change:
-int ledState = HIGH;         // the current state of the output pin
+int ledState = HIGH;         // the current state machine of the output pin
 int buttonState;             // the current reading from the input pin
 int lastButtonState = LOW;   // the previous reading from the input pin
 
@@ -16,13 +16,13 @@ void setup() {
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
 
-  // set initial LED state
+  // set initial LED state machine
   digitalWrite(ledPin, ledState);
   Serial.begin(9600);
 }
 
 void loop() {
-  // read the state of the switch into a local variable:
+  // read the state machine of the switch into a local variable:
   int reading = digitalRead(buttonPin);
   Serial.println(reading);
   // check to see if you just pressed the button
@@ -37,13 +37,13 @@ void loop() {
 
   if ((millis() - lastDebounceTime) > debounceDelay) {
     // whatever the reading is at, it's been there for longer than the debounce
-    // delay, so take it as the actual current state:
+    // delay, so take it as the actual current state machine:
 
-    // if the button state has changed:
+    // if the button state machine has changed:
     if (reading != buttonState) {
       buttonState = reading;
 
-      // only toggle the LED if the new button state is HIGH
+      // only toggle the LED if the new button state machine is HIGH
       if (buttonState == HIGH) {
         ledState = !ledState;
       }

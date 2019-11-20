@@ -66,10 +66,10 @@ void loop() {
 
   if ((millis() - lastDebounceTime) > debounceDelay && lastDebounceTime != 0) {
     // whatever the reading is at, it's been there for longer than the debounce
-    // delay, so take it as the actual current state:
+    // delay, so take it as the actual current state machine:
     Serial.println("Button pressed!");
     lastDebounceTime = 0;
-    // if the button state has changed:
+    // if the button state machine has changed:
     buttonChanged  = 1;
   }
 
@@ -79,7 +79,7 @@ void loop() {
   
   if(buttonChanged) {
     buttonChanged = 0;
-     Serial.println("Changing state!");
+     Serial.println("Changing state machine!");
 
     if (state == DISSARMED) {
       state = ARMED;

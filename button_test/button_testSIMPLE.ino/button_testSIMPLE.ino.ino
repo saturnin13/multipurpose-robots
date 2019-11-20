@@ -17,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-  // read the state of the pushbutton value:
+  // read the state machine of the pushbutton value:
   buttonState = digitalRead(buttonPin);
   Serial.println(buttonState);
 
