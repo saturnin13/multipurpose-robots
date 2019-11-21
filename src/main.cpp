@@ -1,12 +1,17 @@
 #include <Arduino.h>
+#include<Wire.h>
+
+#include "actuators/LED.hpp"
 
 #include "sensors/ButtonSensor.hpp"
-#include "actuators/LED.hpp"
 #include "sensors/IMUSensor.hpp"
 #include "sensors/IRSensor.hpp"
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
+
 #include "agents/AnglingUpdateAgent.hpp"
+#include "agents/LEDActionAgent.hpp"
+
 #include "state_machine/StateMachine.hpp"
 
 #define DEBUG 1
@@ -32,7 +37,7 @@ IRSensor ir4(33);
 ButtonSensor b1(12);
 
 // Example of LED
-LED l1(10, 9, 8);
+LED led(10, 9, 8);
 
 // Example of how to create line follower sensor
 int linefollowerPins[] = {A0, A1, A2, A3, A4};
@@ -41,28 +46,32 @@ LineFollowerSensor lf(linefollowerPins, 5);
 //State
 State state;
 
-//Example of new Agent
+//Example of new update Agent
 AnglingUpdateAgent angleAgent(&state, &imu);
 
-int counter = 0;
+//Example of new action Agent
+LEDActionAgent ledAgent(&state, &led);
+
+//time stracking
 long initTime;
 long ledTime;
 
-#include<Wire.h>
 
 void setup() {
   
     Wire.endTransmission(true); //otherwise it doesnt work
 
     Serial.begin(9600);
-    Serial.println(" Setup done ");
-    l1.configure(SOLID_RED);
+    led.configure(SOLID_RED);
     initTime = millis();
+
+    if(DEBUG) {
+        Serial.println(" Setup done ");
+    }
     
 }
 
 void loop() {
-    counter++;
     b1.update();
     usFrontLeft.update();
     usFrontMiddle.update();
@@ -76,19 +85,23 @@ void loop() {
     //ir4.update();
     //lf.update();
     imu.update();
-    l1.enact();
+
+
+    angleAgent.update();
+
+    ledAgent.enact();
+
 
     //if(b1.pressed) {
         //l1.configure(STROBE_GREEN);
         //ledTime = millis();
     //}
 
-    angleAgent.update();
+    
 
-    //Serial.println(state.incline);
 
     if(DEBUG) {
-
+    //Serial.println(state.incline);
     //Serial.print(usFrontLeft.distance);Serial.print(" , ");
     //Serial.print(usFrontMiddle.distance);Serial.print(" , ");
     //Serial.print(usFrontRight.distance);Serial.print(" , ");
@@ -108,9 +121,7 @@ void loop() {
     //Serial.print(imu.yAngle);Serial.print(" , ");
     //Serial.println(b1.pressed);
     //Serial.println(' ');
-    //if((millis() - ledTime)> 5000) {
-    //    l1.configure(FLASH_BLUE);
-    //}
+
     delay(100);
     }
 
