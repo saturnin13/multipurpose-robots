@@ -14,11 +14,13 @@
 #define MAX_VAL 402
 
 IMUSensor::IMUSensor() {
+     
     Wire.begin();
     Wire.beginTransmission(I2C_ADDRESS);
     Wire.write(POWER_MGMT_REGISTER);
     Wire.write(0); // Wake up the IMU
-    Wire.endTransmission(true);
+    //Wire.endTransmission(true);
+
 }
 
 void IMUSensor::update() {
@@ -39,9 +41,9 @@ void IMUSensor::update() {
     int accY = Wire.read() << 8 | Wire.read();
     int accZ = Wire.read() << 8 | Wire.read();
     // int temp = Wire.read() << 8 | Wire.read();
-    // int gyroX = Wire.read() << 8 | Wire.read();
-    // int gyroY = Wire.read() << 8 | Wire.read();
-    // int gyroZ = Wire.read() << 8 | Wire.read();
+    //int gyroX = Wire.read() << 8 | Wire.read();
+    //int gyroY = Wire.read() << 8 | Wire.read();
+    //int gyroZ = Wire.read() << 8 | Wire.read();
 
     int xAng = map(accX, MIN_VAL, MAX_VAL, -90, 90);
     int yAng = map(accY, MIN_VAL, MAX_VAL, -90, 90);

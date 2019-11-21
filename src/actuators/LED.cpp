@@ -9,6 +9,9 @@ LED::LED(int redPin, int greenPin, int bluePin)
 }
 
 void LED::configure(LEDState state) {
+    if(state == this->state) {
+        return;
+    }
 
     this->state = state;
     this->cycleState = false;
@@ -40,6 +43,9 @@ void LED::enact() {
     unsigned long elapsed = now - lastCycleTime;
 
     switch (state) {
+    case OFF:
+        break;
+        
     case SOLID_RED:
         break;
 
@@ -48,13 +54,16 @@ void LED::enact() {
             if (this->cycleState) {
                 // Light is on
                 digitalWrite(bluePin, LOW);
+                Serial.println("LOW");
             } else {
                 // Light is off
                 digitalWrite(bluePin, HIGH);
+                Serial.println("HIGH");
             }
-
+            Serial.println(this->cycleState);
             this->lastCycleTime = now;
-            this->cycleState = !this->cycleState;
+            this->cycleState = !(this->cycleState);
+            Serial.println(this->cycleState);
         }
 
         break;

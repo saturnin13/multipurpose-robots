@@ -4,7 +4,7 @@
 #include "Sensor.hpp"
 
 // Debouncing delay in milliseconds
-#define DEBOUNCE_DELAY 150
+#define DEBOUNCE_DELAY 50
 
 class ButtonSensor : public Sensor {
 

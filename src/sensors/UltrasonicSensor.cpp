@@ -25,6 +25,8 @@ void UltrasonicSensor::update() {
     // TODO: Should we refactor this so it doesn't use delays?
     //       I'm not sure we can get microsecond-level time precision.
 
+    digitalWrite(triggerPin, LOW);
+    delayMicroseconds(2);
     // Send pulse
     digitalWrite(triggerPin, HIGH);
     delayMicroseconds(10);
