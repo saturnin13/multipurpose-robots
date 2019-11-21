@@ -5,7 +5,7 @@
 
 class Drive : public Actuator {
   public:
-    LED();
+    Drive();
     void enact();
 };
 

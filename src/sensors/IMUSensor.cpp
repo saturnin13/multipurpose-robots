@@ -56,7 +56,7 @@ void IMUSensor::update() {
 
 void IMUSensor::reset() {
     this->xAngle = 0;
-    this->xAngle = 0;
-    this->xAngle = 0;
+    this->yAngle = 0;
+    this->zAngle = 0;
     this->lastUpdate = 0;
 }
