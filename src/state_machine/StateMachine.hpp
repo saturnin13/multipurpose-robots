@@ -20,6 +20,8 @@ struct State {
     int totalTurnedDegrees = 0;
 
     bool emergencyStop = false;
+
+    long initTime = 0;
 };
 
 class StateMachine {

@@ -14,4 +14,7 @@ StateMachine::StateMachine() {
     state.totalTurnedDegrees = 0;
 
     state.emergencyStop = false;
+
+    state.initTime = 0;
+
 }

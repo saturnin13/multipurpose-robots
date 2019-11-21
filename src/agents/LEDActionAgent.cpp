@@ -2,7 +2,7 @@
 
 
 LEDActionAgent::LEDActionAgent(State* state, LED* led): state(state), led(led) {
-
+    led->configure(SOLID_RED);
 }
 
 void LEDActionAgent::enact() {

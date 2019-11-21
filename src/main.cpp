@@ -9,12 +9,15 @@
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
 
+#include "agents/ButtonUpdateAgent.hpp"
 #include "agents/AnglingUpdateAgent.hpp"
 #include "agents/LEDActionAgent.hpp"
 
 #include "state_machine/StateMachine.hpp"
 
 #define DEBUG 1
+#define STARTDELAYTIME 3000
+
 
 // Example of how to create ultrasonic sensors.
 UltrasonicSensor usFrontLeft(46, 47);
@@ -34,7 +37,7 @@ IRSensor ir3(32);
 IRSensor ir4(33);
 
 // Example of how to a button
-ButtonSensor b1(12);
+ButtonSensor button(12);
 
 // Example of LED
 LED led(10, 9, 8);
@@ -48,12 +51,12 @@ State state;
 
 //Example of new update Agent
 AnglingUpdateAgent angleAgent(&state, &imu);
+ButtonUpdateAgent buttonAgent(&state, &button);
 
 //Example of new action Agent
 LEDActionAgent ledAgent(&state, &led);
 
 //time stracking
-long initTime;
 long ledTime;
 
 
@@ -62,42 +65,61 @@ void setup() {
     Wire.endTransmission(true); //otherwise it doesnt work
 
     Serial.begin(9600);
-    led.configure(SOLID_RED);
-    initTime = millis();
 
     if(DEBUG) {
-        Serial.println(" Setup done ");
+        Serial.println("Setup done");
     }
     
 }
 
 void loop() {
-    b1.update();
-    usFrontLeft.update();
-    usFrontMiddle.update();
-    usFrontRight.update();
-    usDownLeft.update();
-    usDownRight.update();
-    usBackLeft.update();
+    button.update();
+    //DISCUSS: update imu in angle Agent?
+    //PRO: is then updated automataically,
+    //CON: some sensors are used in more than one agent -> who should update then?
+    imu.update();
+
+    /*TODO List:
+    UpdateAgents:
+    EdgeDetection
+    ObstacleDetection
+    LineDetection
+    CircleDetection
+    LoopDetection
+    E-stopRequest (-> ROS)
+    TicTacDropRequest (->ROS)
+
+    ActionAgents:
+    TicTacDropper + Stepper Motor
+    Driver + Motor
+
+    Question:
+    Where is Navigation going?
+
+    Add to states:
+    - stop (not e stop, but for dropping)
+    - drop request
+    - initial search direction (i.e. which line to follow first)
+    - navigation mode (left all the time, search for circle, line following)
+    - max velocity (?)
+    */
+    
+
+    //usFrontLeft.update();
+    //usFrontMiddle.update();
+    //usFrontRight.update();
+    //usDownLeft.update();
+    //usDownRight.update();
+    //usBackLeft.update();
     //ir1.update();
     //ir2.update();
     //ir3.update();
     //ir4.update();
     //lf.update();
-    imu.update();
-
 
     angleAgent.update();
-
-    ledAgent.enact();
-
-
-    //if(b1.pressed) {
-        //l1.configure(STROBE_GREEN);
-        //ledTime = millis();
-    //}
-
-    
+    buttonAgent.update();
+    ledAgent.enact();    
 
 
     if(DEBUG) {
@@ -121,7 +143,6 @@ void loop() {
     //Serial.print(imu.yAngle);Serial.print(" , ");
     //Serial.println(b1.pressed);
     //Serial.println(' ');
-
     delay(100);
     }
 
