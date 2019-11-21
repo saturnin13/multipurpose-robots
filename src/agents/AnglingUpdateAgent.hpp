@@ -7,13 +7,13 @@
 
 class AnglingUpdateAgent : public UpdateAgent {
 public:
-    // Update the state.
-    AnglingUpdateAgent(State &state, IMUSensor imu);
-    void update() = 0;
+    AnglingUpdateAgent(State* state, IMUSensor* imu);
+
+    void update();
 
 private:
-    State state;
-    IMUSensor imu;
+    State* state;
+    IMUSensor* imu;
 };
 
 #endif

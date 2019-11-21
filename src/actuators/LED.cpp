@@ -54,16 +54,12 @@ void LED::enact() {
             if (this->cycleState) {
                 // Light is on
                 digitalWrite(bluePin, LOW);
-                Serial.println("LOW");
             } else {
                 // Light is off
                 digitalWrite(bluePin, HIGH);
-                Serial.println("HIGH");
             }
-            Serial.println(this->cycleState);
             this->lastCycleTime = now;
             this->cycleState = !(this->cycleState);
-            Serial.println(this->cycleState);
         }
 
         break;

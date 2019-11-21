@@ -1,9 +1,11 @@
-#ifndef AGENT_H
-#define AGENT_H
+#ifndef UPDATEAGENT_H
+#define UPDATEAGENT_H
+
+#include "Agent.hpp"
 
 class UpdateAgent : public Agent {
 public:
-    // Perform the action of the actuator.
+    // Update the state.
     virtual void update() = 0;
 };
 

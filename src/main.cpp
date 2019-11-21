@@ -6,6 +6,10 @@
 #include "sensors/IRSensor.hpp"
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
+#include "agents/AnglingUpdateAgent.hpp"
+#include "state_machine/StateMachine.hpp"
+
+#define DEBUG 1
 
 // Example of how to create ultrasonic sensors.
 UltrasonicSensor usFrontLeft(46, 47);
@@ -19,10 +23,10 @@ UltrasonicSensor usBackLeft(48, 49);
 IMUSensor imu;
 
 // Example of how to create IR sensor
-IRSensor ir1(13, 30);
-IRSensor ir2(13, 31);
-IRSensor ir3(13, 32);
-IRSensor ir4(13, 33);
+IRSensor ir1(30);
+IRSensor ir2(31);
+IRSensor ir3(32);
+IRSensor ir4(33);
 
 // Example of how to a button
 ButtonSensor b1(12);
@@ -33,6 +37,12 @@ LED l1(10, 9, 8);
 // Example of how to create line follower sensor
 int linefollowerPins[] = {A0, A1, A2, A3, A4};
 LineFollowerSensor lf(linefollowerPins, 5);
+
+//State
+State state;
+
+//Example of new Agent
+AnglingUpdateAgent angleAgent(&state, &imu);
 
 int counter = 0;
 long initTime;
@@ -45,7 +55,7 @@ void setup() {
     Wire.endTransmission(true); //otherwise it doesnt work
 
     Serial.begin(9600);
-    Serial.print(" Setup done ");
+    Serial.println(" Setup done ");
     l1.configure(SOLID_RED);
     initTime = millis();
     
@@ -65,13 +75,19 @@ void loop() {
     //ir3.update();
     //ir4.update();
     //lf.update();
-    //imu.update();
+    imu.update();
     l1.enact();
 
-    if(b1.pressed) {
-        l1.configure(STROBE_GREEN);
-        ledTime = millis();
-    }
+    //if(b1.pressed) {
+        //l1.configure(STROBE_GREEN);
+        //ledTime = millis();
+    //}
+
+    angleAgent.update();
+
+    //Serial.println(state.incline);
+
+    if(DEBUG) {
 
     //Serial.print(usFrontLeft.distance);Serial.print(" , ");
     //Serial.print(usFrontMiddle.distance);Serial.print(" , ");
@@ -92,11 +108,13 @@ void loop() {
     //Serial.print(imu.yAngle);Serial.print(" , ");
     //Serial.println(b1.pressed);
     //Serial.println(' ');
-    if((millis() - ledTime)> 5000) {
-        l1.configure(FLASH_BLUE);
+    //if((millis() - ledTime)> 5000) {
+    //    l1.configure(FLASH_BLUE);
+    //}
+    delay(100);
     }
 
-    // Update state_machine machine
+    // Update state machine machine
 
     // Carry out actions
 }

@@ -6,13 +6,13 @@ enum Entity {FLAT, EDGE, OBSTACLE};
 enum RobotState {ARMED, DISARMED};
 
 struct State {
-    RobotState robotState = DISARMED
+    RobotState robotState = DISARMED;
 
     Entity leftEntity = FLAT;
     Entity frontEntity = FLAT;
 
     TableState lineFollowingTable = UNSEEN;
-    TableState incline = UNSEEN
+    TableState incline = UNSEEN;
     TableState finalTable = UNSEEN;
 
     bool ticTacDropped = false;

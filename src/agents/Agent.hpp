@@ -2,7 +2,6 @@
 #define AGENT_H
 
 class Agent {
-
 };
 
 #endif

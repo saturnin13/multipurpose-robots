@@ -1,12 +1,15 @@
 #include "StateMachine.hpp"
 
 StateMachine::StateMachine() {
-    state.LeftEntity = FLAT;
-    state.FrontEntity = FLAT;
+    state.robotState = DISARMED;
+    state.leftEntity = FLAT;
+    state.frontEntity = FLAT;
 
-    state.LineFollowingTable = UNSEEN;
-    state.HillTable = UNSEEN
-    state.FinalTable = UNSEEN;
+    state.lineFollowingTable = UNSEEN;
+    state.incline = UNSEEN;
+    state.finalTable = UNSEEN;
+
+    state.ticTacDropped = false;
 
     state.totalTurnedDegrees = 0;
 

@@ -1,5 +1,5 @@
-#ifndef AGENT_H
-#define AGENT_H
+#ifndef ACTIONAGENT_H
+#define ACTIONAGENT_H
 
 class ActionAgent : public Agent{
 public:
