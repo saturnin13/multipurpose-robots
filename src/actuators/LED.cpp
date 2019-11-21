@@ -9,6 +9,7 @@ LED::LED(int redPin, int greenPin, int bluePin)
 }
 
 void LED::configure(LEDState state) {
+
     this->state = state;
     this->cycleState = false;
     this->lastCycleTime = 0;

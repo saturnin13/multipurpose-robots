@@ -30,7 +30,7 @@ void loop() {
     ir1.update();
     lf.update();
 
-    // Update state machine machine
+    // Update state_machine machine
 
     // Carry out actions
 }

@@ -19,7 +19,7 @@ void loop()
 {
      digitalWrite(trigPin, LOW);
       delayMicroseconds(2);
-      // Sets the trigPin on HIGH state machine for 10 micro seconds
+      // Sets the trigPin on HIGH state_machine for 10 micro seconds
       digitalWrite(trigPin, HIGH);
       delayMicroseconds(10);
       digitalWrite(trigPin, LOW);
