@@ -5,9 +5,8 @@
 // between each sample.
 #define SAMPLE_FREQUENCY 100
 
-IRSensor::IRSensor(int ledPin, int ldrPin) : ledPin(ledPin), ldrPin(ldrPin) {
-    pinMode(ledPin, OUTPUT);
-    pinMode(ldrPin, INPUT);
+IRSensor::IRSensor(int pin) : pin(pin) {
+    pinMode(pin, INPUT);
 }
 
 void IRSensor::update() {
@@ -19,13 +18,13 @@ void IRSensor::update() {
         return;
     }
 
-    auto ldrStatus = (unsigned int) analogRead(ldrPin);
+    auto ldrStatus = digitalRead(pin);
 
-    this->value = ldrStatus;
+    this->obstacleDetected = (ldrStatus == LOW) ? true : false;
     this->lastUpdate = now;
 }
 
 void IRSensor::reset() {
-    this->value = 0;
+    this->obstacleDetected = false;
     this->lastUpdate = 0;
 }
