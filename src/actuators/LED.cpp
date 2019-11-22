@@ -6,10 +6,13 @@ LED::LED(int redPin, int greenPin, int bluePin)
     pinMode(redPin, OUTPUT);
     pinMode(greenPin, OUTPUT);
     pinMode(bluePin, OUTPUT);
+
+    configure(SOLID_RED);
 }
 
 void LED::configure(LEDState state) {
-    if(state == this->state) {
+    
+    if (state == this->state) {
         return;
     }
 
@@ -43,9 +46,6 @@ void LED::enact() {
     unsigned long elapsed = now - lastCycleTime;
 
     switch (state) {
-    case OFF:
-        break;
-        
     case SOLID_RED:
         break;
 

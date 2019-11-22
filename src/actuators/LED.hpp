@@ -9,7 +9,7 @@
 #define LED_BRIGHT 255
 #define LED_DIM 80
 
-enum LEDState { OFF, SOLID_RED, STROBE_GREEN, FLASH_BLUE };
+enum LEDState { SOLID_RED, STROBE_GREEN, FLASH_BLUE };
 
 class LED : public Actuator {
   public:
@@ -23,7 +23,7 @@ class LED : public Actuator {
     const int greenPin;
     const int bluePin;
 
-    LEDState state = OFF;
+    LEDState state;
     unsigned long lastCycleTime = 0;
     bool cycleState = false;
 };
