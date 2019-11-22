@@ -9,9 +9,9 @@
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
 
-#include "agents/ButtonUpdateAgent.hpp"
-#include "agents/AnglingUpdateAgent.hpp"
-#include "agents/LEDActionAgent.hpp"
+#include "agents/action-agents/LEDActionAgent.hpp"
+#include "agents/update-agent/AnglingUpdateAgent.hpp"
+#include "agents/update-agent/ButtonUpdateAgent.hpp"
 
 #include "state_machine/StateMachine.hpp"
 
