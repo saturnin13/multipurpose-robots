@@ -13,7 +13,7 @@
 #include "agents/update-agent/AnglingUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
 
-#include "state_machine/StateMachine.hpp"
+#include "state_machine/State.hpp"
 
 #include "Constants.hpp"
 

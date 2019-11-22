@@ -3,7 +3,7 @@
 
 #include "../../actuators/LED.hpp"
 #include "ActionAgent.hpp"
-#include "../../state_machine/StateMachine.hpp"
+#include "../../state_machine/State.hpp"
 
 class LEDActionAgent : public ActionAgent {
 public:

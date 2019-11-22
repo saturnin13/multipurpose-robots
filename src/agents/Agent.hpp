@@ -1,7 +1,7 @@
 #ifndef AGENT_H
 #define AGENT_H
 
-#include "../state_machine/StateMachine.hpp"
+#include "../state_machine/State.hpp"
 
 class Agent {
 public:

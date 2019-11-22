@@ -2,7 +2,7 @@
 #define UPDATEAGENT_H
 
 #include "../Agent.hpp"
-#include "../../state_machine/StateMachine.hpp"
+#include "../../state_machine/State.hpp"
 
 class UpdateAgent : public Agent {
 public:

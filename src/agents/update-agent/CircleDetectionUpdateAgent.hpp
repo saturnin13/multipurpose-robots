@@ -4,7 +4,7 @@
 #include "../../sensors/IRSensor.hpp"
 #include "../../sensors/LineFollowerSensor.hpp"
 #include "UpdateAgent.hpp"
-#include "../../state_machine/StateMachine.hpp"
+#include "../../state_machine/State.hpp"
 
 class CircleDetectionUpdateAgent : public UpdateAgent {
 public:

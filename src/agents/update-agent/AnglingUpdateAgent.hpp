@@ -3,7 +3,7 @@
 
 #include "../../sensors/IMUSensor.hpp"
 #include "UpdateAgent.hpp"
-#include "../../state_machine/StateMachine.hpp"
+#include "../../state_machine/State.hpp"
 
 class AnglingUpdateAgent : public UpdateAgent {
 public:
