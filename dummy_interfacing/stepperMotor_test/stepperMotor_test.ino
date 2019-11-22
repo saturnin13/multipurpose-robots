@@ -21,8 +21,8 @@ void setup()
 void loop()
 {
       //start motor
-      OneStep(COUNTERCLOCKWISE);
-      delay(2);
+      OneStep(CLOCKWISE);
+      delay(4);
 }
 
 void OneStep(int direction){ //step motor one step

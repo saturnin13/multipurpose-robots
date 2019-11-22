@@ -13,6 +13,7 @@ class LineFollowerSensor : public Sensor {
     void reset();
 
     unsigned int *values;
+    bool unanimousDetection;
 
   private:
     int *pins;

@@ -15,9 +15,7 @@
 
 #include "state_machine/StateMachine.hpp"
 
-#define DEBUG 1
-#define STARTDELAYTIME 3000
-
+#include "Constants.hpp"
 
 // Example of how to create ultrasonic sensors.
 UltrasonicSensor usFrontLeft(46, 47);
@@ -90,18 +88,25 @@ void loop() {
     TicTacDropRequest (->ROS)
 
     ActionAgents:
-    TicTacDropper + Stepper Motor
-    Driver + Motor
+    TicTacDropper +  reload mode
+    Driver (Navigation,     - initial search direction (i.e. which line to follow first))
+    Shutting down the robot Agent?
+    ROS debugging agent, send state.toString all x seconds or if something changes
+    display agent
 
-    Question:
-    Where is Navigation going?
+    Actuators:
+    stepper motor
+    motor
+    display
 
-    Add to states:
-    - stop (not e stop, but for dropping)
-    - drop request
-    - initial search direction (i.e. which line to follow first)
-    - navigation mode (left all the time, search for circle, line following)
-    - max velocity (?)
+    Sensor:
+    error correction: weighted average values over several measurements, make sure no negative distances,... occur
+    
+    State Machine:
+    update Armed/ not armed
+
+    Constants:
+    all the pins here
     */
     
 

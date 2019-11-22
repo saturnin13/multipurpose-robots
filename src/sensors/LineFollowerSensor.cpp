@@ -1,6 +1,8 @@
 #include "LineFollowerSensor.hpp"
 #include <Arduino.h>
 
+#define IRTHRESHOLD 500
+
 // The minimum number of milliseconds that should pass
 // between each sample.
 #define SAMPLE_FREQUENCY 100
@@ -34,8 +36,11 @@ void LineFollowerSensor::update() {
         return;
     }
 
+    unanimousDetection = true;
+    
     for (unsigned int i = 0; i < this->sensorCount; i++) {
         this->values[i] = (unsigned int)analogRead(this->pins[i]);
+        unanimousDetection &= (this->values[i] > IRTHRESHOLD);
     }
 }
 

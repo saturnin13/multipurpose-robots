@@ -4,24 +4,31 @@
 enum TableState {UNSEEN, CURRENT, COMPLETED};
 enum Entity {FLAT, EDGE, OBSTACLE};
 enum RobotState {ARMED, DISARMED};
+enum TicTacState {UNDROPPED, DROPPING, DROPPED};
+enum LineOrientation {LOST, LEFT, CENTER, RIGHT};
+enum CircleOrientation {UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST};
 
 struct State {
-    RobotState robotState = DISARMED;
+    RobotState robotState;
 
-    Entity leftEntity = FLAT;
-    Entity frontEntity = FLAT;
+    Entity leftEntity;
+    Entity frontEntity;
 
-    TableState lineFollowingTable = UNSEEN;
-    TableState incline = UNSEEN;
-    TableState finalTable = UNSEEN;
+    TableState lineFollowingTable;
+    TableState incline;
+    TableState finalTable;
+    
+    TicTacState ticTacState;
 
-    bool ticTacDropped = false;
+    LineOrientation lineState;
 
-    int totalTurnedDegrees = 0;
+    CircleOrientation circleOrientation;
 
-    bool emergencyStop = false;
+    int totalTurnedDegrees;
 
-    long initTime = 0;
+    bool emergencyStop;
+
+    long initTime;
 };
 
 class StateMachine {
