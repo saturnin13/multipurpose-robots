@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include<Wire.h>
+#include <Wire.h>
 
 #include "actuators/LED.hpp"
 
@@ -17,45 +17,44 @@
 
 #include "Constants.hpp"
 
-// Example of how to create ultrasonic sensors.
+/********************
+ * State
+*********************/
+State state;
+
+/********************
+ * Sensors
+*********************/
 UltrasonicSensor usFrontLeft(46, 47);
 UltrasonicSensor usFrontRight(44, 45);
 UltrasonicSensor usFrontMiddle(42, 43);
 UltrasonicSensor usDownLeft(50, 51);
 UltrasonicSensor usDownRight(52, 53);
 UltrasonicSensor usBackLeft(48, 49);
-
-// Example of how to create IMU
 IMUSensor imu;
-
-// Example of how to create IR sensor
 IRSensor ir1(30);
 IRSensor ir2(31);
 IRSensor ir3(32);
 IRSensor ir4(33);
-
-// Example of how to a button
 ButtonSensor button(12);
-
-// Example of LED
-LED led(10, 9, 8);
-
-// Example of how to create line follower sensor
 int linefollowerPins[] = {A0, A1, A2, A3, A4};
 LineFollowerSensor lf(linefollowerPins, 5);
 
-//State
-State state;
+/********************
+ * Actuators
+*********************/
+LED led(10, 9, 8);
 
-//Example of new update Agent
+/********************
+ * Update agents
+*********************/
 AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
 
-//Example of new action Agent
+/********************
+ * Action agents
+*********************/
 LEDActionAgent ledAgent(&state, &led);
-
-//time stracking
-long ledTime;
 
 
 void setup() {
@@ -71,13 +70,31 @@ void setup() {
 }
 
 void loop() {
+
+    // 1. Update sensors
     button.update();
-    //DISCUSS: update imu in angle Agent?
-    //PRO: is then updated automataically,
-    //CON: some sensors are used in more than one agent -> who should update then?
     imu.update();
 
-    /*TODO List:
+    // usFrontLeft.update();
+    // usFrontMiddle.update();
+    // usFrontRight.update();
+    // usDownLeft.update();
+    // usDownRight.update();
+    // usBackLeft.update();
+    // ir1.update();
+    // ir2.update();
+    // ir3.update();
+    // ir4.update();
+    // lf.update();
+
+    // 2. Let update agents compute state
+    angleAgent.update();
+    buttonAgent.update();
+    
+    // 3. Make action agents carry out actions
+    ledAgent.enact();
+
+    /* TODO List:
     UpdateAgents:
     EdgeDetection
     ObstacleDetection
@@ -110,23 +127,6 @@ void loop() {
     */
     
 
-    //usFrontLeft.update();
-    //usFrontMiddle.update();
-    //usFrontRight.update();
-    //usDownLeft.update();
-    //usDownRight.update();
-    //usBackLeft.update();
-    //ir1.update();
-    //ir2.update();
-    //ir3.update();
-    //ir4.update();
-    //lf.update();
-
-    angleAgent.update();
-    buttonAgent.update();
-    ledAgent.enact();    
-
-
     if(DEBUG) {
     //Serial.println(state.incline);
     //Serial.print(usFrontLeft.distance);Serial.print(" , ");
@@ -151,7 +151,4 @@ void loop() {
     delay(100);
     }
 
-    // Update state machine machine
-
-    // Carry out actions
 }
