@@ -1,10 +1,10 @@
 #ifndef MULTIPURPOSE_ROBOTS_CIRCLEDETECTIONUPDATEAGENT_H
 #define MULTIPURPOSE_ROBOTS_CIRCLEDETECTIONUPDATEAGENT_H
 
-#include "../sensors/IRSensor.hpp"
-#include "../sensors/LineFollowerSensor.hpp"
+#include "../../sensors/IRSensor.hpp"
+#include "../../sensors/LineFollowerSensor.hpp"
 #include "UpdateAgent.hpp"
-#include "../state_machine/StateMachine.hpp"
+#include "../../state_machine/StateMachine.hpp"
 
 class CircleDetectionUpdateAgent : public UpdateAgent {
 public:

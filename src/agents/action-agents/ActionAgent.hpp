@@ -1,8 +1,8 @@
 #ifndef ACTIONAGENT_H
 #define ACTIONAGENT_H
 
-#include "agent.hpp"
-#include "../state_machine/StateMachine.hpp"
+#include "../Agent.hpp"
+#include "../../state_machine/StateMachine.hpp"
 
 class ActionAgent : public Agent {
 public:
