@@ -1,7 +1,7 @@
 #include "LEDActionAgent.hpp"
+#include "ActionAgent.hpp"
 
-
-LEDActionAgent::LEDActionAgent(State* state, LED* led): state(state), led(led) {
+LEDActionAgent::LEDActionAgent(State* state, LED* led): ActionAgent(state), led(led) {
     led->configure(SOLID_RED);
 }
 

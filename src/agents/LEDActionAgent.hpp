@@ -12,7 +12,6 @@ public:
     void enact();
     
 private:
-    State* state;
     LED* led;
 };
 

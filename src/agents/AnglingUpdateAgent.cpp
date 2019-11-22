@@ -3,7 +3,7 @@
 #define ANGLE_THRESHOLD 10
 #define DEGREES_CIRCLES 360
 
-AnglingUpdateAgent::AnglingUpdateAgent(State* state, IMUSensor* imu): state(state), imu(imu) {
+AnglingUpdateAgent::AnglingUpdateAgent(State* state, IMUSensor* imu): UpdateAgent(state), imu(imu) {
 
 }
 

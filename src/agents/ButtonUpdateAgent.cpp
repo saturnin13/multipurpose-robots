@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 
-ButtonUpdateAgent::ButtonUpdateAgent(State* state, ButtonSensor* b): state(state), b(b) {
+ButtonUpdateAgent::ButtonUpdateAgent(State* state, ButtonSensor* b): UpdateAgent(state), b(b) {
 
 }
 

@@ -12,7 +12,6 @@ public:
     void update();
 
 private:
-    State* state;
     IMUSensor* imu;
 };
 
