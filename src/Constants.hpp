@@ -4,6 +4,8 @@
 
 #include <Arduino.h>
 
+#define ROBOT_SPEED 20
+
 #define MAX_VELOCITY 1
 #define START_DELAY_TIME 3000
 
