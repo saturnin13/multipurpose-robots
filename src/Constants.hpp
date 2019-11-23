@@ -6,6 +6,9 @@
 #define MAXVELOCITY 1
 #define STARTDELAYTIME 3000
 
+#define USEDGETHRESHOLD 200
+#define USOBSTACLETHRESHOLD 5
+
 #define DEBUG 1
 
 /********************

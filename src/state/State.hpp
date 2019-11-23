@@ -11,8 +11,10 @@ enum CircleOrientation { UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTH
 struct State {
     RobotState robotState = DISARMED;
 
-    Entity leftEntity = FLAT;
-    Entity frontEntity = FLAT;
+    Entity southWestEntity = FLAT;
+    Entity northEastEntity = FLAT;
+    Entity northEntity = FLAT;
+    Entity northWestEntity = FLAT;
 
     TableState lineFollowingTable = UNSEEN;
     TableState incline = UNSEEN;

@@ -1,5 +1,5 @@
 #include "UpdateAgent.hpp"
-#include "../../state_machine/State.hpp"
+#include "../../state/State.hpp"
 
 UpdateAgent::UpdateAgent(State *state): Agent(state) {
 
