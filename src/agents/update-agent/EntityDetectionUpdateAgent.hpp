@@ -5,21 +5,21 @@
 #include "../../sensors/LineFollowerSensor.hpp"
 #include "../../sensors/UltrasonicSensor.hpp"
 #include "UpdateAgent.hpp"
-#include "../../state_machine/State.hpp"
+#include "../../state/State.hpp"
 
 class EntityDetectionUpdateAgent : public UpdateAgent {
 public:
-    EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNW, UltrasonicSensor* usN, 
-    UltrasonicSensor* usNNE, UltrasonicSensor* usNE);
+    EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNWForward, UltrasonicSensor* usNForward, 
+    UltrasonicSensor* usNEForward, UltrasonicSensor* usNE);
 
     void update();
 
 private:
     UltrasonicSensor* usSW;
     UltrasonicSensor* usNW;
-    UltrasonicSensor* usNNW;
-    UltrasonicSensor* usN;
-    UltrasonicSensor* usNNE;
+    UltrasonicSensor* usNWForward;
+    UltrasonicSensor* usNForward;
+    UltrasonicSensor* usNEForward;
     UltrasonicSensor* usNE;
 };
 

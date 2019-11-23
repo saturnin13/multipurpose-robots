@@ -4,16 +4,16 @@
 #include "../../Constants.hpp"
 
 
-EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNW, UltrasonicSensor* usN, 
-    UltrasonicSensor* usNNE, UltrasonicSensor* usNE): UpdateAgent(state), usSW(usSW), usNW(usNW), usNNW(usNNW), usN(usN), usNNE(usNNE), usNE(usNE) {
+EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNWForward, UltrasonicSensor* usNForward, 
+    UltrasonicSensor* usNEForward, UltrasonicSensor* usNE): UpdateAgent(state), usSW(usSW), usNW(usNW), usNWForward(usNWForward), usNForward(usNForward), usNEForward(usNEForward), usNE(usNE) {
 
 }
 
 void EntityDetectionUpdateAgent::update() {
     // Get sensor values
-    bool usNNWIsObstacle = usNNW->distance < USOBSTACLETHRESHOLD;
-    bool usNIsObstacle = usN->distance < USOBSTACLETHRESHOLD;
-    bool usNNEIsObstacle = usNNE->distance < USOBSTACLETHRESHOLD;
+    bool usNWIsObstacle = usNWForward->distance < USOBSTACLETHRESHOLD;
+    bool usNIsObstacle = usNForward->distance < USOBSTACLETHRESHOLD;
+    bool usNEIsObstacle = usNEForward->distance < USOBSTACLETHRESHOLD;
 
     bool usSWIsEdge = usSW->distance > USEDGETHRESHOLD;
     bool usNWIsEdge = usNW->distance > USEDGETHRESHOLD;
@@ -29,12 +29,14 @@ void EntityDetectionUpdateAgent::update() {
     // Checking the NW side
     if(usNWIsEdge) {
         this->state->northWestEntity = EDGE;
+    } else if(usNWIsObstacle) {
+        this->state->northWestEntity = OBSTACLE;
     } else {
         this->state->northWestEntity = FLAT;
     }
 
     // Checking the N side
-    if(usNNWIsObstacle || usNIsObstacle || usNNEIsObstacle) {
+    if(usNIsObstacle) {
         this->state->northEntity = OBSTACLE;
     } else {
         this->state->northEntity = FLAT;
@@ -43,6 +45,8 @@ void EntityDetectionUpdateAgent::update() {
     // Checking the NE side
     if(usNEIsEdge) {
         this->state->northEastEntity = EDGE;
+    } else if(usNEIsObstacle) {
+        this->state->northEastEntity = OBSTACLE;
     } else {
         this->state->northEastEntity = FLAT;
     }

@@ -3,7 +3,7 @@
 
 #include "../../sensors/ButtonSensor.hpp"
 #include "UpdateAgent.hpp"
-#include "../../state_machine/State.hpp"
+#include "../../state/State.hpp"
 
 class ButtonUpdateAgent : public UpdateAgent {
 public:
