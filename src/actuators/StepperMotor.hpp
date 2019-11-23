@@ -7,7 +7,7 @@ class StepperMotor : public Actuator {
   public:
     StepperMotor(int in1pin, int in2pin, int in3pin, int in4pin);
 
-    void configure(bool forward, int stepTime, int numberSteps);
+    void configure(bool clockwise, int stepTime, int numberSteps);
     void enact();
 
     bool workInProgress;

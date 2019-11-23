@@ -3,6 +3,7 @@
 
 #include "actuators/LED.hpp"
 #include "actuators/StepperMotor.hpp"
+#include "actuators/Motor.hpp"
 
 #include "sensors/ButtonSensor.hpp"
 #include "sensors/IMUSensor.hpp"
@@ -12,12 +13,12 @@
 
 #include "agents/update-agent/AnglingUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
-#include "agents/update-agent/ButtonUpdateAgent.hpp"
-#include "agents/update-agent/AnglingUpdateAgent.hpp"
+#include "agents/update-agent/CircleDetectionUpdateAgent.hpp"
+#include "agents/update-agent/EntityDetectionUpdateAgent.hpp"
+#include "agents/update-agent/LineDetectionUpdateAgent.hpp"
 
 #include "agents/action-agents/LEDActionAgent.hpp"
 #include "agents/action-agents/TicTacActionAgent.hpp"
-
 
 #include "state/State.hpp"
 
@@ -36,12 +37,12 @@ UltrasonicSensor usFrontRight(US_FRONT_RIGHT_TRIGGER_PIN, US_FRONT_RIGHT_ECHO_PI
 UltrasonicSensor usFrontMiddle(US_FRONT_MIDDLE_TRIGGER_PIN, US_FRONT_MIDDLE_ECHO_PIN);
 UltrasonicSensor usDownLeft(US_DOWN_LEFT_TRIGGER_PIN, US_DOWN_LEFT_ECHO_PIN);
 UltrasonicSensor usDownRight(US_DOWN_RIGHT_TRIGGER_PIN, US_DOWN_RIGHT_ECHO_PIN);
-UltrasonicSensor usBackLeft(US_REAR_LEFT_TRIGGER_PIN, US_REAR_LEFT_ECHO_PIN);
+UltrasonicSensor usRearLeft(US_REAR_LEFT_TRIGGER_PIN, US_REAR_LEFT_ECHO_PIN);
 IMUSensor imu;
-IRSensor ir1(IR_FRONT_LEFT_PIN);
-IRSensor ir2(IR_FRONT_RIGHT_PIN);
-IRSensor ir3(IR_REAR_LEFT_PIN);
-IRSensor ir4(IR_REAR_RIGHT_PIN);
+IRSensor irFrontLeft(IR_FRONT_LEFT_PIN);
+IRSensor irFrontRight(IR_FRONT_RIGHT_PIN);
+IRSensor irRearLeft(IR_REAR_LEFT_PIN);
+IRSensor irRearRight(IR_REAR_RIGHT_PIN);
 ButtonSensor button(START_BUTTON_PIN);
 LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2, LINE_FOLLOWER_PIN3, LINE_FOLLOWER_PIN4);
 
@@ -50,12 +51,17 @@ LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2
 *********************/
 LED led(LED_RED_PIN, LED_GREEN_PIN, LED_BLUE_PIN);
 StepperMotor stepperMotor(STEPPER_MOTOR_PIN1, STEPPER_MOTOR_PIN2, STEPPER_MOTOR_PIN3, STEPPER_MOTOR_PIN4);
+Motor leftMotor(MOTOR_PIN1, MOTOR_PIN2, MOTOR_ENA1);
+Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 
 /********************
  * Update agents
 *********************/
 AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
+CircleDetectionUpdateAgent circleAgent(&state, &irFrontLeft, &irFrontRight, &irRearLeft, &irRearRight, &lf);
+EntityDetectionUpdateAgent entityAgent(&state, &usFrontLeft, &usFrontRight, &usFrontMiddle, &usDownLeft, &usDownRight, &usRearLeft);
+LineDetectionUpdateAgent lineAgent(&state, &lf);
 
 /********************
  * Action agents
@@ -67,7 +73,6 @@ TicTacActionAgent ticTacAgent(&state, &stepperMotor);
 void setup() {
   
     Wire.endTransmission(true); //otherwise it doesnt work
-
     Serial.begin(9600);
 
     if(DEBUG) {
@@ -100,12 +105,16 @@ void loop() {
     
     // 3. Make action agents carry out actions
     ledAgent.enact();
+    ticTacAgent.enact();
 
     /* TODO List:
     UpdateAgents:
-    Done -> (EdgeDetection, ObstacleDetection) -> EntityDetection
-    Done -> LineDetection
-    Done -> CircleDetection
+
+    DONE: (EdgeDetection, ObstacleDetection) -> EntityDetection
+    TODO: add IR sensors for edge detection (backup)
+    DONE: LineDetection
+    DONE: CircleDetection
+
     LoopDetection
     E-stopRequest (-> ROS)
     TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   
@@ -114,14 +123,14 @@ void loop() {
 
     ActionAgents:
     DONE: TicTacDropper +  reload mode
-    Driver (Navigation,     - initial search direction (i.e. which line to follow first))
+    Driver (Navigation,     - initial search direction (i.e. which line to follow first)) + return if disarmed
     ROS debugging agent, send state.toString all x seconds or if something changes
     DONE: Led Agent
     OPT: display agent
 
     Actuators:
     DONE: stepper motor
-    DOING: motor
+    DONE: motor
     OPT: display
 
     Sensor:

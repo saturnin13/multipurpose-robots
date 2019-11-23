@@ -12,6 +12,8 @@
 
 #define DEBUG 1
 
+#define IR_THRESHOLD 500
+
 /********************
  * Pins
 *********************/
@@ -38,7 +40,7 @@
 #define IR_REAR_LEFT_PIN 32
 #define IR_REAR_RIGHT_PIN 33
 
-#define START_BUTTON_PIN 12
+#define START_BUTTON_PIN 29
 
 #define LINE_FOLLOWER_PIN0 A0
 #define LINE_FOLLOWER_PIN1 A1
@@ -46,19 +48,22 @@
 #define LINE_FOLLOWER_PIN3 A3
 #define LINE_FOLLOWER_PIN4 A4
 
-#define LED_RED_PIN 10
-#define LED_GREEN_PIN 8
-#define LED_BLUE_PIN 9
+#define LED_RED_PIN 113
+#define LED_GREEN_PIN 12
+#define LED_BLUE_PIN 11
 
 #define STEPPER_MOTOR_PIN1 7
-#define STEPPER_MOTOR_PIN2 6
-#define STEPPER_MOTOR_PIN3 5
-#define STEPPER_MOTOR_PIN4 4
+#define STEPPER_MOTOR_PIN2 8
+#define STEPPER_MOTOR_PIN3 9
+#define STEPPER_MOTOR_PIN4 10
 
-#define US_EDGE_THRESHOLD 200
-#define US_OBSTACLE_THRESHOLD 5
+#define MOTOR_PIN1 1
+#define MOTOR_PIN2 2
+#define MOTOR_ENA1 5
 
-#define IR_THRESHOLD 500
+#define MOTOR_PIN3 3
+#define MOTOR_PIN4 4
+#define MOTOR_ENA2 7
 
 #define DEGREES_CIRCLES 360
 

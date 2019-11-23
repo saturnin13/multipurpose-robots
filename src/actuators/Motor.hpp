@@ -5,24 +5,21 @@
 
 class Motor : public Actuator {
   public:
-    Motor(int in1pin, int in2pin, int in3pin, int in4pin, int ena1pin, int ena2pin);
+    Motor(int in1Pin, int in2Pin, int enaPin);
 
-    void configure(bool forward, int stepTime, int numberSteps);
+    void configure(bool fordward, int speed);
     void enact();
 
-    bool workInProgress;
+    bool stopped;
 
   private:
     const int in1Pin;
     const int in2Pin;
-    const int in3Pin;
-    const int in4Pin;
+    const int enaPin;
 
-    int stepNumber;
-    int numberSteps;
-    bool clockwise;
-    unsigned int stepTime;
-    unsigned long lastUpdate;
+    bool fordward;
+    int pwmSpeed;
+    unsigned long stopTime;
 };
 
 #endif

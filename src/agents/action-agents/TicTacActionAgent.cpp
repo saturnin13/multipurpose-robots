@@ -17,6 +17,12 @@ TicTacActionAgent::TicTacActionAgent(State* state, StepperMotor* stepperMotor, i
 
 void TicTacActionAgent::enact() {
 
+    //this agent is only active if we are armed
+    if(this->state->robotState != ARMED)
+    {
+        return;
+    }
+
     //this agent is only active if we want to drop something
     if(this->state->ticTacState != DROPPING)
     {
