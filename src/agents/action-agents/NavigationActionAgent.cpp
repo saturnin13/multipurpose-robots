@@ -12,6 +12,7 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightForward = true;
 }
 
+// TODO: Add printing for each state of the robot so that we can debug and we know in which case the robot is.
 void NavigationActionAgent::enact() {
 
     // This agent is only active if we are armed and not in an emergency
@@ -55,6 +56,10 @@ void NavigationActionAgent::enact() {
     this->leftMotor->enact();
     this->rightMotor->enact();
 }
+
+/********************
+ * Configuration of the navigation for each different state of the robot
+*********************/
 
 void NavigationActionAgent::configCircleOrientation() {
     if(this->state->circleOrientation == WEST) {
@@ -112,6 +117,10 @@ void NavigationActionAgent::configNorthEastEntity() {
 void NavigationActionAgent::configureDefault() {
     goStraightLeft();
 }
+
+/********************
+ * Basic navigation direction functions
+*********************/
 
 void NavigationActionAgent::turnLeft() {
     // Turn the robot left
