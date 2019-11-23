@@ -103,9 +103,9 @@ void loop() {
 
     /* TODO List:
     UpdateAgents:
-    DONE: (EdgeDetection, ObstacleDetection) -> EntityDetection
-    DONE: LineDetection
-    DONE: CircleDetection
+    Done -> (EdgeDetection, ObstacleDetection) -> EntityDetection
+    Done -> LineDetection
+    Done -> CircleDetection
     LoopDetection
     E-stopRequest (-> ROS)
     TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   

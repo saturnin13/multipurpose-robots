@@ -4,6 +4,7 @@
 #include "../../sensors/IMUSensor.hpp"
 #include "UpdateAgent.hpp"
 #include "../../state/State.hpp"
+#include "../../Constants.hpp"
 
 class AnglingUpdateAgent : public UpdateAgent {
 public:

@@ -26,7 +26,7 @@ struct State {
 
     CircleOrientation circleOrientation = UNKNOWN;
 
-    int totalTurnedDegrees = 0;
+    int totalTurnedQuadrants = 0;
 
     bool emergencyStop = false;
 

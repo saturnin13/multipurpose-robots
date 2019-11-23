@@ -60,4 +60,6 @@
 
 #define IR_THRESHOLD 500
 
+#define DEGREES_CIRCLES 360
+
 #endif
