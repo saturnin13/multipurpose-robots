@@ -3,7 +3,7 @@
 
 
 CircleDetectionUpdateAgent::CircleDetectionUpdateAgent(State* state, IRSensor* irNW, IRSensor* irNE, IRSensor* irSW, IRSensor* irSE, LineFollowerSensor* lf)
-: UpdateAgent(state), irNW(irNW), irNE(irNE), irSW(irSW), irSE(irSE), lf(lf) {
+: UpdateAgent(state), lf(lf), irNW(irNW), irNE(irNE), irSW(irSW), irSE(irSE) {
 
 }
 
