@@ -1,9 +1,9 @@
 #ifndef MULTIPURPOSE_ROBOTS_TICTACACTIONAGENT_H
 #define MULTIPURPOSE_ROBOTS_TICTACACTIONAGENT_H
 
-#include "../actuators/StepperMotor.hpp"
+#include "../../actuators/StepperMotor.hpp"
 #include "ActionAgent.hpp"
-#include "../state_machine/StateMachine.hpp"
+#include "../../state/State.hpp"
 
 class TicTacActionAgent : public ActionAgent {
 public:
@@ -15,6 +15,8 @@ private:
     StepperMotor* stepperMotor;
     int numberDrops;
     int stepsToStartPosition;
+    int numberTicTacs;
+    unsigned long timeLastDropEnd;
 };
 
 #endif

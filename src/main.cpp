@@ -2,6 +2,7 @@
 #include <Wire.h>
 
 #include "actuators/LED.hpp"
+#include "actuators/StepperMotor.hpp"
 
 #include "sensors/ButtonSensor.hpp"
 #include "sensors/IMUSensor.hpp"
@@ -9,12 +10,14 @@
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
 
-#include "agents/action-agents/LEDActionAgent.hpp"
 #include "agents/update-agent/AnglingUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
 #include "agents/update-agent/AnglingUpdateAgent.hpp"
+
 #include "agents/action-agents/LEDActionAgent.hpp"
+#include "agents/action-agents/TicTacActionAgent.hpp"
+
 
 #include "state/State.hpp"
 
@@ -46,6 +49,7 @@ LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2
  * Actuators
 *********************/
 LED led(LED_RED_PIN, LED_GREEN_PIN, LED_BLUE_PIN);
+StepperMotor stepperMotor(STEPPER_MOTOR_PIN1, STEPPER_MOTOR_PIN2, STEPPER_MOTOR_PIN3, STEPPER_MOTOR_PIN4);
 
 /********************
  * Update agents
@@ -57,6 +61,7 @@ ButtonUpdateAgent buttonAgent(&state, &button);
  * Action agents
 *********************/
 LEDActionAgent ledAgent(&state, &led);
+TicTacActionAgent ticTacAgent(&state, &stepperMotor);
 
 
 void setup() {
@@ -98,31 +103,32 @@ void loop() {
 
     /* TODO List:
     UpdateAgents:
-    Done -> (EdgeDetection, ObstacleDetection) -> EntityDetection
-    LineDetection
-    CircleDetection
+    DONE: (EdgeDetection, ObstacleDetection) -> EntityDetection
+    DONE: LineDetection
+    DONE: CircleDetection
     LoopDetection
     E-stopRequest (-> ROS)
-    TicTacDropRequest (->ROS)
+    TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   
+        //make constant for time to wait for drop
+        //let tictacupdateagent time that and set tictacs then to dropped
 
     ActionAgents:
-    TicTacDropper +  reload mode
+    DONE: TicTacDropper +  reload mode
     Driver (Navigation,     - initial search direction (i.e. which line to follow first))
-    Shutting down the robot Agent?
     ROS debugging agent, send state.toString all x seconds or if something changes
-    display agent
+    DONE: Led Agent
+    OPT: display agent
 
     Actuators:
-    stepper motor
-    motor
-    display
+    DONE: stepper motor
+    DOING: motor
+    OPT: display
 
     Sensor:
     error correction: weighted average values over several measurements, make sure no negative distances,... occur
     
     State Machine:
     update Armed/ not armed
-
     */
     
 
@@ -151,3 +157,4 @@ void loop() {
     }
 
 }
+
