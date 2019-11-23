@@ -109,35 +109,30 @@ void loop() {
 
     /* TODO List:
     UpdateAgents:
-
-    DONE: (EdgeDetection, ObstacleDetection) -> EntityDetection
-    TODO: add IR sensors for edge detection (backup)
-    DONE: LineDetection
-    DONE: CircleDetection
-
-    LoopDetection
+        DONE -> (EdgeDetection, ObstacleDetection) -> EntityDetection
+        DONE -> LineDetection
+        DONE -> CircleDetection
+        DONE -> LoopDetection
     E-stopRequest (-> ROS)
     TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   
         //make constant for time to wait for drop
         //let tictacupdateagent time that and set tictacs then to dropped
+    Optional -> add IR sensors for edge detection (backup)
 
     ActionAgents:
-    DONE: TicTacDropper +  reload mode
-    Driver (Navigation,     - initial search direction (i.e. which line to follow first)) + return if disarmed
+        DONE -> TicTacDropper +  reload mode
+        DONE -> Driver (Navigation,     - initial search direction (i.e. which line to follow first)) + return if disarmed
+        DONE -> Led Agent
+    Optional -> display agent
     ROS debugging agent, send state.toString all x seconds or if something changes
-    DONE: Led Agent
-    OPT: display agent
 
     Actuators:
-    DONE: stepper motor
-    DONE: motor
-    OPT: display
+        DONE -> stepper motor
+        DONE -> motor
+    Optional -> display
 
     Sensor:
-    error correction: weighted average values over several measurements, make sure no negative distances,... occur
-    
-    State Machine:
-    update Armed/ not armed
+    Error correction: weighted average values over several measurements, make sure no negative distances,... occur
     */
     
 
