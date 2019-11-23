@@ -98,8 +98,7 @@ void loop() {
 
     /* TODO List:
     UpdateAgents:
-    EdgeDetection
-    ObstacleDetection
+    Done -> (EdgeDetection, ObstacleDetection) -> EntityDetection
     LineDetection
     CircleDetection
     LoopDetection
