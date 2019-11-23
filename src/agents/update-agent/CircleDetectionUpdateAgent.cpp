@@ -21,7 +21,7 @@ void CircleDetectionUpdateAgent::update() {
     bool ne = irNE->obstacleDetected;
     bool sw = irSW->obstacleDetected;
     bool se = irSE->obstacleDetected;
-    bool n = lf->unanimousDetection;
+    bool n = lf->unanimousDetection();
 
     //if there is an edge on the left, the IR sensors on the left are not useful as they might detect not existing lines
     if(this->state->leftEntity == EDGE) {

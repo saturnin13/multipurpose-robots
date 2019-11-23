@@ -25,25 +25,24 @@ State state;
 /********************
  * Sensors
 *********************/
-UltrasonicSensor usFrontLeft(46, 47);
-UltrasonicSensor usFrontRight(44, 45);
-UltrasonicSensor usFrontMiddle(42, 43);
-UltrasonicSensor usDownLeft(50, 51);
-UltrasonicSensor usDownRight(52, 53);
-UltrasonicSensor usBackLeft(48, 49);
+UltrasonicSensor usFrontLeft(US_FRONT_LEFT_TRIGGER_PIN, US_FRONT_LEFT_ECHO_PIN);
+UltrasonicSensor usFrontRight(US_FRONT_RIGHT_TRIGGER_PIN, US_FRONT_RIGHT_ECHO_PIN);
+UltrasonicSensor usFrontMiddle(US_FRONT_MIDDLE_TRIGGER_PIN, US_FRONT_MIDDLE_ECHO_PIN);
+UltrasonicSensor usDownLeft(US_DOWN_LEFT_TRIGGER_PIN, US_DOWN_LEFT_ECHO_PIN);
+UltrasonicSensor usDownRight(US_DOWN_RIGHT_TRIGGER_PIN, US_DOWN_RIGHT_ECHO_PIN);
+UltrasonicSensor usBackLeft(US_REAR_LEFT_TRIGGER_PIN, US_REAR_LEFT_ECHO_PIN);
 IMUSensor imu;
-IRSensor ir1(30);
-IRSensor ir2(31);
-IRSensor ir3(32);
-IRSensor ir4(33);
-ButtonSensor button(12);
-int linefollowerPins[] = {A0, A1, A2, A3, A4};
-LineFollowerSensor lf(linefollowerPins, 5);
+IRSensor ir1(IR_FRONT_LEFT_PIN);
+IRSensor ir2(IR_FRONT_RIGHT_PIN);
+IRSensor ir3(IR_REAR_LEFT_PIN);
+IRSensor ir4(IR_REAR_RIGHT_PIN);
+ButtonSensor button(START_BUTTON_PIN);
+LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2, LINE_FOLLOWER_PIN3, LINE_FOLLOWER_PIN4);
 
 /********************
  * Actuators
 *********************/
-LED led(10, 9, 8);
+LED led(LED_RED_PIN, LED_GREEN_PIN, LED_BLUE_PIN);
 
 /********************
  * Update agents
@@ -122,8 +121,6 @@ void loop() {
     State Machine:
     update Armed/ not armed
 
-    Constants:
-    all the pins here
     */
     
 

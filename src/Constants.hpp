@@ -1,6 +1,50 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+#include <Arduino.h>
+
 #define MAXVELOCITY 1
 #define STARTDELAYTIME 3000
 
 #define DEBUG 1
 
-//TODO: all the pins!!
+/********************
+ * Pins
+*********************/
+#define US_FRONT_LEFT_TRIGGER_PIN 46
+#define US_FRONT_LEFT_ECHO_PIN 47
+
+#define US_FRONT_RIGHT_TRIGGER_PIN 44
+#define US_FRONT_RIGHT_ECHO_PIN 45
+
+#define US_FRONT_MIDDLE_TRIGGER_PIN 42
+#define US_FRONT_MIDDLE_ECHO_PIN 43
+
+#define US_DOWN_LEFT_TRIGGER_PIN 50
+#define US_DOWN_LEFT_ECHO_PIN 51
+
+#define US_DOWN_RIGHT_TRIGGER_PIN 52
+#define US_DOWN_RIGHT_ECHO_PIN 53
+
+#define US_REAR_LEFT_TRIGGER_PIN 48
+#define US_REAR_LEFT_ECHO_PIN 49
+
+#define IR_FRONT_LEFT_PIN 30
+#define IR_FRONT_RIGHT_PIN 31
+#define IR_REAR_LEFT_PIN 32
+#define IR_REAR_RIGHT_PIN 33
+
+#define START_BUTTON_PIN 12
+
+#define LINE_FOLLOWER_PIN0 A0
+#define LINE_FOLLOWER_PIN1 A1
+#define LINE_FOLLOWER_PIN2 A2
+#define LINE_FOLLOWER_PIN3 A3
+#define LINE_FOLLOWER_PIN4 A4
+
+#define LED_RED_PIN 10
+#define LED_GREEN_PIN 8
+#define LED_BLUE_PIN 9
+
+
+#endif
