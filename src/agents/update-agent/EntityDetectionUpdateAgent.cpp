@@ -11,13 +11,13 @@ EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicS
 
 void EntityDetectionUpdateAgent::update() {
     // Get sensor values
-    bool usNWIsObstacle = usNWForward->distance < USOBSTACLETHRESHOLD;
-    bool usNIsObstacle = usNForward->distance < USOBSTACLETHRESHOLD;
-    bool usNEIsObstacle = usNEForward->distance < USOBSTACLETHRESHOLD;
+    bool usNWIsObstacle = usNWForward->distance < US_OBSTACLE_THRESHOLD;
+    bool usNIsObstacle = usNForward->distance < US_OBSTACLE_THRESHOLD;
+    bool usNEIsObstacle = usNEForward->distance < US_OBSTACLE_THRESHOLD;
 
-    bool usSWIsEdge = usSW->distance > USEDGETHRESHOLD;
-    bool usNWIsEdge = usNW->distance > USEDGETHRESHOLD;
-    bool usNEIsEdge = usNE->distance > USEDGETHRESHOLD;
+    bool usSWIsEdge = usSW->distance > US_EDGE_THRESHOLD;
+    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
+    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
     // Checking the SW side
     if(usSWIsEdge) {
