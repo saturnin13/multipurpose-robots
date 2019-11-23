@@ -1,8 +1,6 @@
 #include "LineFollowerSensor.hpp"
 #include <Arduino.h>
 
-#define IR_THRESHOLD 500
-
 // The minimum number of milliseconds that should pass
 // between each sample.
 #define SAMPLE_FREQUENCY 100
@@ -20,28 +18,28 @@ void LineFollowerSensor::update() {
     if (now - lastUpdate < SAMPLE_FREQUENCY) {
         return;
     }
-
-    this->value0 = (unsigned int)analogRead(this->pin0);
-    this->value1 = (unsigned int)analogRead(this->pin1);
-    this->value2 = (unsigned int)analogRead(this->pin2);
-    this->value3 = (unsigned int)analogRead(this->pin3);
-    this->value4 = (unsigned int)analogRead(this->pin4);
+    
+    this->lineDetected0 = ((unsigned int)analogRead(this->pin0)) > IR_THRESHOLD;
+    this->lineDetected1 = ((unsigned int)analogRead(this->pin1)) > IR_THRESHOLD;
+    this->lineDetected2 = ((unsigned int)analogRead(this->pin2)) > IR_THRESHOLD;
+    this->lineDetected3 = ((unsigned int)analogRead(this->pin3)) > IR_THRESHOLD;
+    this->lineDetected4 = ((unsigned int)analogRead(this->pin4)) > IR_THRESHOLD;
 
 }
 
 void LineFollowerSensor::reset() {
-    this->value0 = 0;
-    this->value1 = 0;
-    this->value2 = 0;
-    this->value3 = 0;
-    this->value4 = 0;
+    this->lineDetected0 = 0;
+    this->lineDetected1 = 0;
+    this->lineDetected2 = 0;
+    this->lineDetected3 = 0;
+    this->lineDetected4 = 0;
     this->lastUpdate = 0;
 }
 
 bool LineFollowerSensor::unanimousDetection() {
-    return (value0 > IR_THRESHOLD) &&
-           (value1 > IR_THRESHOLD) &&
-           (value2 > IR_THRESHOLD) &&
-           (value3 > IR_THRESHOLD) &&
-           (value4 > IR_THRESHOLD);
+    return (lineDetected0 > IR_THRESHOLD) &&
+           (lineDetected1 > IR_THRESHOLD) &&
+           (lineDetected2 > IR_THRESHOLD) &&
+           (lineDetected3 > IR_THRESHOLD) &&
+           (lineDetected4 > IR_THRESHOLD);
 }

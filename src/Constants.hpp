@@ -1,10 +1,11 @@
+
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
 #include <Arduino.h>
 
-#define MAXVELOCITY 1
-#define STARTDELAYTIME 3000
+#define MAX_VELOCITY 1
+#define START_DELAY_TIME 3000
 
 #define US_EDGE_THRESHOLD 200
 #define US_OBSTACLE_THRESHOLD 5
@@ -49,5 +50,9 @@
 #define LED_GREEN_PIN 8
 #define LED_BLUE_PIN 9
 
+#define US_EDGE_THRESHOLD 200
+#define US_OBSTACLE_THRESHOLD 5
+
+#define IR_THRESHOLD 500
 
 #endif

@@ -6,6 +6,7 @@
 #include "../../sensors/UltrasonicSensor.hpp"
 #include "UpdateAgent.hpp"
 #include "../../state/State.hpp"
+#include "../../Constants.hpp"
 
 class EntityDetectionUpdateAgent : public UpdateAgent {
 public:

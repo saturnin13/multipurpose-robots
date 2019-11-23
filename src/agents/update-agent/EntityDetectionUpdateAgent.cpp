@@ -1,7 +1,6 @@
 #include <Arduino.h>
 
 #include "EntityDetectionUpdateAgent.hpp"
-#include "../../Constants.hpp"
 
 
 EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNWForward, UltrasonicSensor* usNForward, 

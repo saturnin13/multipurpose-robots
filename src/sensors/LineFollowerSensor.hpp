@@ -2,6 +2,7 @@
 #define LINEFOLLOWERSENSOR_H
 
 #include "Sensor.hpp"
+#include "../Constants.hpp"
 
 class LineFollowerSensor : public Sensor {
 
@@ -11,11 +12,11 @@ class LineFollowerSensor : public Sensor {
     void update();
     void reset();
 
-    unsigned int value0 = 0;
-    unsigned int value1 = 0;
-    unsigned int value2 = 0;
-    unsigned int value3 = 0;
-    unsigned int value4 = 0;
+    bool lineDetected0 = false;
+    bool lineDetected1 = false;
+    bool lineDetected2 = false;
+    bool lineDetected3 = false;
+    bool lineDetected4 = false;
 
     bool unanimousDetection();
 
