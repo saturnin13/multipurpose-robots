@@ -10,54 +10,73 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightSpeed = 0; 
     this->leftForward = true;
     this->rightForward = true;
-
-    this->priority = PRIO3;
 }
 
 void NavigationActionAgent::enact() {
 
-    //this agent is only active if we are armed
-    if(this->state->robotState != ARMED)
-    {
-        return;
-    }
-
-    //read state
-
-    //most important
-    if(this->state->emergencyStop) {
-        this->priority = PRIO1;
+    // This agent is only active if we are armed and not in an emergency
+    if(this->state->emergencyStop || this->state->robotState != ARMED) {
         this->leftSpeed = 0; 
         this->rightSpeed = 0; 
+    } else {
+        if(this->state->circleOrientation != UNKNOWN) {
+            // Go to circle
+            configCircleOrientation();
+        } else if(this->state->lineFollowingTable == CURRENT && this->state->lineState != LOST) {
+            // Follow line
+            // Case of being lost on line following table has not been implemented, it could be done
+            configLineFollowing();
+        } else if(this->state->ticTacState == DROPPING) {
+            // Stop if dropping
+            configTicTacDropping();
+        } else if(this->state->northWestEntity != FLAT) {
+            // Avoid the north west entity
+            configNorthWestEntity();
+        } else if(this->state->northEntity != FLAT) {
+            // Avoid the north entity
+            configNorthEntity();
+        } else if(this->state->northEastEntity != FLAT) {
+            // Avoid the north east entity
+            configNorthEastEntity();
+        } else {
+            // Set the default configurations
+            configureDefault();
+        }
     }
 
-    //go to circle if there
-    this->state->circleOrientation;
-
-    //follow line if there
-    this->state->lineFollowingTable;
-    this->state->lineState;
-
-    //stop if dropping
-    this->state->ticTacState;
-
-    //make sure we do not drive in direction of edges or obstacles
-    this->state->northEastEntity;
-    this->state->northWestEntity;
-    this->state->northEntity;
-    this->state->southWestEntity;
-
-    //vales accordingly to things before
-    this->leftSpeed = 0; 
-    this->rightSpeed = 0; 
-    this->leftForward = true;
-    this->rightForward = true;
-
-    //set motors
+    // Set motors
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
-
-    //enact motors after all
+    
+    // Enact motors after all
     this->leftMotor->enact();
     this->rightMotor->enact();
+}
+
+void configCircleOrientation() {
+    // TODO
+}
+
+void configLineFollowing() {
+    // TODO
+}
+
+void configTicTacDropping() {
+    // TODO
+}
+
+void configNorthWestEntity() {
+    // TODO
+}
+
+void configNorthEntity() {
+    // TODO
+}
+
+void configNorthEastEntity() {
+    // TODO
+}
+
+void configureDefault() {
+    // TODO
 }

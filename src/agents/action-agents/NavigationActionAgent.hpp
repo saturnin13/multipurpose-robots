@@ -5,8 +5,6 @@
 #include "ActionAgent.hpp"
 #include "../../state/State.hpp"
 
-enum Priority {PRIO1, PRIO2, PRIO3};
-
 class NavigationActionAgent : public ActionAgent {
 public:
     NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor);
@@ -22,8 +20,13 @@ private:
     bool leftForward;
     bool rightForward;
 
-    Priority priority;
-
+    void configCircleOrientation();
+    void configLineFollowing();
+    void configTicTacDropping();
+    void configNorthWestEntity();
+    void configNorthEntity();
+    void configNorthEastEntity();
+    void configureDefault();
 };
 
 #endif
