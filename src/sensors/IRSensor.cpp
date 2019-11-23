@@ -20,11 +20,11 @@ void IRSensor::update() {
 
     auto ldrStatus = digitalRead(pin);
 
-    this->obstacleDetected = (ldrStatus == LOW) ? true : false;
+    this->lineDetected = (ldrStatus == LOW) ? true : false;
     this->lastUpdate = now;
 }
 
 void IRSensor::reset() {
-    this->obstacleDetected = false;
+    this->lineDetected = false;
     this->lastUpdate = 0;
 }

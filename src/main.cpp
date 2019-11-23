@@ -12,6 +12,9 @@
 #include "agents/action-agents/LEDActionAgent.hpp"
 #include "agents/update-agent/AnglingUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
+#include "agents/update-agent/ButtonUpdateAgent.hpp"
+#include "agents/update-agent/AnglingUpdateAgent.hpp"
+#include "agents/action-agents/LEDActionAgent.hpp"
 
 #include "state_machine/State.hpp"
 

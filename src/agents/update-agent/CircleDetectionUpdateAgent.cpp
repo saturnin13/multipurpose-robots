@@ -17,23 +17,32 @@ void CircleDetectionUpdateAgent::update() {
     }
 
     //get sensor values
-    bool nw = irNW->obstacleDetected;
-    bool ne = irNE->obstacleDetected;
-    bool sw = irSW->obstacleDetected;
-    bool se = irSE->obstacleDetected;
+    bool nw = irNW->lineDetected;
+    bool ne = irNE->lineDetected;
+    bool sw = irSW->lineDetected;
+    bool se = irSE->lineDetected;
     bool n = lf->unanimousDetection;
 
     //if there is an edge on the left, the IR sensors on the left are not useful as they might detect not existing lines
-    if(this->state->leftEntity == EDGE) {
+    if(this->state->northWestEntity == EDGE) {
         nw = false;
+    }
+    
+    if(this->state->southWestEntity == EDGE) {
         sw = false;
     }
 
     //if there is an edge in the front, the IR sensors on the left are not useful as they might detect not existing lines
-    if(this->state->frontEntity == EDGE) {
-        n = false;
-        nw = false;
+    if(this->state->northEastEntity == EDGE) {
         ne = false;
+    }
+
+    if(this->state->northEastEntity == EDGE && this->state->northWestEntity) {
+        n = false;
+    }
+
+    if(this->state->northWestEntity == EDGE) {
+        nw = false;
     }
 
     //if every sensor detects a black surface, we are in the circle and have therefore the final table

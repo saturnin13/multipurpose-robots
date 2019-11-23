@@ -11,7 +11,7 @@ class IRSensor : public Sensor {
     void update();
     void reset();
 
-    bool obstacleDetected = false;
+    bool lineDetected = false;
 
   private:
     const int pin;
