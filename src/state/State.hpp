@@ -1,12 +1,11 @@
 #ifndef STATE_H
 #define STATE_H
 
-enum TableState { UNSEEN, CURRENT, COMPLETED };
-enum Entity { FLAT, EDGE, OBSTACLE };
 enum RobotState { ARMED, DISARMED };
-enum TicTacState { UNDROPPED, REQUESTED, DROPPING, DROPPED };
-enum LineOrientation { LOST, LEFT, CENTER, RIGHT };
-enum CircleOrientation { UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST };
+enum EventState { UNSEEN, CURRENT, COMPLETED };
+enum Entity { FLAT, EDGE, OBSTACLE };
+enum LineOrientation { LEFT, CENTER, RIGHT };
+enum CircleDirection { UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST };
 
 struct State {
     RobotState robotState = DISARMED;
@@ -16,22 +15,22 @@ struct State {
     Entity northEntity = FLAT;
     Entity northWestEntity = FLAT;
 
-    TableState lineFollowingTable = UNSEEN;
-    TableState incline = UNSEEN;
-    TableState finalTable = UNSEEN;
-    
-    TicTacState ticTacState = UNDROPPED;
+    EventState incline = UNSEEN;
+    EventState finalTable = UNSEEN;
 
-    LineOrientation lineState = LOST;
+    EventState ticTacState = UNSEEN;
 
-    CircleOrientation circleOrientation = UNKNOWN;
+    EventState lineFollowingTable = UNSEEN;
+    LineOrientation lineState = CENTER; // Default initial value, only used while lineFollowingTable is CURRENT
+
+    CircleDirection circleDirection = UNKNOWN;
 
     int totalTurnedQuadrants = 0;
 
     bool emergencyStop = false;
 
-    long initializationTime;
-    long setupTime;
+    long initializationTime; // TODO: move inside the class that will use them
+    long setupTime; // TODO: move inside the class that will use them
 };
 
 #endif

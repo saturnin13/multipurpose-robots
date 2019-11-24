@@ -66,13 +66,13 @@ AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
 CircleDetectionUpdateAgent circleAgent(&state, &irFrontLeft, &irFrontRight, &irRearLeft, &irRearRight, &lf);
 EntityDetectionUpdateAgent entityAgent(&state, &lf, &usRearLeft, &usDownLeft, &usFrontLeft, &usFrontMiddle, &usFrontRight, &usDownRight);
-LineDetectionUpdateAgent lineAgent(&state, &lf);
+LineDetectionUpdateAgent lineAgent(&state, &lf, &usFrontLeft, &usFrontRight);
 
 /********************
  * Action agents
 *********************/
 LEDActionAgent ledAgent(&state, &led);
-TicTacActionAgent ticTacAgent(&state, &stepperMotor, 4);
+TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
 NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
 
 /********************
@@ -84,8 +84,8 @@ void eStopCallback(const std_msgs::Bool &msg) {
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
-    if (state.ticTacState == UNDROPPED) {
-        state.ticTacState = REQUESTED;
+    if (state.ticTacState == UNSEEN) {
+        state.ticTacState = CURRENT;
     }
 }
 
@@ -99,9 +99,8 @@ void setup() {
   
     Wire.endTransmission(true); //otherwise it doesnt work
     Serial.begin(9600);
-    //todo count time since initialization and wait x sec
     state.setupTime = millis();
-
+    state.robotState = DISARMED;
 
     if(DEBUG) {
         Serial.println("Setup done");
@@ -113,7 +112,8 @@ void setup() {
 }
 
 void loop() {
-
+    //Serial.println("LOOPing");
+    state.robotState = DISARMED;
     #if ROS
     nh.spinOnce();
     #endif
@@ -122,12 +122,12 @@ void loop() {
     button.update();
     imu.update();
 
-    //usFrontLeft.update();
-    //usFrontMiddle.update();
-    //usFrontRight.update();
-    usDownLeft.update();
-    usDownRight.update();
-    usRearLeft.update();
+    usFrontLeft.update();
+    usFrontMiddle.update();
+    usFrontRight.update();
+    //usDownLeft.update();
+    //usDownRight.update();
+    //usRearLeft.update();
 
     //irFrontLeft.update();
     //irFrontRight.update();
@@ -137,10 +137,10 @@ void loop() {
     lf.update();
 
     // 2. Let update agents compute state
-    //angleAgent.update();
+    angleAgent.update();
     buttonAgent.update();
     //circleAgent.update();
-    entityAgent.update();
+    //entityAgent.update();
     //lineAgent.update();
     //ticTacUpdateAgent.update(dropRequested);
     //eStopAgent.update(eStopRequested);
@@ -154,28 +154,29 @@ void loop() {
         return;
     }
     
-    //ticTacAgent.enact();
+    ticTacAgent.enact();
     navigationAgent.enact();
 
     //TODO test button insted of this below this comment
-    if(button.pressed) {
+    /*if(button.pressed) {
         state.robotState = ARMED;
-    }
-    if(button.pressed && state.emergencyStop) {
+    }*/
+    /*if(button.pressed && state.emergencyStop) {
         state.emergencyStop = false;
-    }
+    }*/
 
     /* TODO List:
+    TODO: if not armed, dont change states, otherwise we will detect inclines before...
     DISCUSS: LineDetectionAgent l33
     DISCUSS: difference between armed (LED) and move (3 sec in the beginning): new state
     DISUCSS: i think we need to drastically improve the
             edge detection (on the hardware side: MDF for positioning of US, try IR as backup sensor) and
             the navigation (one the software side): reverse back from edge and turn then
+    TODO: integrate ros stuff
 
     UpdateAgents:
     IDEA: StateUpdateAgent, makes sure robot is armed at right point, sets time to now,
         handles everything the others should not do +  stuff from button agent + reset &init function for state
-        TODO: now as part of state
 
         DONE -> (EdgeDetection, ObstacleDetection) -> EntityDetection
         DONE -> LineDetection

@@ -3,7 +3,8 @@
 #include "LineDetectionUpdateAgent.hpp"
 
 
-LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf): UpdateAgent(state), lf(lf) {
+LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf, UltrasonicSensor* usNW, UltrasonicSensor* usNE)
+: UpdateAgent(state), lf(lf), usNW(usNW), usNE(usNE) {
 
 }
 
@@ -15,36 +16,29 @@ void LineDetectionUpdateAgent::update() {
     bool lf3 = lf->lineDetected3;
     bool lf4 = lf->lineDetected4;
 
-    // Checking for edges to avoid erronous line detections
-    if(state->northEntity == EDGE) {
-        state->lineState = LOST;
-        return;
-    }
+    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
+    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
     // Checking the current state of the table and updating if necessary
     if (!lf0 && !lf1 && !lf2 && !lf3 && !lf4 && state->lineFollowingTable == CURRENT) {
-        state->lineFollowingTable = COMPLETED; //or lost?
-    } else if (lf0 && lf1 && lf2 && lf3 && lf4) { //TODO: shouldnt that be or? why should they all detect something?
-        state->lineFollowingTable = CURRENT;
-    }
-    
-    //Idea: switch(-lf0-lf1+lf3+lf4), 0:center, -1,-2: left, 1,2:right
-    //if all not line detected: lost
+        state->lineFollowingTable = COMPLETED;
 
-    // Updating the line state
-     if (lf0 && !lf1 && !lf2 && !lf3 && !lf4) {
-        state->lineState = LEFT; //TODO ??
-    } else if (lf0) {
-        state->lineState = LEFT;
-    } else if (lf1 && !lf2) {
-        state->lineState = LEFT;
-    } else if (lf2) {
-        state->lineState = CENTER;
-    } else if (lf3 && !lf2) {
-        state->lineState = RIGHT;
-    } else if (lf4) {
-        state->lineState = RIGHT;
-    } else {
-        state->lineState = LOST;
+    } else if ((lf0 || lf1 || lf2 || lf3 || lf4) && !usNWIsEdge && !usNEIsEdge) {
+        state->lineFollowingTable = CURRENT;
+
+        // Updating the line state
+        if (lf0) {
+            state->lineState = LEFT;
+        } else if (lf1 && !lf2) {
+            state->lineState = LEFT;
+        } else if (lf2) {
+            state->lineState = CENTER;
+        } else if (lf3 && !lf2) {
+            state->lineState = RIGHT;
+        } else if (lf4) {
+            state->lineState = RIGHT;
+        } else {
+            Serial.println("Unexpected state in LineDetectionUpdateAgent");
+        }
     }
 }

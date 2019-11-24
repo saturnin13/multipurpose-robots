@@ -3,7 +3,7 @@
 
 // The minimum number of milliseconds that should pass
 // between each sample.
-#define SAMPLE_FREQUENCY 250
+#define SAMPLE_FREQUENCY 500
 
 //  The maximum distance the sensor is expected to read.
 #define MAX_DISTANCE 200

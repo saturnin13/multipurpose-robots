@@ -10,12 +10,14 @@
 
 class LineDetectionUpdateAgent : public UpdateAgent {
 public:
-    LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf);
+    LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf, UltrasonicSensor* usNW, UltrasonicSensor* usNE);
 
     void update();
 
 private:
     LineFollowerSensor* lf;
+    UltrasonicSensor* usNW;
+    UltrasonicSensor* usNE;
 };
 
 #endif

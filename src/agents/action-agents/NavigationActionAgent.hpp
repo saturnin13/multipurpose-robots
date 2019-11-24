@@ -23,7 +23,7 @@ private:
     bool rightForward;
 
     // Robot speed and orientation configuration for each task
-    void configCircleOrientation();
+    void configCircleDirection();
     void configLineFollowing();
     void configTicTacDropping();
     void configNorthWestEntity();

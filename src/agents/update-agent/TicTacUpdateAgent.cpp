@@ -2,25 +2,26 @@
 
 #define TOTAL_DROPPING_TIME 8000
 
-TicTacUpdateAgent::TicTacUpdateAgent(State *state) : UpdateAgent(state) {}
+TicTacUpdateAgent::TicTacUpdateAgent(State *state) : UpdateAgent(state) {
+    this->timeDropStart = 0;
+}
 
 void TicTacUpdateAgent::update() {
 
-    auto now = millis();
-
     switch (this->state->ticTacState) {
-    case DROPPED:
-    case UNDROPPED:
+    case COMPLETED:
+    case UNSEEN:
         return;
 
-    case REQUESTED:
-        this->timeDropStart = now;
-        this->state->ticTacState = DROPPING;
-        break;
+    case CURRENT:
+        auto now = millis();
 
-    case DROPPING:
+        if(this->timeDropStart == 0) {
+            this->state->ticTacState = now;
+        }
+
         if (now - timeDropStart > TOTAL_DROPPING_TIME) {
-            this->state->ticTacState = DROPPED;
+            this->state->ticTacState = COMPLETED;
         }
         break;
         

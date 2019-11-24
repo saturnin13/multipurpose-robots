@@ -1,12 +1,19 @@
 #include "AnglingUpdateAgent.hpp"
+#include <Arduino.h>
 
-#define ANGLE_THRESHOLD 10
+#define ANGLE_THRESHOLD 12
 
 AnglingUpdateAgent::AnglingUpdateAgent(State* state, IMUSensor* imu): UpdateAgent(state), imu(imu) {
 
 }
 
 void AnglingUpdateAgent::update() {
+
+    //if we are not armed, we should not do anything here.
+    if(this->state->robotState != ARMED) {
+        return;
+    }
+
     double x = this->imu->xAngle;
     double y = this->imu->yAngle;
     
@@ -16,6 +23,7 @@ void AnglingUpdateAgent::update() {
     } else if (this->state->incline == CURRENT) {
         this->state->incline = COMPLETED;
         //TODO remove and put to TICTACUPDATEAGENT
-        this->state->ticTacState = DROPPING;
+        this->state->ticTacState = CURRENT;
+
     }
 }
