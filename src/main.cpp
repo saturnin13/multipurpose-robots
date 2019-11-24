@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include <ros.h>
+#include <std_msgs/Bool.h>
+#include <std_msgs/Empty.h>
 
 #include "actuators/LED.hpp"
 #include "actuators/StepperMotor.hpp"
@@ -69,6 +72,23 @@ LineDetectionUpdateAgent lineAgent(&state, &lf);
 LEDActionAgent ledAgent(&state, &led);
 TicTacActionAgent ticTacAgent(&state, &stepperMotor);
 
+/********************
+ * ROS
+ *********************/
+#if ROS
+void eStopCallback(const std_msgs::Bool &msg) {
+    state.emergencyStop = msg.data;
+}
+
+void dropCallback(const std_msgs::Empty &msg) {
+    // TODO: Set that drop command has been issued.
+}
+
+ros::NodeHandle nh;
+ros::Subscriber<std_msgs::Bool> estopSubscriber(ROS_ESTOP_TOPIC, &eStopCallback);
+ros::Subscriber<std_msgs::Empty> dropSubscriber(ROS_DROP_TOPIC, &dropCallback);
+#endif
+
 
 void setup() {
   
@@ -78,10 +98,17 @@ void setup() {
     if(DEBUG) {
         Serial.println("Setup done");
     }
-    
+
+    nh.subscribe(estopSubscriber);
+    nh.subscribe(dropSubscriber);
+
 }
 
 void loop() {
+
+    #if ROS
+    nh.spinOnce();
+    #endif
 
     // 1. Update sensors
     button.update();

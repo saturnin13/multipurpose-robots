@@ -17,6 +17,13 @@
 #define IR_THRESHOLD 500
 
 /********************
+ * ROS
+ *********************/
+#define ROS 1
+#define ROS_ESTOP_TOPIC "ESTOP"
+#define ROS_DROP_TOPIC "DROPTICTAC"
+
+/********************
  * Pins
 *********************/
 #define US_FRONT_LEFT_TRIGGER_PIN 46
