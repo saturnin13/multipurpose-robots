@@ -4,7 +4,7 @@
 enum TableState { UNSEEN, CURRENT, COMPLETED };
 enum Entity { FLAT, EDGE, OBSTACLE };
 enum RobotState { ARMED, DISARMED };
-enum TicTacState { UNDROPPED, DROPPING, DROPPED };
+enum TicTacState { UNDROPPED, REQUESTED, DROPPING, DROPPED };
 enum LineOrientation { LOST, LEFT, CENTER, RIGHT };
 enum CircleOrientation { UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST };
 

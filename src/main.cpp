@@ -84,7 +84,9 @@ void eStopCallback(const std_msgs::Bool &msg) {
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
-    // TODO: Set that drop command has been issued.
+    if (state.ticTacState == UNDROPPED) {
+        state.ticTacState = REQUESTED;
+    }
 }
 
 ros::NodeHandle nh;
