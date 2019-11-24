@@ -24,7 +24,7 @@ void setup() {
 void loop() {
   // read the state_machine of the switch into a local variable:
   int reading = digitalRead(buttonPin);
-  Serial.println(reading);
+  //Serial.println(reading);
   // check to see if you just pressed the button
   // (i.e. the input went from LOW to HIGH), and you've waited long enough
   // since the last press to ignore any noise:

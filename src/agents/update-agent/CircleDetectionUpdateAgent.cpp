@@ -47,7 +47,11 @@ void CircleDetectionUpdateAgent::update() {
 
     //if every sensor detects a black surface, we are in the circle and have therefore the final table
     if(nw && n && ne && sw && se) {
+        //this means we finished the last table, so we are done
         this->state->finalTable = COMPLETED;
+
+        //TODO: double check or move
+        this->state->robotState = DISARMED;
     //the circle is in the corresponding direction if the opposing IR Sensors do not detect values
     } else if(nw && n && ne && !sw && !se) {
         this->state->circleOrientation = NORTH;

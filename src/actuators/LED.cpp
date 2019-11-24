@@ -81,7 +81,6 @@ void LED::enact() {
                 this->cycleState = !this->cycleState;
             }
         }
-
         break;
     }
 }

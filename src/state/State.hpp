@@ -30,7 +30,8 @@ struct State {
 
     bool emergencyStop = false;
 
-    long initTime = 0;
+    long initializationTime;
+    long setupTime;
 };
 
 #endif

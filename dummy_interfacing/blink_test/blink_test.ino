@@ -61,13 +61,13 @@ void loop() {
   if (buttonState != lastButtonState) {
     // reset the debouncing timer
     lastDebounceTime = millis();
-    Serial.println("Timer started");
+    //Serial.println("Timer started");
   }
 
   if ((millis() - lastDebounceTime) > debounceDelay && lastDebounceTime != 0) {
     // whatever the reading is at, it's been there for longer than the debounce
     // delay, so take it as the actual current state_machine:
-    Serial.println("Button pressed!");
+    //Serial.println("Button pressed!");
     lastDebounceTime = 0;
     // if the button state_machine has changed:
     buttonChanged  = 1;

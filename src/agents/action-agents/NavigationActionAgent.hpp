@@ -34,10 +34,13 @@ private:
     // Basic robot command
     void turnLeft();
     void goStraightLeft();
+    void turnLeftSpot();
     void goStraight();
     void goStraightRight();
+    void turnRightSpot();
     void turnRight();
     void stopMoving();
+    void goReverse();
 };
 
 #endif
