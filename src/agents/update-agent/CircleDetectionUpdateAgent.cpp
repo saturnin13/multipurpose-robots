@@ -54,22 +54,22 @@ void CircleDetectionUpdateAgent::update() {
         this->state->robotState = DISARMED;
     //the circle is in the corresponding direction if the opposing IR Sensors do not detect values
     } else if(nw && n && ne && !sw && !se) {
-        this->state->circleOrientation = NORTH;
+        this->state->circleDirection = NORTH;
     } else if(!nw && !n && !ne && sw && se) {
-        this->state->circleOrientation = SOUTH;
+        this->state->circleDirection = SOUTH;
     } else if(nw && !n && !ne && sw && !se) {
-        this->state->circleOrientation = WEST;
+        this->state->circleDirection = WEST;
     } else if(!nw && !n && ne && !sw && se) {
-        this->state->circleOrientation = EAST;
+        this->state->circleDirection = EAST;
     } else if(nw && (!n || n) && !ne && !sw && !se) {
-        this->state->circleOrientation = NORTHWEST;
+        this->state->circleDirection = NORTHWEST;
     } else if(!nw && (!n || n) && ne && !sw && !se) {
-        this->state->circleOrientation = NORTHEAST;
+        this->state->circleDirection = NORTHEAST;
     } else if(!nw && !n && !ne && sw && !se) {
-        this->state->circleOrientation = SOUTHWEST;
+        this->state->circleDirection = SOUTHWEST;
     } else if(!nw && !n && !ne && !sw && se) {
-        this->state->circleOrientation = SOUTHEAST;
+        this->state->circleDirection = SOUTHEAST;
     } else {
-        this->state->circleOrientation = UNKNOWN;
+        this->state->circleDirection = UNKNOWN;
     }
 }

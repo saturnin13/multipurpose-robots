@@ -22,57 +22,9 @@ void NavigationActionAgent::enact() {
         stopMoving();
     } else if(this->state->finalTable == COMPLETED) {
         stopMoving();
-    //} if(this->state->ticTacState == DROPPING) {
-        // Stop if dropping
-        //configTicTacDropping();
     } else {
-        //case we do not have to stop for some reason, so we think about which way we go
-        goStraight();
-        /*
-        bool edgeLeft = this->state->southWestEntity == EDGE || this->state->northWestEntity == EDGE;
-        bool edgeFront = this->state->northWestEntity == EDGE || this->state->northEastEntity == EDGE;
-        if(edgeLeft && !edgeFront) {
-            goStraightRight();
-        } else if (edgeLeft && edgeFront) {
-            turnRightSpot();
-        } else if (!edgeLeft && !edgeFront) {
-            bool obstacleLeft = this->state->southWestEntity == OBSTACLE || this->state->northWestEntity == OBSTACLE;
-            bool obstacleFront = this->state->northWestEntity == OBSTACLE || this->state->northEastEntity == OBSTACLE;
-
-            //case we dont have edges, so we want to avoid obstacles
-            if(obstacleLeft && !obstacleFront) {
-                goStraightRight();
-            } else if (obstacleLeft && obstacleFront) {
-                turnRightSpot();
-            } else if (!obstacleLeft && !obstacleFront) {
-
-                //case we dont have edges or obstacles here, so we care about the rest
-                if(this->state->lineFollowingTable == CURRENT) {
-                    // Follow line
-                    // Case of being lost on line following table has not been implemented, it could be done
-                    configLineFollowing();
-                } else if (this->state->lineFollowingTable == COMPELTED && this->state->circleOrientation != UNKNOWN) {
-                    // Go to circle
-                    configCircleOrientation();
-                } else {
-                    //go straigh left/ default
-                    configureDefault();
-                }
-            }
-        }
-        */
-
-        /*if(this->state->circleOrientation != UNKNOWN) {
-            // Go to circle
-            configCircleOrientation();
-        } else if(this->state->lineFollowingTable == CURRENT && this->state->lineState != LOST) {
-            // Follow line
-            // Case of being lost on line following table has not been implemented, it could be done
-            configLineFollowing();
-        } else if(this->state->ticTacState == DROPPING) {
-            // Stop if dropping
-            configTicTacDropping();
-        } else if(this->state->northWestEntity != FLAT) {
+        // The order of the condition is representative of the priority of actions
+        if(this->state->northWestEntity != FLAT) {
             // Avoid the north west entity
             configNorthWestEntity();
         } else if(this->state->northEntity != FLAT) {
@@ -81,10 +33,19 @@ void NavigationActionAgent::enact() {
         } else if(this->state->northEastEntity != FLAT) {
             // Avoid the north east entity
             configNorthEastEntity();
+        } else if(this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
+            // Go to circle
+            configCircleDirection();
+        } else if(this->state->lineFollowingTable == CURRENT) {
+            // Follow line
+            configLineFollowing();
+        } else if(this->state->ticTacState == CURRENT) {
+            // Stop if dropping
+            configTicTacDropping();
         } else {
             // Set the default configurations
             configureDefault();
-        }*/
+        }
     }
 
     // Set motors
@@ -102,22 +63,22 @@ void NavigationActionAgent::enact() {
  * Configuration of the navigation for each different state of the robot
 *********************/
 
-void NavigationActionAgent::configCircleOrientation() {
-    if(this->state->circleOrientation == WEST) {
+void NavigationActionAgent::configCircleDirection() {
+    if(this->state->circleDirection == WEST) {
         turnLeft();
-    } else if(this->state->circleOrientation == SOUTHWEST) {
+    } else if(this->state->circleDirection == SOUTHWEST) {
         turnLeft(); //better turnLeftSpot
-    } else if(this->state->circleOrientation == SOUTH) {
+    } else if(this->state->circleDirection == SOUTH) {
         turnRight(); //better goReverse
-    } else if(this->state->circleOrientation == SOUTHEAST) {
+    } else if(this->state->circleDirection == SOUTHEAST) {
         turnRight(); //better turnRightSpot
-    } else if(this->state->circleOrientation == EAST) {
+    } else if(this->state->circleDirection == EAST) {
         turnRight();
-    } else if(this->state->circleOrientation == NORTHEAST) {
+    } else if(this->state->circleDirection == NORTHEAST) {
         goStraightRight();
-    } else if(this->state->circleOrientation == NORTH) {
+    } else if(this->state->circleDirection == NORTH) {
         goStraight();
-    } else if(this->state->circleOrientation == NORTHWEST) {
+    } else if(this->state->circleDirection == NORTHWEST) {
         goStraightLeft();
     } else {
         stopMoving();

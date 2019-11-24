@@ -24,7 +24,7 @@ void TicTacActionAgent::enact() {
     }
 
     //this agent is only active if we want to drop something
-    if(this->state->ticTacState != DROPPING)
+    if(this->state->ticTacState != CURRENT)
     {
         return;
     }
@@ -70,7 +70,8 @@ void TicTacActionAgent::enact() {
             this->numberDrops = -1;
         }
     }
-    
+    // TODO: Set the ticTacState to completed after the tic tac have been dropped
+
     //enact stepper motor after all
     this->stepperMotor->enact();
 

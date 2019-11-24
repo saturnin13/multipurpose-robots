@@ -16,6 +16,6 @@ void AnglingUpdateAgent::update() {
     } else if (this->state->incline == CURRENT) {
         this->state->incline = COMPLETED;
         //TODO remove and put to TICTACUPDATEAGENT
-        this->state->ticTacState = DROPPING;
+        this->state->ticTacState = CURRENT;
     }
 }

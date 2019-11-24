@@ -66,7 +66,7 @@ AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
 CircleDetectionUpdateAgent circleAgent(&state, &irFrontLeft, &irFrontRight, &irRearLeft, &irRearRight, &lf);
 EntityDetectionUpdateAgent entityAgent(&state, &lf, &usRearLeft, &usDownLeft, &usFrontLeft, &usFrontMiddle, &usFrontRight, &usDownRight);
-LineDetectionUpdateAgent lineAgent(&state, &lf);
+LineDetectionUpdateAgent lineAgent(&state, &lf, &usFrontLeft, &usFrontRight);
 
 /********************
  * Action agents
@@ -84,8 +84,8 @@ void eStopCallback(const std_msgs::Bool &msg) {
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
-    if (state.ticTacState == UNDROPPED) {
-        state.ticTacState = REQUESTED;
+    if (state.ticTacState == UNSEEN) {
+        state.ticTacState = CURRENT;
     }
 }
 
