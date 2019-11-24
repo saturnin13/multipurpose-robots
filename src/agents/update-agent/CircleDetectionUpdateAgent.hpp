@@ -13,11 +13,11 @@ public:
     void update();
 
 private:
+    LineFollowerSensor* lf;
     IRSensor* irNW;
     IRSensor* irNE;
     IRSensor* irSW;
     IRSensor* irSE;
-    LineFollowerSensor* lf;
 };
 
 #endif
