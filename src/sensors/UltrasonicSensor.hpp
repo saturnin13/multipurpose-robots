@@ -2,6 +2,7 @@
 #define ULTRASONICSENSOR_H
 
 #include "Sensor.hpp"
+#include "NewPing.h"
 
 class UltrasonicSensor : public Sensor {
 
@@ -11,14 +12,15 @@ class UltrasonicSensor : public Sensor {
     void update();
     void reset();
 
-    // The distance in millimeters measured by the sensor.
+    // The distance in centimeters measured by the sensor.
+    // Set to 0 if 
     unsigned long distance;
 
   private:
     const int triggerPin;
     const int echoPin;
+    NewPing sonar;
 
-    long microsecondsToMillimeters(long time);
 };
 
 #endif

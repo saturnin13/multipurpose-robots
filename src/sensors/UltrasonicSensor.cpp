@@ -5,10 +5,10 @@
 // between each sample.
 #define SAMPLE_FREQUENCY 250
 
-// The speed of sound in millimeters per microsecond.
-#define SPEED_OF_SOUND 0.34027
+//  The maximum distance the sensor is expected to read.
+#define MAX_DISTANCE 200
 
-UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) : triggerPin(triggerPin), echoPin(echoPin) {
+UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) : triggerPin(triggerPin), echoPin(echoPin), sonar(triggerPin, echoPin, MAX_DISTANCE) {
     pinMode(triggerPin, OUTPUT);
     pinMode(echoPin, INPUT);
 }
@@ -22,20 +22,8 @@ void UltrasonicSensor::update() {
         return;
     }
 
-    // TODO: Should we refactor this so it doesn't use delays?
-    //       I'm not sure we can get microsecond-level time precision.
-
-    digitalWrite(triggerPin, LOW);
-    delayMicroseconds(2);
-    // Send pulse
-    digitalWrite(triggerPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(triggerPin, LOW);
-
-    // Read time of flight (in microseconds)
-    long duration = pulseIn(echoPin, HIGH);    
-
-    this->distance = microsecondsToMillimeters(duration);
+    unsigned int uS = sonar.ping();
+    this->distance = sonar.convert_cm(uS);
     this->lastUpdate = millis();
 
 }
@@ -43,11 +31,4 @@ void UltrasonicSensor::update() {
 void UltrasonicSensor::reset() {
     this->distance = 0;
     this->lastUpdate = 0;
-}
-
-long UltrasonicSensor::microsecondsToMillimeters(long time) {
-    // We divide by 2 since we are measuring the distance
-    // to the nearest obstacle and not the total
-    // distance that the sound travels.
-    return round(time / SPEED_OF_SOUND / 2);
 }
