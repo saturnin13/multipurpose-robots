@@ -14,6 +14,8 @@
 
 #define DEBUG 0
 
+#define DEGREES_CIRCLES 360
+
 #define IR_THRESHOLD 500
 
 /********************
@@ -73,7 +75,5 @@
 #define MOTOR_PIN3 6
 #define MOTOR_PIN4 7
 #define MOTOR_ENA2 9
-
-#define DEGREES_CIRCLES 360
 
 #endif

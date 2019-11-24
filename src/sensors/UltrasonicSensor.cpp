@@ -3,7 +3,7 @@
 
 // The minimum number of milliseconds that should pass
 // between each sample.
-#define SAMPLE_FREQUENCY 250
+#define SAMPLE_FREQUENCY 500
 
 // The speed of sound in millimeters per microsecond.
 #define SPEED_OF_SOUND 0.34027
@@ -33,7 +33,7 @@ void UltrasonicSensor::update() {
     digitalWrite(triggerPin, LOW);
 
     // Read time of flight (in microseconds)
-    long duration = pulseIn(echoPin, HIGH);    
+    long duration = pulseIn(echoPin, HIGH, 100000);    
 
     this->distance = microsecondsToMillimeters(duration);
     this->lastUpdate = millis();
