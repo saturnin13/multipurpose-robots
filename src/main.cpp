@@ -19,6 +19,8 @@
 
 #include "agents/action-agents/LEDActionAgent.hpp"
 #include "agents/action-agents/TicTacActionAgent.hpp"
+#include "agents/action-agents/NavigationActionAgent.hpp"
+
 
 #include "state/State.hpp"
 
