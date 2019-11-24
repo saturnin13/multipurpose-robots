@@ -22,8 +22,47 @@ void NavigationActionAgent::enact() {
         stopMoving();
     } else if(this->state->finalTable == COMPLETED) {
         stopMoving();
+    //} if(this->state->ticTacState == DROPPING) {
+        // Stop if dropping
+        //configTicTacDropping();
     } else {
-        if(this->state->circleOrientation != UNKNOWN) {
+        //case we do not have to stop for some reason, so we think about which way we go
+        goStraight();
+        /*
+        bool edgeLeft = this->state->southWestEntity == EDGE || this->state->northWestEntity == EDGE;
+        bool edgeFront = this->state->northWestEntity == EDGE || this->state->northEastEntity == EDGE;
+        if(edgeLeft && !edgeFront) {
+            goStraightRight();
+        } else if (edgeLeft && edgeFront) {
+            turnRightSpot();
+        } else if (!edgeLeft && !edgeFront) {
+            bool obstacleLeft = this->state->southWestEntity == OBSTACLE || this->state->northWestEntity == OBSTACLE;
+            bool obstacleFront = this->state->northWestEntity == OBSTACLE || this->state->northEastEntity == OBSTACLE;
+
+            //case we dont have edges, so we want to avoid obstacles
+            if(obstacleLeft && !obstacleFront) {
+                goStraightRight();
+            } else if (obstacleLeft && obstacleFront) {
+                turnRightSpot();
+            } else if (!obstacleLeft && !obstacleFront) {
+
+                //case we dont have edges or obstacles here, so we care about the rest
+                if(this->state->lineFollowingTable == CURRENT) {
+                    // Follow line
+                    // Case of being lost on line following table has not been implemented, it could be done
+                    configLineFollowing();
+                } else if (this->state->lineFollowingTable == COMPELTED && this->state->circleOrientation != UNKNOWN) {
+                    // Go to circle
+                    configCircleOrientation();
+                } else {
+                    //go straigh left/ default
+                    configureDefault();
+                }
+            }
+        }
+        */
+
+        /*if(this->state->circleOrientation != UNKNOWN) {
             // Go to circle
             configCircleOrientation();
         } else if(this->state->lineFollowingTable == CURRENT && this->state->lineState != LOST) {
@@ -45,10 +84,12 @@ void NavigationActionAgent::enact() {
         } else {
             // Set the default configurations
             configureDefault();
-        }
+        }*/
     }
 
     // Set motors
+    //Serial.print("LEFT: ");Serial.print(this->leftSpeed);
+    //Serial.print("RIGHT: ");Serial.println(this->rightSpeed);
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -65,11 +106,11 @@ void NavigationActionAgent::configCircleOrientation() {
     if(this->state->circleOrientation == WEST) {
         turnLeft();
     } else if(this->state->circleOrientation == SOUTHWEST) {
-        turnLeft();
+        turnLeft(); //better turnLeftSpot
     } else if(this->state->circleOrientation == SOUTH) {
-        turnRight();
+        turnRight(); //better goReverse
     } else if(this->state->circleOrientation == SOUTHEAST) {
-        turnRight();
+        turnRight(); //better turnRightSpot
     } else if(this->state->circleOrientation == EAST) {
         turnRight();
     } else if(this->state->circleOrientation == NORTHEAST) {
@@ -85,13 +126,13 @@ void NavigationActionAgent::configCircleOrientation() {
 
 void NavigationActionAgent::configLineFollowing() {
     if(this->state->lineState == LEFT) {
-        turnLeft();
+        turnLeft(); //better turnLeftStraight
     } else if(this->state->lineState == RIGHT) {
-        turnRight();
+        turnRight(); //better turnRightStraight
     } else if(this->state->lineState == CENTER) {
         goStraight();
     } else {
-        stopMoving();
+        stopMoving(); //todo something else, otherwise dead lock
     }
 }
 
@@ -121,13 +162,20 @@ void NavigationActionAgent::configureDefault() {
 /********************
  * Basic navigation direction functions
 *********************/
-
-void NavigationActionAgent::turnLeft() {
-    // Turn the robot left
+void NavigationActionAgent::goStraight() {
+    // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = 0; 
+    this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
+}
+
+void NavigationActionAgent::goReverse() {
+    // Go straight forward
+    this->leftSpeed = ROBOT_SPEED; 
+    this->rightSpeed = ROBOT_SPEED; 
+    this->leftForward = false;
+    this->rightForward = false;
 }
 
 void NavigationActionAgent::goStraightLeft() {
@@ -138,11 +186,19 @@ void NavigationActionAgent::goStraightLeft() {
     this->rightForward = true;
 }
 
-void NavigationActionAgent::goStraight() {
-    // Go straight forward
-    this->leftSpeed = ROBOT_SPEED; 
+void NavigationActionAgent::turnLeft() {
+    // Turn the robot left
+    this->leftSpeed = 0; 
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
+    this->rightForward = true;
+}
+
+void NavigationActionAgent::turnLeftSpot() {
+    // Turn the robot left on the spot
+    this->leftSpeed = ROBOT_SPEED; 
+    this->rightSpeed = ROBOT_SPEED; 
+    this->leftForward = false;
     this->rightForward = true;
 }
 
@@ -160,6 +216,14 @@ void NavigationActionAgent::turnRight() {
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
+}
+
+void NavigationActionAgent::turnRightSpot() {
+    // Turn the robot right on the spot
+    this->leftSpeed = ROBOT_SPEED; 
+    this->rightSpeed = ROBOT_SPEED; 
+    this->leftForward = true;
+    this->rightForward = false;
 }
 
 void NavigationActionAgent::stopMoving() {

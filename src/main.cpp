@@ -22,6 +22,8 @@
 
 #include "agents/action-agents/LEDActionAgent.hpp"
 #include "agents/action-agents/TicTacActionAgent.hpp"
+#include "agents/action-agents/NavigationActionAgent.hpp"
+
 
 #include "state/State.hpp"
 
@@ -63,14 +65,15 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
 CircleDetectionUpdateAgent circleAgent(&state, &irFrontLeft, &irFrontRight, &irRearLeft, &irRearRight, &lf);
-EntityDetectionUpdateAgent entityAgent(&state, &usFrontLeft, &usFrontRight, &usFrontMiddle, &usDownLeft, &usDownRight, &usRearLeft);
+EntityDetectionUpdateAgent entityAgent(&state, &lf, &usRearLeft, &usDownLeft, &usFrontLeft, &usFrontMiddle, &usFrontRight, &usDownRight);
 LineDetectionUpdateAgent lineAgent(&state, &lf);
 
 /********************
  * Action agents
 *********************/
 LEDActionAgent ledAgent(&state, &led);
-TicTacActionAgent ticTacAgent(&state, &stepperMotor);
+TicTacActionAgent ticTacAgent(&state, &stepperMotor, 4);
+NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
 
 /********************
  * ROS
@@ -94,6 +97,9 @@ void setup() {
   
     Wire.endTransmission(true); //otherwise it doesnt work
     Serial.begin(9600);
+    //todo count time since initialization and wait x sec
+    state.setupTime = millis();
+
 
     if(DEBUG) {
         Serial.println("Setup done");
@@ -114,63 +120,117 @@ void loop() {
     button.update();
     imu.update();
 
-    // usFrontLeft.update();
-    // usFrontMiddle.update();
-    // usFrontRight.update();
-    // usDownLeft.update();
-    // usDownRight.update();
-    // usBackLeft.update();
-    // ir1.update();
-    // ir2.update();
-    // ir3.update();
-    // ir4.update();
-    // lf.update();
+    //usFrontLeft.update();
+    //usFrontMiddle.update();
+    //usFrontRight.update();
+    usDownLeft.update();
+    usDownRight.update();
+    usRearLeft.update();
+
+    //irFrontLeft.update();
+    //irFrontRight.update();
+    //irRearLeft.update();
+    //irRearRight.update();
+
+    lf.update();
 
     // 2. Let update agents compute state
-    angleAgent.update();
+    //angleAgent.update();
     buttonAgent.update();
+    //circleAgent.update();
+    entityAgent.update();
+    //lineAgent.update();
+    //ticTacUpdateAgent.update(dropRequested);
+    //eStopAgent.update(eStopRequested);
     
     // 3. Make action agents carry out actions
     ledAgent.enact();
-    ticTacAgent.enact();
+
+    //wait for some time until all sensors are initialized and stuff, move this to state agent and make sure
+    //navigation, tic tac and arming will not be done
+    if(millis() - state.setupTime < START_DELAY_TIME) {
+        return;
+    }
+    
+    //ticTacAgent.enact();
+    navigationAgent.enact();
+
+    //TODO test button insted of this below this comment
+    if(button.pressed) {
+        state.robotState = ARMED;
+    }
+    if(button.pressed && state.emergencyStop) {
+        state.emergencyStop = false;
+    }
 
     /* TODO List:
+    DISCUSS: LineDetectionAgent l33
+    DISCUSS: difference between armed (LED) and move (3 sec in the beginning): new state
+    DISUCSS: i think we need to drastically improve the
+            edge detection (on the hardware side: MDF for positioning of US, try IR as backup sensor) and
+            the navigation (one the software side): reverse back from edge and turn then
+
     UpdateAgents:
+    IDEA: StateUpdateAgent, makes sure robot is armed at right point, sets time to now,
+        handles everything the others should not do +  stuff from button agent + reset &init function for state
+        TODO: now as part of state
+
         DONE -> (EdgeDetection, ObstacleDetection) -> EntityDetection
         DONE -> LineDetection
         DONE -> CircleDetection
         DONE -> LoopDetection
-    E-stopRequest (-> ROS)
+        DOING: E-stopRequest (-> ROS)
     TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   
         //make constant for time to wait for drop
         //let tictacupdateagent time that and set tictacs then to dropped
-    Optional -> add IR sensors for edge detection (backup)
+        DOING -> TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):   
+    OPTIONAL -> add IR sensors for edge detection (backup)
 
     ActionAgents:
+    TODO: ROS debugging agent, send state.toString all x seconds or if something changes
+
         DONE -> TicTacDropper +  reload mode
         DONE -> Driver (Navigation,     - initial search direction (i.e. which line to follow first)) + return if disarmed
         DONE -> Led Agent
     Optional -> display agent
     ROS debugging agent, send state.toString all x seconds or if something changes
 
+
     Actuators:
         DONE -> stepper motor
         DONE -> motor
-    Optional -> display
+    OPTIONAL -> display
 
     Sensor:
-    Error correction: weighted average values over several measurements, make sure no negative distances,... occur
+
+    TODO: Error correction: weighted average values over several measurements, make sure no negative distances occur
+    DISCUSS: problem with detection speed for edges (if we average over several values, new things need time to take effect?)
+
+    OPTIONAL: Update everything at once
     */
-    
 
     if(DEBUG) {
+    //state.emergencyStop = false;
+    //Serial.println(lf.lineDetected2);
+    //delay(100);
+
+    //Serial.print("State front: ");Serial.println(state.northEntity);
+    //Serial.print("State front,left: ");Serial.println(state.northWestEntity);
+    //Serial.print("State front,right: ");Serial.println(state.northEastEntity);
+    //Serial.print("State rear,left: ");Serial.println(state.southWestEntity);
+    //Serial.print("INCLINE ");Serial.println(state.incline);
+    //Serial.print("DROPPING ");Serial.println(state.ticTacState);
+    //Serial.print("Button: ");Serial.println(button.pressed);
+    //Serial.print("State ");Serial.println(state.robotState);
+
     //Serial.println(state.incline);
     //Serial.print(usFrontLeft.distance);Serial.print(" , ");
     //Serial.print(usFrontMiddle.distance);Serial.print(" , ");
     //Serial.print(usFrontRight.distance);Serial.print(" , ");
-    //Serial.print(usDownLeft.distance);Serial.print(" , ");
-    //Serial.print(usDownRight.distance);Serial.print(" , ");
-    //Serial.print(usBackLeft.distance);Serial.print(" - ");
+
+    Serial.print(usRearLeft.distance);Serial.print(" - ");
+    Serial.print(usDownLeft.distance);Serial.print(" , ");
+    Serial.print(usDownRight.distance);Serial.print(" , ");
     //Serial.print(ir1.value);Serial.print(" , ");
     //Serial.print(ir2.value);Serial.print(" , ");
     //Serial.print(ir3.value);Serial.print(" , ");
@@ -185,7 +245,7 @@ void loop() {
     //Serial.println(b1.pressed);
     //Serial.println(' ');
     delay(100);
-    }
 
+    }
 }
 
