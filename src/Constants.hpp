@@ -6,6 +6,8 @@
 
 #define ROBOT_SPEED 12
 
+#define MAIN_LOOP_DELAY 500
+
 #define MAX_VELOCITY 1
 #define START_DELAY_TIME 3000
 

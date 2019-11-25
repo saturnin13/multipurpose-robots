@@ -213,42 +213,64 @@ void loop() {
     */
 
     if(DEBUG) {
-    //state.emergencyStop = false;
-    //Serial.println(lf.lineDetected2);
-    //delay(100);
+        //state.emergencyStop = false;
 
-    //Serial.print("State front: ");Serial.println(state.northEntity);
-    //Serial.print("State front,left: ");Serial.println(state.northWestEntity);
-    //Serial.print("State front,right: ");Serial.println(state.northEastEntity);
-    //Serial.print("State rear,left: ");Serial.println(state.southWestEntity);
-    //Serial.print("INCLINE ");Serial.println(state.incline);
-    //Serial.print("DROPPING ");Serial.println(state.ticTacState);
-    //Serial.print("Button: ");Serial.println(button.pressed);
-    //Serial.print("State ");Serial.println(state.robotState);
+        /********************
+         * State Printing
+        *********************/
+        //Serial.println("The current robot state is: ");
 
-    //Serial.println(state.incline);
-    //Serial.print(usNWForward.distance);Serial.print(" , ");
-    //Serial.print(usNForward.distance);Serial.print(" , ");
-    //Serial.print(usNEForward.distance);Serial.print(" , ");
+        //Serial.print("robotState: ");Serial.println(state.robotState);
 
-    Serial.print(usNWForward.distance);Serial.print(" - ");
-    Serial.print(usNNWDown.distance);Serial.print(" , ");
-    Serial.print(usNNEDown.distance);Serial.print(" , ");
-    //Serial.print(ir1.value);Serial.print(" , ");
-    //Serial.print(ir2.value);Serial.print(" , ");
-    //Serial.print(ir3.value);Serial.print(" , ");
-    //Serial.print(ir4.value);Serial.print(" , ");
-    //Serial.print(lf.values[0]);Serial.print(" , ");
-    //Serial.print(lf.values[1]);Serial.print(" , ");
-    //Serial.print(lf.values[2]);Serial.print(" , ");
-    //Serial.print(lf.values[3]);Serial.print(" , ");
-    //Serial.print(lf.values[4]);Serial.print(" , ");
-    //Serial.print(imu.xAngle);Serial.print(" , ");
-    //Serial.print(imu.yAngle);Serial.print(" , ");
-    //Serial.println(b1.pressed);
-    //Serial.println(' ');
-    delay(100);
+        //Serial.print("southWestEntity: ");Serial.println(state.southWestEntity);
+        //Serial.print("northEastEntity: ");Serial.println(state.northEastEntity);
+        //Serial.print("northEntity: ");Serial.println(state.northEntity);
+        //Serial.print("northWestEntity: ");Serial.println(state.northWestEntity);
 
+        //Serial.print("incline: ");Serial.println(state.incline);
+        //Serial.print("finalTable: ");Serial.println(state.finalTable);
+
+        //Serial.print("ticTacState: ");Serial.println(state.ticTacState);
+
+        //Serial.print("lineFollowingTable: ");Serial.println(state.lineFollowingTable);
+        //Serial.print("lineState: ");Serial.println(state.lineState);
+
+        //Serial.print("circleDirection: ");Serial.println(state.circleDirection);
+
+        //Serial.print("totalTurnedQuadrants: ");Serial.println(state.totalTurnedQuadrants);
+
+        //Serial.print("emergencyStop: ");Serial.println(state.emergencyStop);
+
+        //Serial.print("initializationTime: ");Serial.println(state.initializationTime);
+        //Serial.print("setupTime: ");Serial.println(state.setupTime);
+
+        /********************
+         * Other
+        *********************/
+
+        //Serial.print(usNWForward.distance);Serial.print(" , ");
+        //Serial.print(usNForward.distance);Serial.print(" , ");
+        //Serial.print(usNEForward.distance);Serial.print(" , ");
+
+        //Serial.print(usNWForward.distance);Serial.print(" - ");
+        //Serial.print(usNNWDown.distance);Serial.print(" , ");
+        //Serial.print(usNNEDown.distance);Serial.print(" , ");
+        //Serial.print(ir1.value);Serial.print(" , ");
+        //Serial.print(ir2.value);Serial.print(" , ");
+        //Serial.print(ir3.value);Serial.print(" , ");
+        //Serial.print(ir4.value);Serial.print(" , ");
+        //Serial.print(lf.values[0]);Serial.print(" , ");
+        //Serial.print(lf.values[1]);Serial.print(" , ");
+        //Serial.print(lf.values[2]);Serial.print(" , ");
+        //Serial.print(lf.values[3]);Serial.print(" , ");
+        //Serial.print(lf.values[4]);Serial.print(" , ");
+        //Serial.print(imu.xAngle);Serial.print(" , ");
+        //Serial.print(imu.yAngle);Serial.print(" , ");
+        //Serial.println(b1.pressed);
+
+        Serial.println("");
     }
+
+    delay(MAIN_LOOP_DELAY);
 }
 
