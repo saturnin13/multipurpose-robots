@@ -50,7 +50,7 @@ void LED::enact() {
         break;
 
     case FLASH_BLUE:
-        if (elapsed > FLASH_FREQUENCY) {
+        if (elapsed > FLASH_RATE) {
             if (this->cycleState) {
                 // Light is on
                 digitalWrite(bluePin, LOW);

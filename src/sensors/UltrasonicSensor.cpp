@@ -4,7 +4,7 @@
 UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) : triggerPin(triggerPin), echoPin(echoPin), sonar(triggerPin, echoPin, MAX_DISTANCE) {
     pinMode(triggerPin, OUTPUT);
     pinMode(echoPin, INPUT);
-    this->sampling_frequency = ULTRASONIC_SAMPLING_FREQUENCY;
+    this->sampling_rate = ULTRASONIC_SAMPLING_RATE;
 }
 
 void UltrasonicSensor::update() {

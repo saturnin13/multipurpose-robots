@@ -4,7 +4,7 @@
 
 ButtonSensor::ButtonSensor(int pin) : pin(pin) {
     pinMode(pin, INPUT_PULLUP);
-    this->sampling_frequency = BUTTON_SAMPLING_FREQUENCY;
+    this->sampling_rate = BUTTON_SAMPLING_RATE;
 }
 
 void ButtonSensor::update() {

@@ -17,7 +17,7 @@ class Sensor {
         unsigned long lastUpdate = 0;
 
         // The delay for this  sensor
-        unsigned long sampling_frequency = DEFAULT_SAMPLING_FREQUENCY;
+        unsigned long sampling_rate = DEFAULT_SAMPLING_RATE;
 };
 
 #endif

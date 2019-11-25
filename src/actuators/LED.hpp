@@ -3,7 +3,7 @@
 
 #include "Actuator.hpp"
 
-#define FLASH_FREQUENCY 500
+#define FLASH_RATE 500
 #define STROBE_HIGH_DURATION 100
 #define STROBE_LOW_DURATION 1200
 #define LED_BRIGHT 255
