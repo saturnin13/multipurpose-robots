@@ -37,17 +37,17 @@ State state;
 /********************
  * Sensors
 *********************/
-UltrasonicSensor usFrontLeft(US_FRONT_LEFT_TRIGGER_PIN, US_FRONT_LEFT_ECHO_PIN);
-UltrasonicSensor usFrontRight(US_FRONT_RIGHT_TRIGGER_PIN, US_FRONT_RIGHT_ECHO_PIN);
-UltrasonicSensor usFrontMiddle(US_FRONT_MIDDLE_TRIGGER_PIN, US_FRONT_MIDDLE_ECHO_PIN);
-UltrasonicSensor usDownLeft(US_DOWN_LEFT_TRIGGER_PIN, US_DOWN_LEFT_ECHO_PIN);
-UltrasonicSensor usDownRight(US_DOWN_RIGHT_TRIGGER_PIN, US_DOWN_RIGHT_ECHO_PIN);
-UltrasonicSensor usRearLeft(US_REAR_LEFT_TRIGGER_PIN, US_REAR_LEFT_ECHO_PIN);
+UltrasonicSensor usNWForward(US_NW_FORWARD_TRIGGER_PIN, US_NW_FORWARD_ECHO_PIN);
+UltrasonicSensor usNEForward(US_NE_FORWARD_TRIGGER_PIN, US_NE_FORWARD_ECHO_PIN);
+UltrasonicSensor usNForward(US_N_FORWARD_TRIGGER_PIN, US_N_FORWARD_ECHO_PIN);
+UltrasonicSensor usNNWDown(US_NNW_DOWN_TRIGGER_PIN, US_NNW_DOWN_ECHO_PIN);
+UltrasonicSensor usNNEDown(US_NNE_DOWN_TRIGGER_PIN, US_NNE_DOWN_ECHO_PIN);
+UltrasonicSensor usNWForward(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
 IMUSensor imu;
-IRSensor irFrontLeft(IR_FRONT_LEFT_PIN);
-IRSensor irFrontRight(IR_FRONT_RIGHT_PIN);
-IRSensor irRearLeft(IR_REAR_LEFT_PIN);
-IRSensor irRearRight(IR_REAR_RIGHT_PIN);
+IRSensor irNW(IR_NW_PIN);
+IRSensor irNE(IR_NE_PIN);
+IRSensor irNW(IR_SW_PIN);
+IRSensor irSE(IR_SE_PIN);
 ButtonSensor button(START_BUTTON_PIN);
 LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2, LINE_FOLLOWER_PIN3, LINE_FOLLOWER_PIN4);
 
@@ -64,9 +64,9 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 *********************/
 AnglingUpdateAgent angleAgent(&state, &imu);
 ButtonUpdateAgent buttonAgent(&state, &button);
-CircleDetectionUpdateAgent circleAgent(&state, &irFrontLeft, &irFrontRight, &irRearLeft, &irRearRight, &lf);
-EntityDetectionUpdateAgent entityAgent(&state, &lf, &usRearLeft, &usDownLeft, &usFrontLeft, &usFrontMiddle, &usFrontRight, &usDownRight);
-LineDetectionUpdateAgent lineAgent(&state, &lf, &usFrontLeft, &usFrontRight);
+CircleDetectionUpdateAgent circleAgent(&state, &irNW, &irNE, &irNW, &irSE, &lf);
+EntityDetectionUpdateAgent entityAgent(&state, &lf, &usNWForward, &usNNWDown, &usNWForward, &usNForward, &usNEForward, &usNNEDown);
+LineDetectionUpdateAgent lineAgent(&state, &lf, &usNWForward, &usNEForward);
 
 /********************
  * Action agents
@@ -122,17 +122,17 @@ void loop() {
     button.update();
     imu.update();
 
-    usFrontLeft.update();
-    usFrontMiddle.update();
-    usFrontRight.update();
-    //usDownLeft.update();
-    //usDownRight.update();
-    //usRearLeft.update();
+    usNWForward.update();
+    usNForward.update();
+    usNEForward.update();
+    //usNNWDown.update();
+    //usNNEDown.update();
+    //usNWForward.update();
 
-    //irFrontLeft.update();
-    //irFrontRight.update();
-    //irRearLeft.update();
-    //irRearRight.update();
+    //irNW.update();
+    //irNE.update();
+    //irNW.update();
+    //irSE.update();
 
     lf.update();
 
@@ -227,13 +227,13 @@ void loop() {
     //Serial.print("State ");Serial.println(state.robotState);
 
     //Serial.println(state.incline);
-    //Serial.print(usFrontLeft.distance);Serial.print(" , ");
-    //Serial.print(usFrontMiddle.distance);Serial.print(" , ");
-    //Serial.print(usFrontRight.distance);Serial.print(" , ");
+    //Serial.print(usNWForward.distance);Serial.print(" , ");
+    //Serial.print(usNForward.distance);Serial.print(" , ");
+    //Serial.print(usNEForward.distance);Serial.print(" , ");
 
-    Serial.print(usRearLeft.distance);Serial.print(" - ");
-    Serial.print(usDownLeft.distance);Serial.print(" , ");
-    Serial.print(usDownRight.distance);Serial.print(" , ");
+    Serial.print(usNWForward.distance);Serial.print(" - ");
+    Serial.print(usNNWDown.distance);Serial.print(" , ");
+    Serial.print(usNNEDown.distance);Serial.print(" , ");
     //Serial.print(ir1.value);Serial.print(" , ");
     //Serial.print(ir2.value);Serial.print(" , ");
     //Serial.print(ir3.value);Serial.print(" , ");
