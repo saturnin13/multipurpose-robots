@@ -72,7 +72,7 @@ LineDetectionUpdateAgent lineAgent(&state, &lf, &usNWForward, &usNEForward);
  * Action agents
 *********************/
 LEDActionAgent ledAgent(&state, &led);
-TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
+TicTacActionAgent ticTacAgent(&state, &stepperMotor, 4);
 NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
 
 /********************
@@ -81,9 +81,11 @@ NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
 #if ROS
 void eStopCallback(const std_msgs::Bool &msg) {
     state.emergencyStop = msg.data;
+    digitalWrite(13, !digitalRead(13));
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
+    digitalWrite(13, !digitalRead(13));
     if (state.ticTacState == UNSEEN) {
         state.ticTacState = CURRENT;
     }
@@ -98,9 +100,14 @@ ros::Subscriber<std_msgs::Empty> dropSubscriber(ROS_DROP_TOPIC, &dropCallback);
 void setup() {
   
     Wire.endTransmission(true); //otherwise it doesnt work
-    Serial.begin(9600);
-    state.setupTime = millis();
+    //Serial.begin(9600);
+    Serial.begin(115200);
+    nh.getHardware()->setBaud(115200);
+    nh.initNode();
     state.robotState = DISARMED;
+    state.setupTime = millis();
+    //state.robotState = DISARMED;
+    
 
     if(DEBUG) {
         Serial.println("Setup done");
@@ -112,8 +119,8 @@ void setup() {
 }
 
 void loop() {
+    
     //Serial.println("LOOPing");
-    state.robotState = DISARMED;
     #if ROS
     nh.spinOnce();
     #endif
@@ -164,6 +171,10 @@ void loop() {
     /*if(button.pressed && state.emergencyStop) {
         state.emergencyStop = false;
     }*/
+    //TODO STATEUPDATEAGENT
+    if(state.emergencyStop) {
+        state.robotState = DISARMED;
+    }
 
     /* TODO List:
     TODO: if not armed, dont change states, otherwise we will detect inclines before...

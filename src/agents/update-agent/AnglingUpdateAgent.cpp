@@ -8,7 +8,7 @@ AnglingUpdateAgent::AnglingUpdateAgent(State* state, IMUSensor* imu): UpdateAgen
 }
 
 void AnglingUpdateAgent::update() {
-
+    
     //if we are not armed, we should not do anything here.
     if(this->state->robotState != ARMED) {
         return;

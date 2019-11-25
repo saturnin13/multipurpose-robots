@@ -96,8 +96,15 @@ rostopic list
 
 4. This line will trigger the action (light LED in the example) on the arduino, as it is the specified message
 ```bash
-rostopic pub first_action std_msgs/Empty --once
+rostopic pub ESTOP std_msgs/Bool true --once
 ```
+
+OR
+
+```bash
+ rostopic pub DROPTICTAC std_msgs/Empty --once
+```
+
 with first_action being the identifier for the first action.
 _Now we expect the arduino to light one LED up (onboard LED)_
 

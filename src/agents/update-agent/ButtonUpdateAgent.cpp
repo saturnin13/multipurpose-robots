@@ -1,6 +1,4 @@
 #include "ButtonUpdateAgent.hpp"
-#include <Arduino.h>
-#include "../../Constants.hpp"
 
 
 ButtonUpdateAgent::ButtonUpdateAgent(State* state, ButtonSensor* b): UpdateAgent(state), b(b) {
@@ -8,10 +6,11 @@ ButtonUpdateAgent::ButtonUpdateAgent(State* state, ButtonSensor* b): UpdateAgent
 }
 
 void ButtonUpdateAgent::update() {
+
     //TODO in state agent
     unsigned long now = millis();
-    //TODO && this->state->robotState == DISARMED
-    if(this->b->pressed) {
+
+    if(this->b->pressed && this->state->robotState == DISARMED) {
         //armed so the led changes state
         Serial.println("ARMED");
         this->state->robotState = ARMED;
@@ -25,9 +24,9 @@ void ButtonUpdateAgent::update() {
     }
 
     //move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
-    if(this->b->pressed && this->state->robotState == ARMED &&!this->state->emergencyStop) {
-        Serial.println("ESTOP");
-        this->state->emergencyStop = true;
+    if(this->b->pressed && this->state->emergencyStop) {
+        Serial.println("ESTOP RESET");
+        this->state->emergencyStop = false;
     }
 
 }

@@ -4,6 +4,9 @@
 #include "../../sensors/ButtonSensor.hpp"
 #include "UpdateAgent.hpp"
 #include "../../state/State.hpp"
+#include "../../Constants.hpp"
+#include <Arduino.h>
+
 
 class ButtonUpdateAgent : public UpdateAgent {
 public:
@@ -12,8 +15,6 @@ public:
     void update();
 
 private:
-    State* state;
     ButtonSensor* b;
 };
-
 #endif
