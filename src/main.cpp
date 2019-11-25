@@ -218,31 +218,33 @@ void loop() {
         /********************
          * State Printing
         *********************/
-        //Serial.println("The current robot state is: ");
+        //Serial.print("The current robot state is: {");
 
-        //Serial.print("robotState: ");Serial.println(state.robotState);
+        //Serial.print("robotState: ");Serial.print(state.robotState);
 
-        //Serial.print("southWestEntity: ");Serial.println(state.southWestEntity);
-        //Serial.print("northEastEntity: ");Serial.println(state.northEastEntity);
-        //Serial.print("northEntity: ");Serial.println(state.northEntity);
-        //Serial.print("northWestEntity: ");Serial.println(state.northWestEntity);
+        //Serial.print("southWestEntity: ");Serial.print(state.southWestEntity);
+        //Serial.print(", northEastEntity: ");Serial.print(state.northEastEntity);
+        //Serial.print(", northEntity: ");Serial.print(state.northEntity);
+        //Serial.print(", northWestEntity: ");Serial.print(state.northWestEntity);
 
-        //Serial.print("incline: ");Serial.println(state.incline);
-        //Serial.print("finalTable: ");Serial.println(state.finalTable);
+        //Serial.print(", incline: ");Serial.print(state.incline);
+        //Serial.print(", finalTable: ");Serial.print(state.finalTable);
 
-        //Serial.print("ticTacState: ");Serial.println(state.ticTacState);
+        //Serial.print(", ticTacState: ");Serial.print(state.ticTacState);
 
-        //Serial.print("lineFollowingTable: ");Serial.println(state.lineFollowingTable);
-        //Serial.print("lineState: ");Serial.println(state.lineState);
+        //Serial.print(", lineFollowingTable: ");Serial.print(state.lineFollowingTable);
+        //Serial.print(", lineState: ");Serial.print(state.lineState);
 
-        //Serial.print("circleDirection: ");Serial.println(state.circleDirection);
+        //Serial.print(", circleDirection: ");Serial.print(state.circleDirection);
 
-        //Serial.print("totalTurnedQuadrants: ");Serial.println(state.totalTurnedQuadrants);
+        //Serial.print(", totalTurnedQuadrants: ");Serial.print(state.totalTurnedQuadrants);
 
-        //Serial.print("emergencyStop: ");Serial.println(state.emergencyStop);
+        //Serial.print(", emergencyStop: ");Serial.print(state.emergencyStop);
 
-        //Serial.print("initializationTime: ");Serial.println(state.initializationTime);
-        //Serial.print("setupTime: ");Serial.println(state.setupTime);
+        //Serial.print(", initializationTime: ");Serial.print(state.initializationTime);
+        //Serial.print(", setupTime: ");Serial.print(state.setupTime);
+
+        //Serial.println("}");
 
         /********************
          * Other
