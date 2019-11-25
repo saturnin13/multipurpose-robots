@@ -1,28 +1,17 @@
 #include "UltrasonicSensor.hpp"
 #include <Arduino.h>
 
-// The minimum number of milliseconds that should pass
-// between each sample.
-#define SAMPLE_FREQUENCY 200
-
 UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) : triggerPin(triggerPin), echoPin(echoPin), sonar(triggerPin, echoPin, MAX_DISTANCE) {
     pinMode(triggerPin, OUTPUT);
     pinMode(echoPin, INPUT);
+    this->sampling_frequency = ULTRASONIC_SAMPLING_FREQUENCY;
 }
 
 void UltrasonicSensor::update() {
-
-    unsigned long now = millis();
-    
-    // Check if we can update the sensor data.
-    if (now - lastUpdate < SAMPLE_FREQUENCY) {
-        return;
-    }
+    Sensor::update();
 
     unsigned int uS = sonar.ping();
     this->distance = sonar.convert_cm(uS);
-    this->lastUpdate = millis();
-
 }
 
 void UltrasonicSensor::reset() {

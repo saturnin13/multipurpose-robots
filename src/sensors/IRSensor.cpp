@@ -1,27 +1,16 @@
 #include "IRSensor.hpp"
 #include <Arduino.h>
 
-// The minimum number of milliseconds that should pass
-// between each sample.
-#define SAMPLE_FREQUENCY 100
-
 IRSensor::IRSensor(int pin) : pin(pin) {
     pinMode(pin, INPUT);
 }
 
 void IRSensor::update() {
-
-    unsigned long now = millis();
-
-    // Check if we can update the sensor data.
-    if (now - lastUpdate < SAMPLE_FREQUENCY) {
-        return;
-    }
+    Sensor::update();
 
     auto ldrStatus = digitalRead(pin);
 
     this->lineDetected = (ldrStatus == LOW) ? true : false;
-    this->lastUpdate = now;
 }
 
 void IRSensor::reset() {

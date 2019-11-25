@@ -2,6 +2,7 @@
 #define BUTTONSENSOR_H
 
 #include "Sensor.hpp"
+#include "../Constants.hpp"
 
 // Debouncing delay in milliseconds
 #define DEBOUNCE_DELAY 50
