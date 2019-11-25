@@ -12,7 +12,7 @@ class LineFollowerSensor : public Sensor {
     void update();
     void reset();
 
-    //TODO change in line, edge or nothing, or just return value in addition
+    // TODO: change to line, edge or nothing, or just return value in addition
     bool lineDetected0 = false;
     bool lineDetected1 = false;
     bool lineDetected2 = false;

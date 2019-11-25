@@ -42,11 +42,11 @@ UltrasonicSensor usNEForward(US_NE_FORWARD_TRIGGER_PIN, US_NE_FORWARD_ECHO_PIN);
 UltrasonicSensor usNForward(US_N_FORWARD_TRIGGER_PIN, US_N_FORWARD_ECHO_PIN);
 UltrasonicSensor usNNWDown(US_NNW_DOWN_TRIGGER_PIN, US_NNW_DOWN_ECHO_PIN);
 UltrasonicSensor usNNEDown(US_NNE_DOWN_TRIGGER_PIN, US_NNE_DOWN_ECHO_PIN);
-UltrasonicSensor usNWForward(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
+UltrasonicSensor usNWDown(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
 IMUSensor imu;
 IRSensor irNW(IR_NW_PIN);
 IRSensor irNE(IR_NE_PIN);
-IRSensor irNW(IR_SW_PIN);
+IRSensor irSW(IR_SW_PIN);
 IRSensor irSE(IR_SE_PIN);
 ButtonSensor button(START_BUTTON_PIN);
 LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2, LINE_FOLLOWER_PIN3, LINE_FOLLOWER_PIN4);
@@ -157,7 +157,7 @@ void loop() {
     ticTacAgent.enact();
     navigationAgent.enact();
 
-    //TODO test button insted of this below this comment
+    //TODO test button instead of this below this comment
     /*if(button.pressed) {
         state.robotState = ARMED;
     }*/
