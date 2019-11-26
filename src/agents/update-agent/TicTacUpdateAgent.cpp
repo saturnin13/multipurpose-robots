@@ -16,15 +16,15 @@ void TicTacUpdateAgent::update() {
     case CURRENT:
         auto now = millis();
 
-        if(this->timeDropStart == 0) {
-            this->state->ticTacState = now;
+        if (this->timeDropStart == 0) {
+            this->timeDropStart = now;
         }
 
         if (now - timeDropStart > TOTAL_DROPPING_TIME) {
             this->state->ticTacState = COMPLETED;
         }
-        break;
         
-    }
+        break;
 
+    }
 }
