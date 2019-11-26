@@ -2,8 +2,6 @@
 #define LINEFOLLOWERSENSOR_H
 
 #include "Sensor.hpp"
-#include "../Constants.hpp"
-
 class LineFollowerSensor : public Sensor {
 
   public:

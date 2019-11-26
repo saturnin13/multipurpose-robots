@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+// Sampling rate in milliseconds
+#define SAMPLING_RATE 100
+
 #define I2C_ADDRESS 0x68
 #define POWER_MGMT_REGISTER 0x6B
 #define START_REGISTER 0x3B
@@ -20,7 +23,12 @@ IMUSensor::IMUSensor() {
 }
 
 void IMUSensor::update() {
-    Sensor::update();
+    unsigned long now = millis();
+
+    // Check if we can update the sensor data.
+    if (now - this->lastUpdate < SAMPLING_RATE) {
+        return;
+    }
 
     Wire.beginTransmission(I2C_ADDRESS);
     Wire.write(START_REGISTER);
@@ -42,6 +50,7 @@ void IMUSensor::update() {
     this->xAngle = RAD_TO_DEG * (atan2(-yAng, -zAng) + PI);
     this->yAngle = RAD_TO_DEG * (atan2(-xAng, -zAng) + PI);
     this->zAngle = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
+    this->lastUpdate = now;
 }
 
 void IMUSensor::reset() {

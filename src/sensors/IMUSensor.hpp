@@ -2,7 +2,6 @@
 #define IMUSENSOR_H
 
 #include "Sensor.hpp"
-#include "../Constants.hpp"
 
 class IMUSensor : public Sensor {
 

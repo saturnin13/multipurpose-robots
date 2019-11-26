@@ -11,10 +11,6 @@
 
 #define MAIN_LOOP_DELAY 0
 
-#define DEFAULT_SAMPLING_RATE 100
-#define BUTTON_SAMPLING_RATE 0
-#define ULTRASONIC_SAMPLING_RATE 200
-
 #define MAX_VELOCITY 1
 
 #define US_EDGE_THRESHOLD 22
@@ -23,8 +19,6 @@
 #define DEBUG 0
 
 #define DEGREES_CIRCLES 360
-
-#define IR_THRESHOLD 500
 
 /********************
  * ROS

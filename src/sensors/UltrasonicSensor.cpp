@@ -1,17 +1,27 @@
 #include "UltrasonicSensor.hpp"
 #include <Arduino.h>
 
+#define SAMPLING_RATE 200
+
+//  The maximum distance the sensor is expected to read.
+#define MAX_DISTANCE 150
+
 UltrasonicSensor::UltrasonicSensor(int triggerPin, int echoPin) : triggerPin(triggerPin), echoPin(echoPin), sonar(triggerPin, echoPin, MAX_DISTANCE) {
     pinMode(triggerPin, OUTPUT);
     pinMode(echoPin, INPUT);
-    this->sampling_rate = ULTRASONIC_SAMPLING_RATE;
 }
 
 void UltrasonicSensor::update() {
-    Sensor::update();
+    unsigned long now = millis();
+
+    // Check if we can update the sensor data.
+    if (now - this->lastUpdate < SAMPLING_RATE) {
+        return;
+    }
 
     unsigned int uS = sonar.ping();
     this->distance = sonar.convert_cm(uS);
+    this->lastUpdate = now;
 }
 
 void UltrasonicSensor::reset() {

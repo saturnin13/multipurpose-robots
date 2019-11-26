@@ -3,10 +3,6 @@
 
 #include "Sensor.hpp"
 #include "NewPing.h"
-#include "../Constants.hpp"
-
-//  The maximum distance the sensor is expected to read.
-#define MAX_DISTANCE 150
 
 class UltrasonicSensor : public Sensor {
 
