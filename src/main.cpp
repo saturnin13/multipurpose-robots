@@ -14,7 +14,7 @@
 #include "sensors/LineFollowerSensor.hpp"
 #include "sensors/UltrasonicSensor.hpp"
 
-#include "agents/update-agent/AnglingUpdateAgent.hpp"
+#include "agents/update-agent/InclineUpdateAgent.hpp"
 #include "agents/update-agent/ButtonUpdateAgent.hpp"
 #include "agents/update-agent/CircleDetectionUpdateAgent.hpp"
 #include "agents/update-agent/EntityDetectionUpdateAgent.hpp"
@@ -111,7 +111,7 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 /********************
  * Update agents
 *********************/
-AnglingUpdateAgent anglingUpdateAgent(&state, &imu);
+InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
 CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irNW, &irSE, &lf);
 EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usNForward, &usNEForward, &usNNEDown);

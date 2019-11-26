@@ -1,14 +1,14 @@
-#ifndef MULTIPURPOSE_ROBOTS_ANGLINGUPDATEAGENT_H
-#define MULTIPURPOSE_ROBOTS_ANGLINGUPDATEAGENT_H
+#ifndef INCLINEUPDATEAGENT_H
+#define INCLINEUPDATEAGENT_H
 
 #include "../../Constants.hpp"
 #include "../../sensors/IMUSensor.hpp"
 #include "../../state/State.hpp"
 #include "UpdateAgent.hpp"
 
-class AnglingUpdateAgent : public UpdateAgent {
+class InclineUpdateAgent : public UpdateAgent {
   public:
-    AnglingUpdateAgent(State *state, IMUSensor *imu);
+    InclineUpdateAgent(State *state, IMUSensor *imu);
 
     void update();
 

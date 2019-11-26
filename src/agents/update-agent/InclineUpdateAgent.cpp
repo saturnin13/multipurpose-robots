@@ -1,12 +1,12 @@
-#include "AnglingUpdateAgent.hpp"
+#include "InclineUpdateAgent.hpp"
 #include <Arduino.h>
 
-#define ANGLE_THRESHOLD 12.0
+#define INCLINE_THRESHOLD 12.0
 
-AnglingUpdateAgent::AnglingUpdateAgent(State *state, IMUSensor *imu)
+InclineUpdateAgent::InclineUpdateAgent(State *state, IMUSensor *imu)
     : UpdateAgent(state), imu(imu) {}
 
-void AnglingUpdateAgent::update() {
+void InclineUpdateAgent::update() {
 
     // if we are not armed, we should not do anything here.
     if (this->state->robotState != ARMED) {
@@ -16,8 +16,8 @@ void AnglingUpdateAgent::update() {
     double x = this->imu->xAngle;
     double y = this->imu->yAngle;
 
-    if ((x < (DEGREES_CIRCLES - ANGLE_THRESHOLD) && x > ANGLE_THRESHOLD) ||
-        (y < (DEGREES_CIRCLES - ANGLE_THRESHOLD) && y > ANGLE_THRESHOLD)) {
+    if ((x < (DEGREES_CIRCLES - INCLINE_THRESHOLD) && x > INCLINE_THRESHOLD) ||
+        (y < (DEGREES_CIRCLES - INCLINE_THRESHOLD) && y > INCLINE_THRESHOLD)) {
         this->state->incline = CURRENT;
     } else if (this->state->incline == CURRENT) {
         this->state->incline = COMPLETED;
