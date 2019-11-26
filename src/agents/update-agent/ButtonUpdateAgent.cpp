@@ -1,8 +1,9 @@
 #include "ButtonUpdateAgent.hpp"
 
 ButtonUpdateAgent::ButtonUpdateAgent(State *state, ButtonSensor *button)
-    : UpdateAgent(state), button(button) {}
-
+    : UpdateAgent(state), button(button) {
+        this->lastButtonState = false;
+    }
 void ButtonUpdateAgent::update() {
 
     if (this->button->pressed && this->state->robotState == DISARMED) {
@@ -18,10 +19,17 @@ void ButtonUpdateAgent::update() {
         // = true;
     }
 
-    // move this to own button or delete it for competition, but it is nice for
-    // testing, just quick fix for now
-    if (this->button->pressed && this->state->emergencyStop) {
+    if(this->button->pressed && !this->lastButtonState && !this->state->emergencyStop) {
+        Serial.println("ESTOP");
+        this->state->emergencyStop = true;
+    }
+
+    //move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
+    if(this->button->pressed && !this->lastButtonState && this->state->emergencyStop) {
         Serial.println("ESTOP RESET");
         this->state->emergencyStop = false;
     }
+
+    this->lastButtonState = this->button->pressed;
+
 }

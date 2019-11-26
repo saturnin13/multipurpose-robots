@@ -17,10 +17,13 @@ void NavigationActionAgent::enact() {
 
     // This agent is only active if we are armed and not in an emergency
     if(this->state->emergencyStop) {
+        Serial.println("ESTOP");
         stopMoving();
     } else if(this->state->robotState != ARMED) {
+        Serial.println("NOT Armed");
         stopMoving();
     } else if(this->state->finalTable == COMPLETED) {
+        Serial.println("COMPLETED");
         stopMoving();
     } else {
         // The order of the condition is representative of the priority of actions
@@ -49,8 +52,8 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
-    //Serial.print("LEFT: ");Serial.print(this->leftSpeed);
-    //Serial.print("RIGHT: ");Serial.println(this->rightSpeed);
+    Serial.print("LEFT: ");Serial.print(this->leftSpeed);
+    Serial.print(" , RIGHT: ");Serial.println(this->rightSpeed);
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -117,7 +120,8 @@ void NavigationActionAgent::configNorthEastEntity() {
 }
 
 void NavigationActionAgent::configureDefault() {
-    goStraightLeft();
+    goStraight();
+    //goStraightLeft();
 }
 
 /********************
@@ -141,7 +145,7 @@ void NavigationActionAgent::goReverse() {
 
 void NavigationActionAgent::goStraightLeft() {
     // Go straight forward but deviate to the left
-    this->leftSpeed = ROBOT_SPEED / 2; 
+    this->leftSpeed = ROBOT_SPEED / 1.3; // TODO: put in constant and do the same for straightright
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;

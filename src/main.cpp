@@ -119,6 +119,7 @@ LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &us
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);
 
+
 /********************
  * Action agents
 *********************/
@@ -131,12 +132,22 @@ TicTacActionAgent ticTacAgent(&state, &stepperMotor, 4);
  *********************/
 #if ROS
 void eStopCallback(const std_msgs::Bool &msg) {
-    state.emergencyStop = msg.data;
     digitalWrite(13, !digitalRead(13));
+    if(!msg.data && state.robotState == DISARMED) {
+        return;
+    }
+    state.emergencyStop = msg.data;
+    if(msg.data) {
+        state.robotState = ARMED;
+    }
+
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
     digitalWrite(13, !digitalRead(13));
+    if(state.robotState == DISARMED) {
+        return;
+    }
     if (state.ticTacState == UNSEEN) {
         state.ticTacState = CURRENT;
     }

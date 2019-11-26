@@ -20,9 +20,10 @@ void EntityDetectionUpdateAgent::update() {
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
     bool lfFrontIsEdge = lf->lineDetected2;
-
+    
+    //TODO remove
     if(lfFrontIsEdge || usSWIsEdge || usNWIsEdge || usNEIsEdge) {
-        Serial.print("EDGES ");Serial.print(usSWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
+        //Serial.print("EDGES ");Serial.print(usSWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
         this->state->emergencyStop = true;
     }
 

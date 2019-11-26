@@ -16,5 +16,7 @@ public:
 
 private:
     ButtonSensor* button;
+    bool lastButtonState;
+
 };
 #endif

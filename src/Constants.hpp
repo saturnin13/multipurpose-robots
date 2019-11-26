@@ -6,15 +6,15 @@
 
 #define ROBOT_SPEED 12
 
-#define MAIN_LOOP_DELAY 500
+#define MAIN_LOOP_DELAY 0
 
 #define DEFAULT_SAMPLING_RATE 100
-#define BUTTON_SAMPLING_RATE 10
+#define BUTTON_SAMPLING_RATE 0
 #define ULTRASONIC_SAMPLING_RATE 200
 
 #define MAX_VELOCITY 1
 
-#define US_EDGE_THRESHOLD 20
+#define US_EDGE_THRESHOLD 22
 #define US_OBSTACLE_THRESHOLD 5
 
 #define DEBUG 0
@@ -33,6 +33,7 @@
 /********************
  * Pins
 *********************/
+//TODO change NNE name
 #define US_NW_FORWARD_TRIGGER_PIN 46
 #define US_NW_FORWARD_ECHO_PIN 47
 

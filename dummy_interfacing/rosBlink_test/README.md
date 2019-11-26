@@ -74,7 +74,7 @@ source ~/catkin_ws/devel/setup.bash
 
 3. and
 ```bash
-rosrun rosserial_arduino serial_node.py_port:=/dev/ttyArduino
+rosrun rosserial_arduino serial_node.py _port:=/dev/ttyArduino _baud:=115200
 ```
 If this works, we are on track, if not, probably fix the arduino code first.
 
