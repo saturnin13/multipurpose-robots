@@ -4,6 +4,8 @@
 
 #include <Arduino.h>
 
+#define BAUD_RATE 9600
+
 #define ROBOT_SPEED 12
 
 #define MAIN_LOOP_DELAY 0

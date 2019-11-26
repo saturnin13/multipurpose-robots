@@ -255,13 +255,13 @@ void setup() {
     // Workaround for IMU
     Wire.endTransmission(true);
 
-    Serial.begin(115200);
+    Serial.begin(BAUD_RATE);
 
     if (DEBUG) {
         Serial.println("Setup done");
     }
 
-    nh.getHardware()->setBaud(115200);
+    nh.getHardware()->setBaud(BAUD_RATE);
     nh.initNode();
     nh.subscribe(estopSubscriber);
     nh.subscribe(dropSubscriber);
