@@ -10,11 +10,11 @@
 
 class ButtonUpdateAgent : public UpdateAgent {
 public:
-    ButtonUpdateAgent(State* state, ButtonSensor* b);
+    ButtonUpdateAgent(State* state, ButtonSensor* button);
 
     void update();
 
 private:
-    ButtonSensor* b;
+    ButtonSensor* button;
 };
 #endif

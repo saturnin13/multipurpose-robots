@@ -6,8 +6,6 @@ LED::LED(int redPin, int greenPin, int bluePin)
     pinMode(redPin, OUTPUT);
     pinMode(greenPin, OUTPUT);
     pinMode(bluePin, OUTPUT);
-
-    //configure(SOLID_RED);
 }
 
 void LED::configure(LEDState state) {
@@ -22,6 +20,7 @@ void LED::configure(LEDState state) {
 
     switch (state) {
     case SOLID_RED:
+        digitalWrite(redPin, HIGH);
         digitalWrite(bluePin, LOW);
         digitalWrite(greenPin, LOW);
         break;
@@ -46,7 +45,6 @@ void LED::enact() {
 
     switch (state) {
     case SOLID_RED:
-        digitalWrite(redPin, HIGH);
         break;
 
     case FLASH_BLUE:
@@ -59,7 +57,7 @@ void LED::enact() {
                 digitalWrite(bluePin, HIGH);
             }
             this->lastCycleTime = now;
-            this->cycleState = !(this->cycleState);
+            this->cycleState = !this->cycleState;
         }
 
         break;

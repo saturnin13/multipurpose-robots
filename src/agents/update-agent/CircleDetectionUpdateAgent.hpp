@@ -8,7 +8,7 @@
 
 class CircleDetectionUpdateAgent : public UpdateAgent {
 public:
-    CircleDetectionUpdateAgent(State* state, IRSensor* irNW, IRSensor* irNE, IRSensor* irSW, IRSensor* irSE, LineFollowerSensor* lf);
+    CircleDetectionUpdateAgent(State *state, IRSensor *irNW, IRSensor *irNE, IRSensor *irSW, IRSensor *irSE, LineFollowerSensor *lf);
 
     void update();
 

@@ -9,26 +9,26 @@ LineFollowerSensor::LineFollowerSensor(int pin0, int pin1, int pin2, int pin3, i
 void LineFollowerSensor::update() {
     Sensor::update();
 
-    this->lineDetected0 = ((unsigned int)analogRead(this->pin0)) < IR_THRESHOLD;
-    this->lineDetected1 = ((unsigned int)analogRead(this->pin1)) < IR_THRESHOLD;
-    this->lineDetected2 = ((unsigned int)analogRead(this->pin2)) < IR_THRESHOLD;
-    this->lineDetected3 = ((unsigned int)analogRead(this->pin3)) < IR_THRESHOLD;
-    this->lineDetected4 = ((unsigned int)analogRead(this->pin4)) < IR_THRESHOLD;
+    this->lineDetected0 = analogRead(this->pin0) < IR_THRESHOLD;
+    this->lineDetected1 = analogRead(this->pin1) < IR_THRESHOLD;
+    this->lineDetected2 = analogRead(this->pin2) < IR_THRESHOLD;
+    this->lineDetected3 = analogRead(this->pin3) < IR_THRESHOLD;
+    this->lineDetected4 = analogRead(this->pin4) < IR_THRESHOLD;
 }
 
 void LineFollowerSensor::reset() {
-    this->lineDetected0 = 0;
-    this->lineDetected1 = 0;
-    this->lineDetected2 = 0;
-    this->lineDetected3 = 0;
-    this->lineDetected4 = 0;
+    this->lineDetected0 = false;
+    this->lineDetected1 = false;
+    this->lineDetected2 = false;
+    this->lineDetected3 = false;
+    this->lineDetected4 = false;
     this->lastUpdate = 0;
 }
 
 bool LineFollowerSensor::unanimousDetection() {
-    return (lineDetected0 > IR_THRESHOLD) &&
-           (lineDetected1 > IR_THRESHOLD) &&
-           (lineDetected2 > IR_THRESHOLD) &&
-           (lineDetected3 > IR_THRESHOLD) &&
-           (lineDetected4 > IR_THRESHOLD);
+    return lineDetected0 &&
+           lineDetected1 &&
+           lineDetected2 &&
+           lineDetected3 &&
+           lineDetected4;
 }

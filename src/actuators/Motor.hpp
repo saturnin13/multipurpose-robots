@@ -17,7 +17,7 @@ class Motor : public Actuator {
     const int in2Pin;
     const int enaPin;
 
-    bool fordward;
+    bool forward;
     int pwmSpeed;
     unsigned long stopTime;
 };

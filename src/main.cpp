@@ -179,13 +179,6 @@ void updateAgents() {
 
 void enactAgents() {
     ledAgent.enact();
-
-    //wait for some time until all sensors are initialized and stuff, move this to state agent and make sure
-    //navigation, tic tac and arming will not be done
-    if(millis() - state.setupTime < START_DELAY_TIME) {
-        return;
-    }
-
     ticTacAgent.enact();
     navigationAgent.enact();
 }
@@ -217,9 +210,6 @@ void printDebug() {
 
     Serial.print(", emergencyStop: ");Serial.print(state.emergencyStop);
 
-    Serial.print(", initializationTime: ");Serial.print(state.initializationTime);
-    Serial.print(", setupTime: ");Serial.print(state.setupTime);
-
     Serial.println("}");
 
     /********************
@@ -250,21 +240,18 @@ void printDebug() {
 }
 
 void setup() {
-  
-    Wire.endTransmission(true); //otherwise it doesnt work
-    //Serial.begin(9600);
-    Serial.begin(115200);
-    nh.getHardware()->setBaud(115200);
-    nh.initNode();
-    state.robotState = DISARMED;
-    state.setupTime = millis();
-    //state.robotState = DISARMED;
     
+    // Workaround for IMU
+    Wire.endTransmission(true);
 
-    if(DEBUG) {
+    Serial.begin(115200);
+
+    if (DEBUG) {
         Serial.println("Setup done");
     }
 
+    nh.getHardware()->setBaud(115200);
+    nh.initNode();
     nh.subscribe(estopSubscriber);
     nh.subscribe(dropSubscriber);
 
@@ -293,13 +280,13 @@ void loop() {
         state.emergencyStop = false;
     }*/
     // TODO: STATEUPDATEAGENT
-    if(state.emergencyStop) {
+    if (state.emergencyStop) {
         state.robotState = DISARMED;
     }
 
-    if(DEBUG) {
+    if (DEBUG) {
         printDebug();
+        delay(MAIN_LOOP_DELAY);
     }
 
-    delay(MAIN_LOOP_DELAY);
 }

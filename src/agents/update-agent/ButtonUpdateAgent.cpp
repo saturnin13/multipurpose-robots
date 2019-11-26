@@ -1,32 +1,27 @@
 #include "ButtonUpdateAgent.hpp"
 
-
-ButtonUpdateAgent::ButtonUpdateAgent(State* state, ButtonSensor* b): UpdateAgent(state), b(b) {
-
-}
+ButtonUpdateAgent::ButtonUpdateAgent(State *state, ButtonSensor *button)
+    : UpdateAgent(state), button(button) {}
 
 void ButtonUpdateAgent::update() {
 
-    //TODO in state agent
-    unsigned long now = millis();
-
-    if(this->b->pressed && this->state->robotState == DISARMED) {
-        //armed so the led changes state
+    if (this->button->pressed && this->state->robotState == DISARMED) {
+        // armed so the led changes state
         Serial.println("ARMED");
         this->state->robotState = ARMED;
         return;
     }
 
-
-
-    if(now - this->state->initializationTime > START_DELAY_TIME && this->state->robotState == DISARMED && this->state->finalTable != COMPLETED) {
-        //TODO: make that the motors start now and not before -> bool moveRobot = true;
+    if (this->state->robotState == DISARMED &&
+        this->state->finalTable != COMPLETED) {
+        // TODO: make that the motors start now and not before -> bool moveRobot
+        // = true;
     }
 
-    //move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
-    if(this->b->pressed && this->state->emergencyStop) {
+    // move this to own button or delete it for competition, but it is nice for
+    // testing, just quick fix for now
+    if (this->button->pressed && this->state->emergencyStop) {
         Serial.println("ESTOP RESET");
         this->state->emergencyStop = false;
     }
-
 }

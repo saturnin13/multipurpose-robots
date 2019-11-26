@@ -28,9 +28,6 @@ struct State {
     int totalTurnedQuadrants = 0;
 
     bool emergencyStop = false;
-
-    long initializationTime; // TODO: move inside the class that will use them
-    long setupTime; // TODO: move inside the class that will use them
 };
 
 #endif
