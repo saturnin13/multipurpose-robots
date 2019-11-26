@@ -131,29 +131,23 @@ TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
  *********************/
 #if ROS
 void eStopCallback(const std_msgs::Bool &msg) {
-    digitalWrite(13, !digitalRead(13));
-    if(!msg.data && state.robotState == DISARMED) {
+    bool stop = msg.data;
+
+    if (!stop && state.robotState == DISARMED) {
         return;
     }
 
-    if(msg.data) {
-        Serial.println("ESTOP RESET by ROS");
+    if (stop) {
         state.emergencyStop = msg.data;
         state.robotState = ARMED;
     } else {
-        Serial.println("ESTOP by ROS");
         state.emergencyStop = msg.data;
         state.robotState = DISARMED;
     }
-
 }
 
 void dropCallback(const std_msgs::Empty &msg) {
-    digitalWrite(13, !digitalRead(13));
-    if(state.robotState == DISARMED) {
-        return;
-    }
-    if (state.ticTacState == UNSEEN) {
+    if (state.robotState != DISARMED && state.ticTacState == UNSEEN) {
         state.ticTacState = CURRENT;
     }
 }
