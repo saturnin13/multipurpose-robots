@@ -290,7 +290,7 @@ void loop() {
     /*if(button.pressed && state.emergencyStop) {
         state.emergencyStop = false;
     }*/
-    // TODO: STATEUPDATEAGENT
+    // TODO: EMERGENCY_UPDATE_AGENT
     if (state.emergencyStop) {
         state.robotState = DISARMED;
     }
