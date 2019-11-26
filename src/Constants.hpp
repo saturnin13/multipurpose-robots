@@ -23,8 +23,6 @@
 
 #define DEGREES_CIRCLES 360
 
-#define IR_LF_THRESHOLD 750
-
 /********************
  * ROS
  *********************/

@@ -295,18 +295,7 @@ void loop() {
     // 3. Make action agents carry out actions
     enactAgents();
 
-<<<<<<< Updated upstream
-    // TODO: test button instead of this below this comment
-    /*if(button.pressed) {
-        state.robotState = ARMED;
-    }*/
-    /*if(button.pressed && state.emergencyStop) {
-        state.emergencyStop = false;
-    }*/
-    // TODO: EMERGENCY_UPDATE_AGENT
-=======
     // TODO: STATEUPDATEAGENT
->>>>>>> Stashed changes
     if (state.emergencyStop) {
         state.robotState = DISARMED;
     }

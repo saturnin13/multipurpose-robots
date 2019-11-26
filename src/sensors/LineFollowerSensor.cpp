@@ -4,7 +4,7 @@
 // Sampling rate in milliseconds
 #define SAMPLING_RATE 150
 
-#define IR_THRESHOLD 500
+#define IR_LF_THRESHOLD 750
 
 LineFollowerSensor::LineFollowerSensor(int pin0, int pin1, int pin2, int pin3, int pin4)
     : pin0(pin0), pin1(pin1), pin2(pin2), pin3(pin3), pin4(pin4) {
