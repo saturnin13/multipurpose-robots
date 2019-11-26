@@ -7,6 +7,7 @@
 #define BAUD_RATE 9600
 
 #define ROBOT_SPEED 12
+#define RATIO_FAST_TO_SLOW_MOTOR 1.3
 
 #define MAIN_LOOP_DELAY 0
 

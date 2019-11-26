@@ -145,7 +145,7 @@ void NavigationActionAgent::goReverse() {
 
 void NavigationActionAgent::goStraightLeft() {
     // Go straight forward but deviate to the left
-    this->leftSpeed = ROBOT_SPEED / 1.3; // TODO: put in constant and do the same for straightright
+    this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; // TODO: put in constant and do the same for straightright
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
@@ -170,7 +170,7 @@ void NavigationActionAgent::turnLeftSpot() {
 void NavigationActionAgent::goStraightRight() {
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = ROBOT_SPEED / 2; 
+    this->rightSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR;
     this->leftForward = true;
     this->rightForward = true;
 }
