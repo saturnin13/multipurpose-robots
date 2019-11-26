@@ -3,8 +3,8 @@
 #include "EntityDetectionUpdateAgent.hpp"
 
 
-EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, LineFollowerSensor* lf, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNWForward, UltrasonicSensor* usNForward,
-    UltrasonicSensor* usNNEForward, UltrasonicSensor* usNE): UpdateAgent(state), lf(lf), usSW(usSW), usNW(usNW), usNNWForward(usNNWForward), usNForward(usNForward), usNNEForward(usNNEForward), usNE(usNE) {
+EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNWForward, UltrasonicSensor* usNForward,
+    UltrasonicSensor* usNNEForward, UltrasonicSensor* usNE): UpdateAgent(state), usSW(usSW), usNW(usNW), usNNWForward(usNNWForward), usNForward(usNForward), usNNEForward(usNNEForward), usNE(usNE) {
 
 }
 
@@ -15,15 +15,15 @@ void EntityDetectionUpdateAgent::update() {
     bool usNIsObstacle = false;//usNForward->distance < US_OBSTACLE_THRESHOLD;
     bool usNNEIsObstacle = false;//usNNEForward->distance < US_OBSTACLE_THRESHOLD;
 
-    bool usSWIsEdge = usSW->distance > US_EDGE_THRESHOLD;
-    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
-    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
-
-    bool lfFrontIsEdge = lf->lineDetected2;
+    //TODO improve outlier detection (here every value over US_EDGE_MAX will not be considered)
+    bool usSWIsEdge = usSW->distance > US_EDGE_THRESHOLD && usSW->distance < US_EDGE_MAX;
+    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD && usNW->distance < US_EDGE_MAX;
+    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD && usNE->distance < US_EDGE_MAX;
     
     //TODO remove
-    if(lfFrontIsEdge || usSWIsEdge || usNWIsEdge || usNEIsEdge) {
-        //Serial.print("EDGES ");Serial.print(usSWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
+    if(usSWIsEdge || usNWIsEdge || usNEIsEdge) {
+        Serial.println("EDGE DETECTED");
+        Serial.print("EDGE (SW,NW,NE): ");Serial.print(usSWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
         this->state->emergencyStop = true;
     }
 

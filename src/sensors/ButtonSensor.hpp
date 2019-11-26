@@ -15,8 +15,8 @@ class ButtonSensor : public Sensor {
 
   private:
     const int pin;
-    unsigned long lastDebounceTime = 0;
-    int previousButtonState = -1;
+    unsigned long lastDebounceTime;
+    int previousButtonState;
 
 };
 

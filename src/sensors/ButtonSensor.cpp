@@ -9,6 +9,8 @@
 
 ButtonSensor::ButtonSensor(int pin) : pin(pin) {
     pinMode(pin, INPUT_PULLUP);
+    this->lastDebounceTime = 0;
+    this->previousButtonState = -1;
 }
 
 void ButtonSensor::update() {
@@ -24,9 +26,13 @@ void ButtonSensor::update() {
 
     if (this->lastDebounceTime != 0 && (now - this->lastDebounceTime) > DEBOUNCE_DELAY) {
         // The same button value has been held for longer than the debounce delay.
+        //Serial.println("UPDATING BUTTON");
+        //Serial.println(this->pressed);
         this->pressed = (currentState == LOW) ? true : false;
-        this->lastDebounceTime = 0;
+        this->lastDebounceTime = millis();
     }
+
+    //TODO reset and/ or estop functionality
 
     this->previousButtonState = currentState;
     this->lastUpdate = now;

@@ -19,11 +19,11 @@ void LineFollowerSensor::update() {
         return;
     }
 
-    this->lineDetected0 = analogRead(this->pin0) < IR_THRESHOLD;
-    this->lineDetected1 = analogRead(this->pin1) < IR_THRESHOLD;
-    this->lineDetected2 = analogRead(this->pin2) < IR_THRESHOLD;
-    this->lineDetected3 = analogRead(this->pin3) < IR_THRESHOLD;
-    this->lineDetected4 = analogRead(this->pin4) < IR_THRESHOLD;
+    this->lineDetected0 = analogRead(this->pin0) < IR_LF_THRESHOLD;
+    this->lineDetected1 = analogRead(this->pin1) < IR_LF_THRESHOLD;
+    this->lineDetected2 = analogRead(this->pin2) < IR_LF_THRESHOLD;
+    this->lineDetected3 = analogRead(this->pin3) < IR_LF_THRESHOLD;
+    this->lineDetected4 = analogRead(this->pin4) < IR_LF_THRESHOLD;
     this->lastUpdate = now;
 }
 

@@ -28,6 +28,8 @@ struct State {
     int totalTurnedQuadrants = 0;
 
     bool emergencyStop = false;
+
+    bool move = true;
 };
 
 #endif

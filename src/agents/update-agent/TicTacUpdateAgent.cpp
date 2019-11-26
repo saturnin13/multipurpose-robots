@@ -14,10 +14,10 @@ void TicTacUpdateAgent::update() {
         return;
 
     case CURRENT:
-        auto now = millis();
+        unsigned long now = millis();
 
-        if (this->timeDropStart == 0) {
-            this->timeDropStart = now;
+        if(this->timeDropStart == 0) {
+            this->state->ticTacState = CURRENT;
         }
 
         if (now - timeDropStart > TOTAL_DROPPING_TIME) {

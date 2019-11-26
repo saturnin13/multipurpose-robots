@@ -98,7 +98,7 @@ UltrasonicSensor usNEForward(US_NE_FORWARD_TRIGGER_PIN, US_NE_FORWARD_ECHO_PIN);
 UltrasonicSensor usNForward(US_N_FORWARD_TRIGGER_PIN, US_N_FORWARD_ECHO_PIN);
 UltrasonicSensor usNNWDown(US_NNW_DOWN_TRIGGER_PIN, US_NNW_DOWN_ECHO_PIN);
 UltrasonicSensor usNNEDown(US_NNE_DOWN_TRIGGER_PIN, US_NNE_DOWN_ECHO_PIN);
-UltrasonicSensor usNWDown(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
+UltrasonicSensor usSWDown(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
 
 /********************
  * Actuators
@@ -114,18 +114,17 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 AnglingUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
 CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irNW, &irSE, &lf);
-EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &lf, &usNWForward, &usNNWDown, &usNWForward, &usNForward, &usNEForward, &usNNEDown);
+EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usNForward, &usNEForward, &usNNEDown);
 LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);
-
 
 /********************
  * Action agents
 *********************/
 LEDActionAgent ledAgent(&state, &led);
 NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
-TicTacActionAgent ticTacAgent(&state, &stepperMotor, 4);
+TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
 
 /********************
  * ROS
@@ -136,9 +135,14 @@ void eStopCallback(const std_msgs::Bool &msg) {
     if(!msg.data && state.robotState == DISARMED) {
         return;
     }
-    state.emergencyStop = msg.data;
+
     if(msg.data) {
+        Serial.println("ESTOP RESET by ROS");
+        state.emergencyStop = msg.data;
         state.robotState = ARMED;
+    } else {
+        Serial.println("ESTOP by ROS");
+        state.emergencyStop = msg.data;
     }
 
 }
@@ -159,6 +163,7 @@ ros::Subscriber<std_msgs::Empty> dropSubscriber(ROS_DROP_TOPIC, &dropCallback);
 #endif
 
 void updateSensors() {
+
     button.update();
 
     imu.update();
@@ -170,12 +175,13 @@ void updateSensors() {
 
     lf.update();
 
-    usNWForward.update();
-    usNForward.update();
-    usNEForward.update();
+
+    //usNWForward.update();
+    //usNForward.update();
+    //usNEForward.update();
     usNNWDown.update();
     usNNEDown.update();
-    usNWForward.update();
+    usSWDown.update();
 }
 
 void updateAgents() {
@@ -251,6 +257,12 @@ void printDebug() {
 }
 
 void setup() {
+
+    //TODO: testing hacks
+    //state.ticTacState = CURRENT;
+    state.move = true;
+    state.lineFollowingTable = COMPLETED;
+    state.finalTable = CURRENT;
     
     // Workaround for IMU
     Wire.endTransmission(true);
@@ -283,6 +295,7 @@ void loop() {
     // 3. Make action agents carry out actions
     enactAgents();
 
+<<<<<<< Updated upstream
     // TODO: test button instead of this below this comment
     /*if(button.pressed) {
         state.robotState = ARMED;
@@ -291,12 +304,23 @@ void loop() {
         state.emergencyStop = false;
     }*/
     // TODO: EMERGENCY_UPDATE_AGENT
+=======
+    // TODO: STATEUPDATEAGENT
+>>>>>>> Stashed changes
     if (state.emergencyStop) {
         state.robotState = DISARMED;
     }
 
     if (DEBUG) {
-        printDebug();
+        unsigned int now = millis();
+        if(now % 1000 > 1001) {
+            //printDebug();
+            Serial.print(lf.lineDetected0);Serial.print(" , ");
+            Serial.print(lf.lineDetected1);Serial.print(" , ");
+            Serial.print(lf.lineDetected2);Serial.print(" , ");
+            Serial.print(lf.lineDetected3);Serial.print(" , ");
+            Serial.print(lf.lineDetected4);Serial.println(" , ");
+        }
         delay(MAIN_LOOP_DELAY);
     }
 

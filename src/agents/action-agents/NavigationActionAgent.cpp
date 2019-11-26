@@ -17,13 +17,16 @@ void NavigationActionAgent::enact() {
 
     // This agent is only active if we are armed and not in an emergency
     if(this->state->emergencyStop) {
-        Serial.println("ESTOP");
+        Serial.println("NO MOVING: ESTOP");
         stopMoving();
     } else if(this->state->robotState != ARMED) {
-        Serial.println("NOT Armed");
+        Serial.println("NO MOVING: NOT Armed");
+        stopMoving();
+    } else if(!this->state->move) {
+        //Serial.println("NO MOVING: TESTING");
         stopMoving();
     } else if(this->state->finalTable == COMPLETED) {
-        Serial.println("COMPLETED");
+        Serial.println("NO MOVING: COMPLETED");
         stopMoving();
     } else {
         // The order of the condition is representative of the priority of actions
@@ -52,8 +55,11 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
+    unsigned int now = millis();
+    if(now % 1000 > 990) {
     Serial.print("LEFT: ");Serial.print(this->leftSpeed);
     Serial.print(" , RIGHT: ");Serial.println(this->rightSpeed);
+    }
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -90,10 +96,13 @@ void NavigationActionAgent::configCircleDirection() {
 
 void NavigationActionAgent::configLineFollowing() {
     if(this->state->lineState == LEFT) {
+        Serial.println("GOING LEFT");
         turnLeft(); //better turnLeftStraight
     } else if(this->state->lineState == RIGHT) {
+        Serial.println("GOING RIGHT");
         turnRight(); //better turnRightStraight
     } else if(this->state->lineState == CENTER) {
+        Serial.println("GOING CENTER");
         goStraight();
     } else {
         stopMoving(); //todo something else, otherwise dead lock
@@ -169,16 +178,16 @@ void NavigationActionAgent::turnLeftSpot() {
 
 void NavigationActionAgent::goStraightRight() {
     // Go straight forward but deviate to the left
-    this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR;
+    this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; 
+    this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
 }
 
 void NavigationActionAgent::turnRight() {
     // Turn the robot right
-    this->leftSpeed = 0; 
-    this->rightSpeed = ROBOT_SPEED; 
+    this->leftSpeed = ROBOT_SPEED; 
+    this->rightSpeed = 0; 
     this->leftForward = true;
     this->rightForward = true;
 }

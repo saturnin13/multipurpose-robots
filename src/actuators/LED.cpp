@@ -20,7 +20,6 @@ void LED::configure(LEDState state) {
 
     switch (state) {
     case SOLID_RED:
-        digitalWrite(redPin, HIGH);
         digitalWrite(bluePin, LOW);
         digitalWrite(greenPin, LOW);
         break;
@@ -45,6 +44,7 @@ void LED::enact() {
 
     switch (state) {
     case SOLID_RED:
+        digitalWrite(redPin, HIGH);
         break;
 
     case FLASH_BLUE:

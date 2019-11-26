@@ -27,16 +27,21 @@ void LineDetectionUpdateAgent::update() {
         state->lineFollowingTable = CURRENT;
 
         // Updating the line state
-        if (lf0) {
-            state->lineState = LEFT;
-        } else if (lf1 && !lf2) {
-            state->lineState = LEFT;
-        } else if (lf2) {
+        if (lf2) {
             state->lineState = CENTER;
-        } else if (lf3 && !lf2) {
+            //Serial.println("CENTER");
+        } else if (lf0) { //TODO lf1 and lf2 should be left as well: && !lf2
+            state->lineState = LEFT;
+            //Serial.println("LEFT");
+        } else if (lf1) {
+            state->lineState = LEFT;
+            //Serial.println("LEFT");
+        } else if (lf3) { // && !lf2
             state->lineState = RIGHT;
+            //Serial.println("RIGHT");
         } else if (lf4) {
             state->lineState = RIGHT;
+            //Serial.println("RIGHT");
         } else {
             Serial.println("Unexpected state in LineDetectionUpdateAgent");
         }
