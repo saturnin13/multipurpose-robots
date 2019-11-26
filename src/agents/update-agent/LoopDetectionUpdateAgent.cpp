@@ -4,7 +4,7 @@
 
 #define DEGREE_QUADRANT 90
 
-LoopDetectionUpdateAgent::LoopDetectionUpdateAgent(State* state, IMUSensor* imu): UpdateAgent(state), imu(imu) {
+LoopDetectionUpdateAgent::LoopDetectionUpdateAgent(State *state, IMUSensor *imu): UpdateAgent(state), imu(imu) {
     quadrant = 0;
 }
 

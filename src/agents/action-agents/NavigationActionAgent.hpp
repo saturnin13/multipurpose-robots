@@ -1,24 +1,24 @@
 #ifndef MULTIPURPOSE_ROBOTS_NAVIGATIONACTIONAGENT_H
 #define MULTIPURPOSE_ROBOTS_NAVIGATIONACTIONAGENT_H
 
-#include "../../actuators/Motor.hpp"
-#include "ActionAgent.hpp"
-#include "../../state/State.hpp"
 #include "../../Constants.hpp"
+#include "../../actuators/Motor.hpp"
+#include "../../state/State.hpp"
+#include "ActionAgent.hpp"
 
 class NavigationActionAgent : public ActionAgent {
-public:
-    NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor);
+  public:
+    NavigationActionAgent(State *state, Motor *leftMotor, Motor *rightMotor);
 
     void enact();
-    
-private:
-    Motor* leftMotor;
-    Motor* rightMotor;
+
+  private:
+    Motor *leftMotor;
+    Motor *rightMotor;
 
     // Robot speed and orientation
-    int leftSpeed; 
-    int rightSpeed; 
+    int leftSpeed;
+    int rightSpeed;
     bool leftForward;
     bool rightForward;
 

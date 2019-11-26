@@ -4,10 +4,11 @@
 #include "../state/State.hpp"
 
 class Agent {
-public:
-    Agent(State* state);
-protected:
-    State* state;
+  public:
+    Agent(State *state);
+
+  protected:
+    State *state;
 };
 
 #endif

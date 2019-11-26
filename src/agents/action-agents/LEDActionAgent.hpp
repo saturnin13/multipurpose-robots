@@ -2,17 +2,17 @@
 #define MULTIPURPOSE_ROBOTS_LEDACTIONAGENT_H
 
 #include "../../actuators/LED.hpp"
-#include "ActionAgent.hpp"
 #include "../../state/State.hpp"
+#include "ActionAgent.hpp"
 
 class LEDActionAgent : public ActionAgent {
-public:
-    LEDActionAgent(State* state, LED* led);
+  public:
+    LEDActionAgent(State *state, LED *led);
 
     void enact();
-    
-private:
-    LED* led;
+
+  private:
+    LED *led;
 };
 
 #endif
