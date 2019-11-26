@@ -16,14 +16,13 @@ public:
     void update();
 
 private:
+    LineFollowerSensor* lf;
     UltrasonicSensor* usSW;
     UltrasonicSensor* usNW;
     UltrasonicSensor* usNNWForward;
     UltrasonicSensor* usNForward;
     UltrasonicSensor* usNNEForward;
     UltrasonicSensor* usNE;
-
-    LineFollowerSensor* lf;
 
 };
 
