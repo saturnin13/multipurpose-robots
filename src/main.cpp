@@ -143,6 +143,7 @@ void eStopCallback(const std_msgs::Bool &msg) {
     } else {
         Serial.println("ESTOP by ROS");
         state.emergencyStop = msg.data;
+        state.robotState = DISARMED;
     }
 
 }
@@ -173,7 +174,10 @@ void updateSensors() {
     irNW.update();
     irSE.update();
 
-    lf.update();
+    lf.update();    // TODO: STATEUPDATEAGENT
+    if (state.emergencyStop) {
+        state.robotState = DISARMED;
+    }
 
 
     //usNWForward.update();
@@ -294,11 +298,6 @@ void loop() {
     
     // 3. Make action agents carry out actions
     enactAgents();
-
-    // TODO: STATEUPDATEAGENT
-    if (state.emergencyStop) {
-        state.robotState = DISARMED;
-    }
 
     if (DEBUG) {
         unsigned int now = millis();
