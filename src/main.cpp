@@ -31,51 +31,46 @@
 #include "Constants.hpp"
 
 
-/* TODO List:
-    TODO: if not armed, dont change states, otherwise we will detect inclines before...
-    DISCUSS: LineDetectionAgent l33
-    DISCUSS: difference between armed (LED) and move (3 sec in the beginning): new state
+/* List of things we need to consider:
+
     DISUCSS: i think we need to drastically improve the
             edge detection (on the hardware side: MDF for positioning of US, try IR as backup sensor) and
             the navigation (one the software side): reverse back from edge and turn then
-    TODO: integrate ros stuff
+
+    Misc:
+        DONE -> if not armed, dont change states, otherwise we will detect inclines before...
+        DONE -> LineDetectionAgent l33
+        DONE -> difference between armed (LED) and move (3 sec in the beginning): new state
 
     UpdateAgents:
-    IDEA: StateUpdateAgent, makes sure robot is armed at right point, sets time to now,
-        handles everything the others should not do +  stuff from button agent + reset &init function for state
+    IDEA -> StateUpdateAgent, makes sure robot is armed at right point, stuff from button agent + reset &init function for state
+    OPTIONAL -> add IR sensors for edge detection (backup)
 
         DONE -> (EdgeDetection, ObstacleDetection) -> EntityDetection
         DONE -> LineDetection
         DONE -> CircleDetection
         DONE -> LoopDetection
-        DOING: E-stopRequest (-> ROS)
-    TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):
-        //make constant for time to wait for drop
-        //let tictacupdateagent time that and set tictacs then to dropped
-        DOING -> TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):
-    OPTIONAL -> add IR sensors for edge detection (backup)
+        DONE -> E-stopRequest (-> ROS)
+        DONE -> TicTacUpdateAgent: TicTacDropRequest (->ROS) + Update TicTacState (Dropping, Dropped):
 
     ActionAgents:
-    TODO: ROS debugging agent, send state.toString all x seconds or if something changes
+    TODO -> ROS debugging agent, send state.toString all x seconds or if something changes
+    OPTIONAL -> display agent
 
         DONE -> TicTacDropper +  reload mode
         DONE -> Driver (Navigation,     - initial search direction (i.e. which line to follow first)) + return if disarmed
         DONE -> Led Agent
-    Optional -> display agent
-    ROS debugging agent, send state.toString all x seconds or if something changes
-
 
     Actuators:
-        DONE -> stepper motor
-        DONE -> motor
     OPTIONAL -> display
 
+        DONE -> stepper motor
+        DONE -> motor
+
     Sensor:
-
-    TODO: Error correction: weighted average values over several measurements, make sure no negative distances occur
-    DISCUSS: problem with detection speed for edges (if we average over several values, new things need time to take effect?)
-
-    OPTIONAL: Update everything at once
+    TODO -> Error correction: weighted average values over several measurements, make sure no negative distances occur
+    DISCUSS -> problem with detection speed for edges (if we average over several values, new things need time to take effect?)
+    OPTIONAL -> Update everything at once
     */
 
 /********************
@@ -210,7 +205,7 @@ void printDebug() {
 
     Serial.print("robotState: ");Serial.print(state.robotState);
 
-    Serial.print("westEntity: ");Serial.print(state.westEntity);
+    Serial.print(", westEntity: ");Serial.print(state.westEntity);
     Serial.print(", northEastEntity: ");Serial.print(state.northEastEntity);
     Serial.print(", northEntity: ");Serial.print(state.northEntity);
     Serial.print(", northWestEntity: ");Serial.print(state.northWestEntity);
@@ -299,12 +294,11 @@ void loop() {
 
     if (DEBUG) {
         unsigned int now = millis();
-        if(now % 1000 > 900) {
-            //printDebug();
-            Serial.print(usNEForward.distance);Serial.print(" , ");
-            Serial.print(usNWForward.distance);Serial.print(" , ");
-            Serial.print(usWForward.distance);Serial.println(" ");
-        }
+            printDebug();
+            //Serial.print(usNEForward.distance);Serial.print(" , ");
+            //Serial.print(usNWForward.distance);Serial.print(" , ");
+            //Serial.print(usWForward.distance);Serial.println(" ");
+
         delay(MAIN_LOOP_DELAY);
     }
 

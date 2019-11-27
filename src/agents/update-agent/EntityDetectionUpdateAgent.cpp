@@ -19,11 +19,11 @@ void EntityDetectionUpdateAgent::update() {
     bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
     
-    //TODO remove
+    //TODO remove when edge detection works
     if(usWIsEdge || usNWIsEdge || usNEIsEdge) {
-        Serial.println("EDGE DETECTED");
-        Serial.print("EDGE (SW,NW,NE): ");Serial.print(usWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
-        this->state->emergencyStop = true;
+        //Serial.println("EDGE DETECTED");
+        //Serial.print("EDGE (SW,NW,NE): ");Serial.print(usWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
+        //this->state->emergencyStop = true;
     }
 
     // Checking the W side

@@ -8,8 +8,7 @@
 #define TIME_BETWEEN_DROPS 1000
 #define DELTA_STEPS_BACKWARDS 20
 
-TicTacActionAgent::TicTacActionAgent(State *state, StepperMotor *stepperMotor,
-                                     int numberDrops)
+TicTacActionAgent::TicTacActionAgent(State *state, StepperMotor *stepperMotor, int numberDrops)
     : ActionAgent(state), stepperMotor(stepperMotor), numberDrops(numberDrops) {
     this->stepsToStartPosition = 0; // assumes start state is all the way back
     this->numberTicTacs = NUMBER_TICTACS;

@@ -35,13 +35,10 @@ void LineDetectionUpdateAgent::update() {
         state->lineFollowingTable = CURRENT;
 
         // Updating the line state
-        if (lf2) {
-            state->lineState = CENTER;
-            if(PRINT_LINE_STATE) {Serial.println("CENTER");}
-        } else if (lf0) {
+        if (lf0) {
             state->lineState = LEFT;
             if(PRINT_LINE_STATE) {Serial.println("LEFT");}
-        } else if (lf1) {
+        } else if (lf) {
             state->lineState = LEFT;
             if(PRINT_LINE_STATE) {Serial.println("LEFT");}
         } else if (lf3) {
@@ -50,6 +47,9 @@ void LineDetectionUpdateAgent::update() {
         } else if (lf4) {
             state->lineState = RIGHT;
             if(PRINT_LINE_STATE) {Serial.println("RIGHT");}
+        } else if (lf2) {
+            state->lineState = CENTER;
+            if(PRINT_LINE_STATE) {Serial.println("CENTER");}
         } else {
             Serial.println("Unexpected state in LineDetectionUpdateAgent");
         }

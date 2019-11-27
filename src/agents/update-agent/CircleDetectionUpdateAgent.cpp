@@ -17,8 +17,6 @@ void CircleDetectionUpdateAgent::update() {
         return;
     }
 
-    //Serial.print("IR: ");Serial.println(irSW->lineDetected);
-
     //get sensor values
     bool nw = !irNW->lineDetected;
     bool ne = !irNE->lineDetected;
@@ -27,7 +25,7 @@ void CircleDetectionUpdateAgent::update() {
     bool n = lf->unanimousDetection();
     unsigned int now = millis();
 
-    if(now % 1000 > 1) {Serial.print(nw);Serial.print(n);Serial.print(ne);Serial.print(sw);Serial.println(se);}
+    if(now % 1000 > 900 && PRINTING_CIRCLE_ORIENTATION) {Serial.print(nw);Serial.print(n);Serial.print(ne);Serial.print(sw);Serial.println(se);}
     //if there is an edge on the left, the IR sensors on the left are not useful as they might detect not existing lines
     if(this->state->northWestEntity == EDGE) {
         nw = false;
@@ -53,12 +51,11 @@ void CircleDetectionUpdateAgent::update() {
     //if every sensor detects a black surface, we are in the circle and have therefore the final table
     if(nw && n && ne && sw && se) {
         //DISCUSS: start timer here and stop after some time passed (stopping in the middle of the table
+        //maybe make timer for time on circle (drive forward) and after leaving the circle reverse for half the time?
 
         //this means we finished the last table, so we are done
-        this->state->finalTable = COMPLETED;
-
         if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("IN CIRLCE :)");}
-
+        this->state->finalTable = COMPLETED;
     //the circle is in the corresponding direction if the opposing IR Sensors do not detect values
     } else if(nw && n && ne && !sw && !se) {
         if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS N");}

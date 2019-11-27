@@ -2,7 +2,7 @@
 #include "ActionAgent.hpp"
 #include <Arduino.h>
 
-#define STATE_PRINTING 0
+#define STATE_PRINTING 1
 
 
 NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor)
@@ -52,6 +52,7 @@ void NavigationActionAgent::enact() {
             configNorthEastEntity();
 
         } else if(this->state->westEntity != FLAT) {
+            if(STATE_PRINTING){Serial.println("AVOIDING W");}
             // Avoid the west entity
             configWestEntity();
 
@@ -99,11 +100,11 @@ void NavigationActionAgent::configCircleDirection() {
     if(this->state->circleDirection == WEST) {
         turnLeft();
     } else if(this->state->circleDirection == SOUTHWEST) {
-        turnLeft(); //better turnLeftSpot
+        turnLeftSpot();
     } else if(this->state->circleDirection == SOUTH) {
-        turnRight(); //better goReverse
+        goReverse();
     } else if(this->state->circleDirection == SOUTHEAST) {
-        turnRight(); //better turnRightSpot
+        turnRightSpot();
     } else if(this->state->circleDirection == EAST) {
         turnRight();
     } else if(this->state->circleDirection == NORTHEAST) {
@@ -113,22 +114,22 @@ void NavigationActionAgent::configCircleDirection() {
     } else if(this->state->circleDirection == NORTHWEST) {
         goStraightLeft();
     } else {
-        stopMoving();
+        configureDefault(); //DISCUSS: what should happen at this point? stopping is probably not a good idea
     }
 }
 
 void NavigationActionAgent::configLineFollowing() {
     if(this->state->lineState == LEFT) {
         Serial.println("GOING LEFT");
-        turnLeft(); //better turnLeftStraight
+        turnLeft();
     } else if(this->state->lineState == RIGHT) {
         Serial.println("GOING RIGHT");
-        turnRight(); //better turnRightStraight
+        turnRight();
     } else if(this->state->lineState == CENTER) {
         Serial.println("GOING CENTER");
         goStraight();
     } else {
-        stopMoving(); //TODO something else, otherwise dead lock
+        goReverse(); //DISCUSS: what should happen at this point? stopping is probably not a good idea (maybe set max speed lower afterwards?)
     }
 }
 
@@ -142,12 +143,12 @@ void NavigationActionAgent::configNorthWestEntity() {
 }
 
 void NavigationActionAgent::configNorthEntity() {
-    // TODO: will this work? less naive implementation
-    turnLeft();
+    // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
+    turnRight();
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
-    // TODO: if there is something NE, we wont fit between less naive implementation
+    // TODO: if there is something NE, we wont fit between; less naive implementation, maybe Spot?
     turnLeft();
 }
 
@@ -166,6 +167,7 @@ void NavigationActionAgent::configureDefault() {
  * Basic navigation direction functions
 *********************/
 void NavigationActionAgent::goStraight() {
+    if(STATE_PRINTING){Serial.println("GO Straight");}
     // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -174,6 +176,7 @@ void NavigationActionAgent::goStraight() {
 }
 
 void NavigationActionAgent::goReverse() {
+    if(STATE_PRINTING){Serial.println("GO Reverse");}
     // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -182,6 +185,7 @@ void NavigationActionAgent::goReverse() {
 }
 
 void NavigationActionAgent::goStraightLeft() {
+    if(STATE_PRINTING){Serial.println("GO Straight Left");}
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; // TODO: put in constant and do the same for straightright
     this->rightSpeed = ROBOT_SPEED; 
@@ -190,6 +194,7 @@ void NavigationActionAgent::goStraightLeft() {
 }
 
 void NavigationActionAgent::turnLeft() {
+    if(STATE_PRINTING){Serial.println("GO Left");}
     // Turn the robot left
     this->leftSpeed = 0; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -198,6 +203,7 @@ void NavigationActionAgent::turnLeft() {
 }
 
 void NavigationActionAgent::turnLeftSpot() {
+    if(STATE_PRINTING){Serial.println("GO Left Spot");}
     // Turn the robot left on the spot
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -206,6 +212,7 @@ void NavigationActionAgent::turnLeftSpot() {
 }
 
 void NavigationActionAgent::goStraightRight() {
+    if(STATE_PRINTING){Serial.println("GO Straight Right");}
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -214,6 +221,7 @@ void NavigationActionAgent::goStraightRight() {
 }
 
 void NavigationActionAgent::turnRight() {
+    if(STATE_PRINTING){Serial.println("GO Right");}
     // Turn the robot right
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = 0; 
@@ -222,6 +230,7 @@ void NavigationActionAgent::turnRight() {
 }
 
 void NavigationActionAgent::turnRightSpot() {
+    if(STATE_PRINTING){Serial.println("GO Right Spot");}
     // Turn the robot right on the spot
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -230,6 +239,7 @@ void NavigationActionAgent::turnRightSpot() {
 }
 
 void NavigationActionAgent::stopMoving() {
+    if(STATE_PRINTING){Serial.println("Stop moving");}
     // Stop the robot
     this->leftSpeed = 0; 
     this->rightSpeed = 0; 

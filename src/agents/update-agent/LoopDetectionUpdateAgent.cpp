@@ -27,5 +27,5 @@ void LoopDetectionUpdateAgent::update() {
         }
     }
 
-    state->totalTurnedQuadrants = DEGREE_QUADRANT * quadrant;
+    state->totalTurnedQuadrants = quadrant;
 }
