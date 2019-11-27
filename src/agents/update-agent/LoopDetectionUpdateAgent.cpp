@@ -19,10 +19,12 @@ void LoopDetectionUpdateAgent::update() {
         
         // Case where the quadrant is bigger than the previous one
         if(newAngle - previousQuadrant == angleDifference) {
+            this->previousQuadrant = newAngle;
             quadrant++;
 
         // Case where the quadrant is smaller than the previous one
         } else if(DEGREES_CIRCLES - abs(newAngle - previousQuadrant) == angleDifference) {
+            this->previousQuadrant = newAngle;
             quadrant--;
         }
     }
