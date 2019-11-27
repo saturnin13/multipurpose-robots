@@ -14,7 +14,6 @@
 #define MAX_VELOCITY 1
 
 #define US_EDGE_THRESHOLD 22
-#define US_EDGE_MAX 1000
 #define US_OBSTACLE_THRESHOLD 5
 
 #define DEBUG 1

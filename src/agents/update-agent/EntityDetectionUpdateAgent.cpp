@@ -11,15 +11,13 @@ EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicS
 void EntityDetectionUpdateAgent::update() {
 
     // Get sensor values
-    //DISCUSS: what if a value is suddenly 0?
     bool usNNWIsObstacle = usNNWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usWIsObstacle = usWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usNNEIsObstacle = usNNEForward->distance < US_OBSTACLE_THRESHOLD;
 
-    //TODO improve outlier detection (here every value over US_EDGE_MAX will not be considered)
-    bool usWIsEdge = usSW->distance > US_EDGE_THRESHOLD && usSW->distance < US_EDGE_MAX;
-    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD && usNW->distance < US_EDGE_MAX;
-    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD && usNE->distance < US_EDGE_MAX;
+    bool usWIsEdge = usSW->distance > US_EDGE_THRESHOLD;
+    bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
+    bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
     
     //TODO remove
     if(usWIsEdge || usNWIsEdge || usNEIsEdge) {

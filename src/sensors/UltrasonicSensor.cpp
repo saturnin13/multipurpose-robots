@@ -19,12 +19,21 @@ void UltrasonicSensor::update() {
         return;
     }
 
-
-    //unsigned int now = millis();
     unsigned int uS = sonar.ping();
-    //auto then = millis();
-    //Serial.print("TIME FOR SENSORS: ");Serial.println(then-now);
-    this->distance = sonar.convert_cm(uS);
+    unsigned int reading = sonar.convert_cm(uS);
+
+    // Sometimes the sensor reads an incorrect value.
+    // The value should never exceed MAX_DISTANCE.
+    reading = max(reading, MAX_DISTANCE);
+
+    // Account for the fact that the library reads
+    // a distance of 0 if there is nothing within MAX_DISTANCE
+    // of the sensor.
+    if (reading == 0) {
+        reading = MAX_DISTANCE;
+    }
+
+    this->distance = reading;
     this->lastUpdate = now;
 }
 
