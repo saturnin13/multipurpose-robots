@@ -3,8 +3,8 @@
 #include "EntityDetectionUpdateAgent.hpp"
 
 
-EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNWForward, UltrasonicSensor* usNForward,
-    UltrasonicSensor* usNNEForward, UltrasonicSensor* usNE): UpdateAgent(state), usSW(usSW), usNW(usNW), usNNWForward(usNNWForward), usNForward(usNForward), usNNEForward(usNNEForward), usNE(usNE) {
+EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNWForward, UltrasonicSensor* usSWForward,
+    UltrasonicSensor* usNNEForward, UltrasonicSensor* usNE): UpdateAgent(state), usSW(usSW), usNW(usNW), usNNWForward(usNNWForward), usSWForward(usSWForward), usNNEForward(usNNEForward), usNE(usNE) {
 
 }
 
@@ -12,7 +12,7 @@ void EntityDetectionUpdateAgent::update() {
     // Get sensor values
     //TODO hack
     bool usNNWIsObstacle = false;//usNNWForward->distance < US_OBSTACLE_THRESHOLD;
-    bool usNIsObstacle = false;//usNForward->distance < US_OBSTACLE_THRESHOLD;
+    bool usSWIsObstacle = false;//usSWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usNNEIsObstacle = false;//usNNEForward->distance < US_OBSTACLE_THRESHOLD;
 
     //TODO improve outlier detection (here every value over US_EDGE_MAX will not be considered)
@@ -28,7 +28,9 @@ void EntityDetectionUpdateAgent::update() {
     }
 
     // Checking the SW side
-    if(usSWIsEdge) {
+    if(usSWIsObstacle) {
+        this->state->southWestEntity = OBSTACLE;
+    } else if(usSWIsEdge) {
         this->state->southWestEntity = EDGE;
     } else {
         this->state->southWestEntity = FLAT;
@@ -44,9 +46,7 @@ void EntityDetectionUpdateAgent::update() {
     }
 
     // Checking the N side
-    if(usNIsObstacle) {
-        this->state->northEntity = OBSTACLE;
-    } else if(usNEIsEdge && usNWIsEdge) {
+    if(usNEIsEdge && usNWIsEdge) {
         this->state->northEntity = EDGE;
     } else {
         this->state->northEntity = FLAT;
