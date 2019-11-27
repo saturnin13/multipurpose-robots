@@ -10,7 +10,7 @@ enum CircleDirection { UNKNOWN, WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEA
 struct State {
     RobotState robotState = DISARMED;
 
-    Entity southWestEntity = FLAT;
+    Entity westEntity = FLAT;
     Entity northEastEntity = FLAT;
     Entity northEntity = FLAT;
     Entity northWestEntity = FLAT;

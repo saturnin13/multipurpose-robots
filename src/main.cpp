@@ -95,7 +95,7 @@ IRSensor irSE(IR_SE_PIN);
 LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2, LINE_FOLLOWER_PIN3, LINE_FOLLOWER_PIN4);
 UltrasonicSensor usNWForward(US_NW_FORWARD_TRIGGER_PIN, US_NW_FORWARD_ECHO_PIN);
 UltrasonicSensor usNEForward(US_NE_FORWARD_TRIGGER_PIN, US_NE_FORWARD_ECHO_PIN);
-UltrasonicSensor usSWForward(US_SW_FORWARD_TRIGGER_PIN, US_SW_FORWARD_ECHO_PIN);
+UltrasonicSensor usWForward(US_W_FORWARD_TRIGGER_PIN, US_W_FORWARD_ECHO_PIN);
 UltrasonicSensor usNNWDown(US_NNW_DOWN_TRIGGER_PIN, US_NNW_DOWN_ECHO_PIN);
 UltrasonicSensor usNNEDown(US_NNE_DOWN_TRIGGER_PIN, US_NNE_DOWN_ECHO_PIN);
 UltrasonicSensor usSWDown(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
@@ -114,7 +114,7 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
 CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE, &lf);
-EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usSWForward, &usNEForward, &usNNEDown);
+EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usWForward, &usNEForward, &usNNEDown);
 LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);
@@ -175,7 +175,7 @@ void updateSensors() {
 
 
     usNWForward.update();
-    usSWForward.update();
+    usWForward.update();
     usNEForward.update();
     usNNWDown.update();
     usNNEDown.update();
@@ -206,7 +206,7 @@ void printDebug() {
 
     Serial.print("robotState: ");Serial.print(state.robotState);
 
-    Serial.print("southWestEntity: ");Serial.print(state.southWestEntity);
+    Serial.print("westEntity: ");Serial.print(state.westEntity);
     Serial.print(", northEastEntity: ");Serial.print(state.northEastEntity);
     Serial.print(", northEntity: ");Serial.print(state.northEntity);
     Serial.print(", northWestEntity: ");Serial.print(state.northWestEntity);
@@ -232,7 +232,7 @@ void printDebug() {
     *********************/
 
     //Serial.print(usNWForward.distance);Serial.print(" , ");
-    //Serial.print(usSWForward.distance);Serial.print(" , ");
+    //Serial.print(usWForward.distance);Serial.print(" , ");
     //Serial.print(usNEForward.distance);Serial.print(" , ");
 
     //Serial.print(usNWForward.distance);Serial.print(" - ");
@@ -299,7 +299,7 @@ void loop() {
             //printDebug();
             Serial.print(usNEForward.distance);Serial.print(" , ");
             Serial.print(usNWForward.distance);Serial.print(" , ");
-            Serial.print(usSWForward.distance);Serial.println(" ");
+            Serial.print(usWForward.distance);Serial.println(" ");
         }
         delay(MAIN_LOOP_DELAY);
     }

@@ -19,35 +19,50 @@ void NavigationActionAgent::enact() {
     if(this->state->emergencyStop) {
         //Serial.println("NO MOVING: ESTOP");
         stopMoving();
+
     } else if(this->state->robotState != ARMED) {
         //Serial.println("NO MOVING: NOT Armed");
         stopMoving();
+
     } else if(!this->state->move) {
         //Serial.println("NO MOVING: TESTING");
         stopMoving();
+
     } else if(this->state->finalTable == COMPLETED) {
         //Serial.println("NO MOVING: COMPLETED");
         stopMoving();
+
     } else {
+
         // The order of the condition is representative of the priority of actions
         if(this->state->northWestEntity != FLAT) {
             // Avoid the north west entity
             configNorthWestEntity();
+
         } else if(this->state->northEntity != FLAT) {
             // Avoid the north entity
             configNorthEntity();
+
         } else if(this->state->northEastEntity != FLAT) {
             // Avoid the north east entity
             configNorthEastEntity();
+
+        } else if(this->state->westEntity != FLAT) {
+            // Avoid the west entity
+            configWestEntity();
+
         } else if(this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
             // Go to circle
             configCircleDirection();
+
         } else if(this->state->lineFollowingTable == CURRENT) {
             // Follow line
             configLineFollowing();
+
         } else if(this->state->ticTacState == CURRENT) {
             // Stop if dropping
             configTicTacDropping();
+
         } else {
             // Set the default configurations
             configureDefault();
@@ -126,6 +141,11 @@ void NavigationActionAgent::configNorthEntity() {
 void NavigationActionAgent::configNorthEastEntity() {
     // TODO: less naive implementation
     turnLeft();
+}
+
+void NavigationActionAgent::configWestEntity() {
+    // TODO: less naive implementation
+    goStraightRight();
 }
 
 void NavigationActionAgent::configureDefault() {
