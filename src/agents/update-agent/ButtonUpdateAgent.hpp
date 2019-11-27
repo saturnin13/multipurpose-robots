@@ -16,5 +16,6 @@ class ButtonUpdateAgent : public UpdateAgent {
   private:
     ButtonSensor *button;
     bool lastButtonState;
+    unsigned long timeSinceArming;
 };
 #endif

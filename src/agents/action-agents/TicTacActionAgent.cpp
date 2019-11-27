@@ -80,8 +80,6 @@ void TicTacActionAgent::enact() {
             this->numberDrops = -1;
         }
     }
-    // TODO: Set the ticTacState to completed after the tic tac have been
-    // dropped
 
     // enact stepper motor after all
     this->stepperMotor->enact();

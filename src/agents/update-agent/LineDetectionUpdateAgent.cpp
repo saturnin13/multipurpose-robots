@@ -2,6 +2,8 @@
 
 #include "LineDetectionUpdateAgent.hpp"
 
+#define PRINT_LINE_STATE 0
+
 
 LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf, UltrasonicSensor* usNW, UltrasonicSensor* usNE)
 : UpdateAgent(state), lf(lf), usNW(usNW), usNE(usNE) {
@@ -35,19 +37,19 @@ void LineDetectionUpdateAgent::update() {
         // Updating the line state
         if (lf2) {
             state->lineState = CENTER;
-            //Serial.println("CENTER");
-        } else if (lf0) { //TODO lf1 and lf2 should be left as well: && !lf2
+            if(PRINT_LINE_STATE) {Serial.println("CENTER");}
+        } else if (lf0) {
             state->lineState = LEFT;
-            //Serial.println("LEFT");
+            if(PRINT_LINE_STATE) {Serial.println("LEFT");}
         } else if (lf1) {
             state->lineState = LEFT;
-            //Serial.println("LEFT");
-        } else if (lf3) { // && !lf2
+            if(PRINT_LINE_STATE) {Serial.println("LEFT");}
+        } else if (lf3) {
             state->lineState = RIGHT;
-            //Serial.println("RIGHT");
+            if(PRINT_LINE_STATE) {Serial.println("RIGHT");}
         } else if (lf4) {
             state->lineState = RIGHT;
-            //Serial.println("RIGHT");
+            if(PRINT_LINE_STATE) {Serial.println("RIGHT");}
         } else {
             Serial.println("Unexpected state in LineDetectionUpdateAgent");
         }

@@ -173,6 +173,10 @@ void updateSensors() {
         state.robotState = DISARMED;
     }
 
+    if (state.finalTable == COMPLETED) {
+        state.robotState = DISARMED;
+    }
+
 
     usNWForward.update();
     usWForward.update();

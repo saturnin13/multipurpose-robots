@@ -2,6 +2,8 @@
 #include "ActionAgent.hpp"
 #include <Arduino.h>
 
+#define STATE_PRINTING 0
+
 
 NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor)
 : ActionAgent(state), leftMotor(leftMotor), rightMotor(rightMotor) {
@@ -12,38 +14,40 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightForward = true;
 }
 
-// TODO: Add printing for each state of the robot so that we can debug and we know in which case the robot is.
 void NavigationActionAgent::enact() {
 
     // This agent is only active if we are armed and not in an emergency
     if(this->state->emergencyStop) {
-        //Serial.println("NO MOVING: ESTOP");
+        if(STATE_PRINTING){Serial.println("NO MOVING: ESTOP");}
         stopMoving();
 
     } else if(this->state->robotState != ARMED) {
-        //Serial.println("NO MOVING: NOT Armed");
+        if(STATE_PRINTING){Serial.println("NO MOVING: NOT Armed");}
         stopMoving();
 
     } else if(!this->state->move) {
-        //Serial.println("NO MOVING: TESTING");
+        if(STATE_PRINTING){Serial.println("NO MOVING: TESTING");}
         stopMoving();
 
     } else if(this->state->finalTable == COMPLETED) {
-        //Serial.println("NO MOVING: COMPLETED");
+        if(STATE_PRINTING){Serial.println("NO MOVING: COMPLETED");}
         stopMoving();
 
     } else {
 
         // The order of the condition is representative of the priority of actions
         if(this->state->northWestEntity != FLAT) {
+            if(STATE_PRINTING){Serial.println("AVOIDING NW");}
             // Avoid the north west entity
             configNorthWestEntity();
 
         } else if(this->state->northEntity != FLAT) {
+            if(STATE_PRINTING){Serial.println("AVOIDING N");}
             // Avoid the north entity
             configNorthEntity();
 
         } else if(this->state->northEastEntity != FLAT) {
+            if(STATE_PRINTING){Serial.println("AVOIDING NE");}
             // Avoid the north east entity
             configNorthEastEntity();
 
@@ -52,18 +56,22 @@ void NavigationActionAgent::enact() {
             configWestEntity();
 
         } else if(this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
+            if(STATE_PRINTING){Serial.println("GO TO CIRCLE");}
             // Go to circle
             configCircleDirection();
 
         } else if(this->state->lineFollowingTable == CURRENT) {
+            if(STATE_PRINTING){Serial.println("FOLLOW LINE");}
             // Follow line
             configLineFollowing();
 
         } else if(this->state->ticTacState == CURRENT) {
+            if(STATE_PRINTING){Serial.println("DROP TICTAC Driving");}
             // Stop if dropping
             configTicTacDropping();
 
         } else {
+            if(STATE_PRINTING){Serial.println("DEFAULT Driving");}
             // Set the default configurations
             configureDefault();
         }
@@ -75,8 +83,8 @@ void NavigationActionAgent::enact() {
     Serial.print("LEFT: ");Serial.print(this->leftSpeed);
     Serial.print(" , RIGHT: ");Serial.println(this->rightSpeed);
     }
-    this->leftMotor->configure(this->leftForward, this->leftSpeed);
-    this->rightMotor->configure(this->rightForward, this->rightSpeed);
+    this->leftMotor->configure(this->leftForward, 12);//this->leftSpeed);
+    this->rightMotor->configure(this->rightForward, 12);//this->rightSpeed);
     
     // Enact motors after all
     this->leftMotor->enact();
@@ -120,7 +128,7 @@ void NavigationActionAgent::configLineFollowing() {
         Serial.println("GOING CENTER");
         goStraight();
     } else {
-        stopMoving(); //todo something else, otherwise dead lock
+        stopMoving(); //TODO something else, otherwise dead lock
     }
 }
 
@@ -134,12 +142,12 @@ void NavigationActionAgent::configNorthWestEntity() {
 }
 
 void NavigationActionAgent::configNorthEntity() {
-    // TODO: less naive implementation
+    // TODO: will this work? less naive implementation
     turnLeft();
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
-    // TODO: less naive implementation
+    // TODO: if there is something NE, we wont fit between less naive implementation
     turnLeft();
 }
 
@@ -150,6 +158,7 @@ void NavigationActionAgent::configWestEntity() {
 
 void NavigationActionAgent::configureDefault() {
     goStraight();
+    //TODO change back after testing
     //goStraightLeft();
 }
 

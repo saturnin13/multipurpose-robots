@@ -23,6 +23,8 @@
 
 #define DEGREES_CIRCLES 360
 
+#define NOT_MOVING_DELAY_AFTER_START 3000
+
 /********************
  * ROS
  *********************/
@@ -33,7 +35,6 @@
 /********************
  * Pins
 *********************/
-//TODO change NNE name
 #define US_NW_FORWARD_TRIGGER_PIN 44
 #define US_NW_FORWARD_ECHO_PIN 45
 

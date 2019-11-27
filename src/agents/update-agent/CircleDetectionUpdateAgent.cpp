@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "CircleDetectionUpdateAgent.hpp"
 
+#define PRINTING_CIRCLE_ORIENTATION 0
 
 CircleDetectionUpdateAgent::CircleDetectionUpdateAgent(State* state, IRSensor* irNW, IRSensor* irNE, IRSensor* irSW, IRSensor* irSE, LineFollowerSensor* lf)
 : UpdateAgent(state), lf(lf), irNW(irNW), irNE(irNE), irSW(irSW), irSE(irSE) {
@@ -9,7 +10,7 @@ CircleDetectionUpdateAgent::CircleDetectionUpdateAgent(State* state, IRSensor* i
 
 void CircleDetectionUpdateAgent::update() {
 
-    //TODO: maybe one full turn before and then start doing this? -> finalTable == CURRENT
+    //DISCUSS: maybe one full turn before and then start doing this? -> finalTable == CURRENT
 
     //if we have not completed the line following, then we cannot be close to the circle
     if(this->state->lineFollowingTable != COMPLETED || this->state->robotState == DISARMED) {
@@ -48,43 +49,43 @@ void CircleDetectionUpdateAgent::update() {
     if(this->state->northWestEntity == EDGE) {
         nw = false;
     }
-    //Serial.println("DETECTING CIRLCES...");
+
     //if every sensor detects a black surface, we are in the circle and have therefore the final table
     if(nw && n && ne && sw && se) {
+        //DISCUSS: start timer here and stop after some time passed (stopping in the middle of the table
+
         //this means we finished the last table, so we are done
         this->state->finalTable = COMPLETED;
-        Serial.println("IN CIRLCES :)");
-        //TODO: double check or move
-        this->state->robotState = DISARMED;
+
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("IN CIRLCE :)");}
+
     //the circle is in the corresponding direction if the opposing IR Sensors do not detect values
     } else if(nw && n && ne && !sw && !se) {
-        Serial.println("N");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS N");}
         this->state->circleDirection = NORTH;
     } else if(!nw && !n && !ne && sw && se) {
-        Serial.println("S");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS S");}
         this->state->circleDirection = SOUTH;
     } else if(nw && !n && !ne && sw && !se) {
-        Serial.println("WEST");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS W");}
         this->state->circleDirection = WEST;
     } else if(!nw && !n && ne && !sw && se) {
-        Serial.println("East");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS E");}
         this->state->circleDirection = EAST;
     } else if(nw && (!n || n) && !ne && !sw && !se) {
-        Serial.println("NW");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS NW");}
         this->state->circleDirection = NORTHWEST;
     } else if(!nw && (!n || n) && ne && !sw && !se) {
-        Serial.println("NE");
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS NE");}
         this->state->circleDirection = NORTHEAST;
     } else if(!nw && !n && !ne && sw && !se) {
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS SW");}
         this->state->circleDirection = SOUTHWEST;
-        Serial.println("SW");
     } else if(!nw && !n && !ne && !sw && se) {
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS SE");}
         this->state->circleDirection = SOUTHEAST;
-        Serial.println("SE");
-
     } else {
+        if(PRINTING_CIRCLE_ORIENTATION) {Serial.println("CIRCLE IS UNKNOWN");}
         this->state->circleDirection = UNKNOWN;
-        Serial.println("UNKNOWN");
-
     }
 }
