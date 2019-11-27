@@ -17,16 +17,16 @@ void NavigationActionAgent::enact() {
 
     // This agent is only active if we are armed and not in an emergency
     if(this->state->emergencyStop) {
-        Serial.println("NO MOVING: ESTOP");
+        //Serial.println("NO MOVING: ESTOP");
         stopMoving();
     } else if(this->state->robotState != ARMED) {
-        Serial.println("NO MOVING: NOT Armed");
+        //Serial.println("NO MOVING: NOT Armed");
         stopMoving();
     } else if(!this->state->move) {
         //Serial.println("NO MOVING: TESTING");
         stopMoving();
     } else if(this->state->finalTable == COMPLETED) {
-        Serial.println("NO MOVING: COMPLETED");
+        //Serial.println("NO MOVING: COMPLETED");
         stopMoving();
     } else {
         // The order of the condition is representative of the priority of actions

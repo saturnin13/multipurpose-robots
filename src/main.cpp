@@ -113,7 +113,7 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 *********************/
 InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
-CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irNW, &irSE, &lf);
+CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE, &lf);
 EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usNForward, &usNEForward, &usNNEDown);
 LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
@@ -165,7 +165,7 @@ void updateSensors() {
 
     irNW.update();
     irNE.update();
-    irNW.update();
+    irSW.update();
     irSE.update();
 
     lf.update();    // TODO: STATEUPDATEAGENT
@@ -174,9 +174,9 @@ void updateSensors() {
     }
 
 
-    //usNWForward.update();
-    //usNForward.update();
-    //usNEForward.update();
+    usNWForward.update();
+    usNForward.update();
+    usNEForward.update();
     usNNWDown.update();
     usNNEDown.update();
     usSWDown.update();
@@ -259,8 +259,8 @@ void setup() {
     //TODO: testing hacks
     //state.ticTacState = CURRENT;
     state.move = true;
-    state.lineFollowingTable = COMPLETED;
-    state.finalTable = CURRENT;
+    //state.lineFollowingTable = COMPLETED;
+    //state.finalTable = CURRENT;
     
     // Workaround for IMU
     Wire.endTransmission(true);
@@ -295,13 +295,11 @@ void loop() {
 
     if (DEBUG) {
         unsigned int now = millis();
-        if(now % 1000 > 1001) {
+        if(now % 1000 > 900) {
             //printDebug();
-            Serial.print(lf.lineDetected0);Serial.print(" , ");
-            Serial.print(lf.lineDetected1);Serial.print(" , ");
-            Serial.print(lf.lineDetected2);Serial.print(" , ");
-            Serial.print(lf.lineDetected3);Serial.print(" , ");
-            Serial.print(lf.lineDetected4);Serial.println(" , ");
+            Serial.print(usNEForward.distance);Serial.print(" , ");
+            Serial.print(usNWForward.distance);Serial.print(" , ");
+            Serial.print(usNForward.distance);Serial.println(" ");
         }
         delay(MAIN_LOOP_DELAY);
     }

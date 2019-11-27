@@ -9,6 +9,12 @@ LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSen
 }
 
 void LineDetectionUpdateAgent::update() {
+
+    //if we already completed this table, we do not have to look for lines anymore
+    if(this->state->lineFollowingTable == COMPLETED) {
+        return;
+    }
+
     // Get sensor values
     bool lf0 = lf->lineDetected0;
     bool lf1 = lf->lineDetected1;

@@ -8,6 +8,11 @@ TicTacUpdateAgent::TicTacUpdateAgent(State *state) : UpdateAgent(state) {
 
 void TicTacUpdateAgent::update() {
 
+    if(!(this->state->ticTacState == CURRENT) && this->state->incline == COMPLETED) {
+        this->state->ticTacState = CURRENT;
+        this->timeDropStart = millis();
+    }
+
     switch (this->state->ticTacState) {
     case COMPLETED:
     case UNSEEN:
@@ -16,14 +21,9 @@ void TicTacUpdateAgent::update() {
     case CURRENT:
         unsigned long now = millis();
 
-        if(this->timeDropStart == 0) {
-            this->state->ticTacState = CURRENT;
-        }
-
         if (now - timeDropStart > TOTAL_DROPPING_TIME) {
             this->state->ticTacState = COMPLETED;
         }
-        
         break;
 
     }

@@ -23,8 +23,9 @@ void ButtonSensor::update() {
     }
 
     int currentState = digitalRead(this->pin);
+    //Serial.println(currentState);
 
-    if (this->lastDebounceTime != 0 && (now - this->lastDebounceTime) > DEBOUNCE_DELAY) {
+    if ((now - this->lastDebounceTime) > DEBOUNCE_DELAY) {
         // The same button value has been held for longer than the debounce delay.
         //Serial.println("UPDATING BUTTON");
         //Serial.println(this->pressed);

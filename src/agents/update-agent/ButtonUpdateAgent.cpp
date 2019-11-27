@@ -13,18 +13,19 @@ void ButtonUpdateAgent::update() {
         return;
     }
 
+    //TODO if time since armed is greater thatn constant
     if (this->state->robotState == DISARMED &&
         this->state->finalTable != COMPLETED) {
         // TODO: make that the motors start now and not before -> bool moveRobot
-        // = true;
+        // this->state->move = true;
     }
 
+    //TODO move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
     if(this->button->pressed && !this->lastButtonState && !this->state->emergencyStop) {
         Serial.println("ESTOP");
         this->state->emergencyStop = true;
     }
 
-    //move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
     if(this->button->pressed && !this->lastButtonState && this->state->emergencyStop) {
         Serial.println("ESTOP RESET");
         this->state->emergencyStop = false;

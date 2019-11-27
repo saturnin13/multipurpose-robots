@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 // Sampling rate in milliseconds
-#define SAMPLING_RATE 150
+#define SAMPLING_RATE 100
 
 #define IR_LF_THRESHOLD 750
 

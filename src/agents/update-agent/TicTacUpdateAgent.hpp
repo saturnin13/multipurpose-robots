@@ -14,7 +14,6 @@ class TicTacUpdateAgent : public UpdateAgent {
     void update();
 
   private:
-    State *state;
     unsigned long timeDropStart;
 };
 
