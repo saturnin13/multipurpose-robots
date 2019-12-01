@@ -8,9 +8,9 @@ TicTacUpdateAgent::TicTacUpdateAgent(State *state) : UpdateAgent(state) {
 
 void TicTacUpdateAgent::update() {
     if(DEBUG && TICTAC_UPDATE_AGENT_DEBUG){Serial.print("\nTicTacUpdateAgent: ");}
-if(!(this->state->ticTacState == CURRENT) && this->state->incline == COMPLETED) {
+    if(!(this->state->ticTacState == CURRENT) && this->state->incline == COMPLETED) {
         if(DEBUG && TICTAC_UPDATE_AGENT_DEBUG){Serial.println("ACTIVATING THE TICTAC DROPPING");}
-this->state->ticTacState = CURRENT;
+        this->state->ticTacState = CURRENT;
         this->timeDropStart = millis();
     }
 

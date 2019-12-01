@@ -232,6 +232,7 @@ void printDebug() {
     Serial.println("}");
 
     Serial.println("");
+    Serial.println("");
 }
 
 void setup() {
