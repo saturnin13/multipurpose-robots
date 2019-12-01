@@ -63,21 +63,21 @@
 
 #define START_BUTTON_PIN 23
 
-#define LED_RED_PIN 22
-#define LED_GREEN_PIN 2
-#define LED_BLUE_PIN 3
+#define LED_RED_PIN 2
+#define LED_GREEN_PIN 3
+#define LED_BLUE_PIN 4
 
-#define STEPPER_MOTOR_PIN1 10
-#define STEPPER_MOTOR_PIN2 11
-#define STEPPER_MOTOR_PIN3 12
-#define STEPPER_MOTOR_PIN4 13
+#define STEPPER_MOTOR_PIN1 22
+#define STEPPER_MOTOR_PIN2 24
+#define STEPPER_MOTOR_PIN3 26
+#define STEPPER_MOTOR_PIN4 28
 
-#define MOTOR_PIN1 4
-#define MOTOR_PIN2 5
-#define MOTOR_ENA1 8
+#define MOTOR_PIN1 8
+#define MOTOR_PIN2 9
+#define MOTOR_ENA1 6
 
-#define MOTOR_PIN3 6
-#define MOTOR_PIN4 7
-#define MOTOR_ENA2 9
+#define MOTOR_PIN3 10
+#define MOTOR_PIN4 11
+#define MOTOR_ENA2 7
 
 #endif
