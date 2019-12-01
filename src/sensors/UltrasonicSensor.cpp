@@ -24,7 +24,7 @@ void UltrasonicSensor::update() {
 
     // Sometimes the sensor reads an incorrect value.
     // The value should never exceed MAX_DISTANCE.
-    reading = max(reading, MAX_DISTANCE);
+    reading = min(reading, MAX_DISTANCE);
 
     // Account for the fact that the library reads
     // a distance of 0 if there is nothing within MAX_DISTANCE

@@ -2,7 +2,7 @@
 #include "ActionAgent.hpp"
 #include <Arduino.h>
 
-#define STATE_PRINTING 1
+#define STATE_PRINTING 0
 
 
 NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor)
@@ -80,12 +80,12 @@ void NavigationActionAgent::enact() {
 
     // Set motors
     unsigned int now = millis();
-    if(now % 1000 > 990) {
+    if(now % 1000 > 990 && STATE_PRINTING) {
     Serial.print("LEFT: ");Serial.print(this->leftSpeed);
     Serial.print(" , RIGHT: ");Serial.println(this->rightSpeed);
     }
-    this->leftMotor->configure(this->leftForward, 12);//this->leftSpeed);
-    this->rightMotor->configure(this->rightForward, 12);//this->rightSpeed);
+    this->leftMotor->configure(this->leftForward, this->leftSpeed);
+    this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
     // Enact motors after all
     this->leftMotor->enact();

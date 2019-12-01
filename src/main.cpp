@@ -205,7 +205,7 @@ void printDebug() {
 
     Serial.print("robotState: ");Serial.print(state.robotState);
 
-    Serial.print(", westEntity: ");Serial.print(state.westEntity);
+    Serial.print(", qywestEntity: ");Serial.print(state.westEntity);
     Serial.print(", northEastEntity: ");Serial.print(state.northEastEntity);
     Serial.print(", northEntity: ");Serial.print(state.northEntity);
     Serial.print(", northWestEntity: ");Serial.print(state.northWestEntity);
@@ -295,9 +295,9 @@ void loop() {
     if (DEBUG) {
         unsigned int now = millis();
             printDebug();
-            //Serial.print(usNEForward.distance);Serial.print(" , ");
-            //Serial.print(usNWForward.distance);Serial.print(" , ");
-            //Serial.print(usWForward.distance);Serial.println(" ");
+            Serial.print(usNNEDown.distance);Serial.print(" , ");
+            Serial.print(usNNWDown.distance);Serial.print(" , ");
+            Serial.print(usSWDown.distance);Serial.println(" ");
 
         delay(MAIN_LOOP_DELAY);
     }

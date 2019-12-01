@@ -1,9 +1,9 @@
-int IN1 = 6;
-int IN2 = 7;
+int IN1 = 4;
+int IN2 = 5;
 int ENA1 = 8;
 
-int IN3 = 4;
-int IN4 = 5;
+int IN3 = 6;
+int IN4 = 7;
 int ENA2 = 9;
 
 void setup() {
@@ -25,10 +25,10 @@ void loop() {
 Serial.println("First Motor Test forward");
 digitalWrite(IN1, LOW); //forward
 digitalWrite(IN2, HIGH); //forward
-analogWrite(ENA1, 150); //pin 3 is PWM, 178/255 = (about) 70% speed. Max is 255.
+analogWrite(ENA1, 40); //pin 3 is PWM, 178/255 = (about) 70% speed. Max is 255.
 digitalWrite(IN3, LOW); //forward
 digitalWrite(IN4, HIGH); //forward
-analogWrite(ENA2, 150); //pin 3 is PWM, 178/255 = (about) 70% speed. Max is 255.
+analogWrite(ENA2, 40); //pin 3 is PWM, 178/255 = (about) 70% speed. Max is 255.
 delay(30000);
 /*Serial.println("First Motor Test forward");
 digitalWrite(IN1, LOW); //forward
