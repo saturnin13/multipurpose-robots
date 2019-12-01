@@ -4,6 +4,7 @@
 #include "../../actuators/LED.hpp"
 #include "../../state/State.hpp"
 #include "ActionAgent.hpp"
+#include "../../Constants.hpp"
 
 class LEDActionAgent : public ActionAgent {
   public:

@@ -9,8 +9,8 @@ EntityDetectionUpdateAgent::EntityDetectionUpdateAgent(State* state, UltrasonicS
 }
 
 void EntityDetectionUpdateAgent::update() {
-
-    // Get sensor values
+    if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nEntityDetectionUpdateAgent: ");}
+// Get sensor values
     bool usNNWIsObstacle = usNNWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usWIsObstacle = usWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usNNEIsObstacle = usNNEForward->distance < US_OBSTACLE_THRESHOLD;
@@ -18,45 +18,49 @@ void EntityDetectionUpdateAgent::update() {
     bool usWIsEdge = usSW->distance > US_EDGE_THRESHOLD;
     bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
-    
-    //TODO remove when edge detection works
-    if(usWIsEdge || usNWIsEdge || usNEIsEdge) {
-        //Serial.println("EDGE DETECTED");
-        //Serial.print("EDGE (SW,NW,NE): ");Serial.print(usWIsEdge);Serial.print(usNWIsEdge);Serial.println(usNEIsEdge);
-        //this->state->emergencyStop = true;
-    }
 
     // Checking the W side
     if(usWIsObstacle) {
-        this->state->westEntity = OBSTACLE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("W OBSTACLE");}
+this->state->westEntity = OBSTACLE;
     } else if(usWIsEdge) {
-        this->state->westEntity = EDGE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("W EDGE");}
+this->state->westEntity = EDGE;
     } else {
-        this->state->westEntity = FLAT;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("W FLAT");}
+this->state->westEntity = FLAT;
     }
 
     // Checking the NW side
     if(usNWIsEdge) {
-        this->state->northWestEntity = EDGE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NW EDGE");}
+this->state->northWestEntity = EDGE;
     } else if(usNNWIsObstacle) {
-        this->state->northWestEntity = OBSTACLE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NW OBSTACLE");}
+this->state->northWestEntity = OBSTACLE;
     } else {
-        this->state->northWestEntity = FLAT;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NW FLAT");}
+this->state->northWestEntity = FLAT;
     }
 
     // Checking the N side
     if(usNEIsEdge && usNWIsEdge) {
-        this->state->northEntity = EDGE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("N EDGE");}
+this->state->northEntity = EDGE;
     } else {
-        this->state->northEntity = FLAT;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("N FLAT");}
+this->state->northEntity = FLAT;
     }
 
     // Checking the NE side
     if(usNEIsEdge) {
-        this->state->northEastEntity = EDGE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NE EDGE");}
+this->state->northEastEntity = EDGE;
     } else if(usNNEIsObstacle) {
-        this->state->northEastEntity = OBSTACLE;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NE OBSTACLE");}
+this->state->northEastEntity = OBSTACLE;
     } else {
-        this->state->northEastEntity = FLAT;
+        if(DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NE FLAT");}
+this->state->northEastEntity = FLAT;
     }
 }

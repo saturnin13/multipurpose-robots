@@ -9,22 +9,25 @@ LoopDetectionUpdateAgent::LoopDetectionUpdateAgent(State *state, IMUSensor *imu)
 }
 
 void LoopDetectionUpdateAgent::update() {
-    // Get sensor values
+    if(DEBUG && LOOP_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nLoopDetectionUpdateAgent: ");}
+// Get sensor values
     double newAngle = imu->zAngle;
 
     // We are checking if the angle of the robot has moved by more than 90 degrees and then we are incrementing or decrementing accordingly
     double angleDifference = min(abs(newAngle - previousQuadrant), DEGREES_CIRCLES - abs(newAngle - previousQuadrant));
 
     if(angleDifference > DEGREE_QUADRANT) {
-        
-        // Case where the quadrant is bigger than the previous one
+        if(DEBUG && LOOP_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("REACHING NEW QUADRANT");}
+// Case where the quadrant is bigger than the previous one
         if(newAngle - previousQuadrant == angleDifference) {
-            this->previousQuadrant = newAngle;
+            if(DEBUG && LOOP_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("QUADRANT ON THE RIGHT");}
+this->previousQuadrant = newAngle;
             quadrant++;
 
         // Case where the quadrant is smaller than the previous one
         } else if(DEGREES_CIRCLES - abs(newAngle - previousQuadrant) == angleDifference) {
-            this->previousQuadrant = newAngle;
+            if(DEBUG && LOOP_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("QUADRANT ON THE LEFT");}
+this->previousQuadrant = newAngle;
             quadrant--;
         }
     }

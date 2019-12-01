@@ -6,6 +6,7 @@
 #include <Arduino.h>
 #include <ros.h>
 #include <std_msgs/Empty.h>
+#include "../../Constants.hpp"
 
 class TicTacUpdateAgent : public UpdateAgent {
   public:

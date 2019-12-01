@@ -5,6 +5,7 @@
 #include "../../sensors/LineFollowerSensor.hpp"
 #include "../../state/State.hpp"
 #include "UpdateAgent.hpp"
+#include "../../Constants.hpp"
 
 class CircleDetectionUpdateAgent : public UpdateAgent {
   public:

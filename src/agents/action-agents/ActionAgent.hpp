@@ -3,6 +3,7 @@
 
 #include "../../state/State.hpp"
 #include "../Agent.hpp"
+#include "../../Constants.hpp"
 
 class ActionAgent : public Agent {
   public:

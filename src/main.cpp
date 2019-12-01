@@ -122,6 +122,11 @@ NavigationActionAgent navigationAgent(&state, &leftMotor, &rightMotor);
 TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
 
 /********************
+ * Debug variable
+*********************/
+unsigned long lastDebugUpdate;
+
+/********************
  * ROS
  *********************/
 #if ROS
@@ -163,7 +168,7 @@ void updateSensors() {
     irSW.update();
     irSE.update();
 
-    lf.update();    // TODO: STATEUPDATEAGENT
+    lf.update();    // TODO: STATE_UPDATE_AGENT
     if (state.emergencyStop) {
         state.robotState = DISARMED;
     }
@@ -205,7 +210,7 @@ void printDebug() {
 
     Serial.print("robotState: ");Serial.print(state.robotState);
 
-    Serial.print(", qywestEntity: ");Serial.print(state.westEntity);
+    Serial.print(", westEntity: ");Serial.print(state.westEntity);
     Serial.print(", northEastEntity: ");Serial.print(state.northEastEntity);
     Serial.print(", northEntity: ");Serial.print(state.northEntity);
     Serial.print(", northWestEntity: ");Serial.print(state.northWestEntity);
@@ -226,30 +231,6 @@ void printDebug() {
 
     Serial.println("}");
 
-    /********************
-     * Other
-    *********************/
-
-    //Serial.print(usNWForward.distance);Serial.print(" , ");
-    //Serial.print(usWForward.distance);Serial.print(" , ");
-    //Serial.print(usNEForward.distance);Serial.print(" , ");
-
-    //Serial.print(usNWForward.distance);Serial.print(" - ");
-    //Serial.print(usNNWDown.distance);Serial.print(" , ");
-    //Serial.print(usNNEDown.distance);Serial.print(" , ");
-    //Serial.print(ir1.value);Serial.print(" , ");
-    //Serial.print(ir2.value);Serial.print(" , ");
-    //Serial.print(ir3.value);Serial.print(" , ");
-    //Serial.print(ir4.value);Serial.print(" , ");
-    //Serial.print(lf.values[0]);Serial.print(" , ");
-    //Serial.print(lf.values[1]);Serial.print(" , ");
-    //Serial.print(lf.values[2]);Serial.print(" , ");
-    //Serial.print(lf.values[3]);Serial.print(" , ");
-    //Serial.print(lf.values[4]);Serial.print(" , ");
-    //Serial.print(imu.xAngle);Serial.print(" , ");
-    //Serial.print(imu.yAngle);Serial.print(" , ");
-    //Serial.println(b1.pressed);
-
     Serial.println("");
 }
 
@@ -257,7 +238,7 @@ void setup() {
 
     //TODO: testing hacks
     //state.ticTacState = CURRENT;
-    state.move = true;
+    //state.move = true;
     //state.lineFollowingTable = COMPLETED;
     //state.finalTable = CURRENT;
     
@@ -267,7 +248,7 @@ void setup() {
     Serial.begin(BAUD_RATE);
 
     if (DEBUG) {
-        Serial.println("Setup done");
+        Serial.println("Setup completed");
     }
 
     nh.getHardware()->setBaud(BAUD_RATE);
@@ -275,10 +256,10 @@ void setup() {
     nh.subscribe(estopSubscriber);
     nh.subscribe(dropSubscriber);
 
+    lastDebugUpdate = millis();
 }
 
 void loop() {
-    //Serial.println("LOOPing");
     #if ROS
     nh.spinOnce();
     #endif
@@ -293,13 +274,11 @@ void loop() {
     enactAgents();
 
     if (DEBUG) {
-        unsigned int now = millis();
+        unsigned long now = millis();
+        if(now > lastDebugUpdate + DEBUG_PRINTING_DELAY) {
+            lastDebugUpdate = now;
             printDebug();
-            Serial.print(usNNEDown.distance);Serial.print(" , ");
-            Serial.print(usNNWDown.distance);Serial.print(" , ");
-            Serial.print(usSWDown.distance);Serial.println(" ");
-
-        delay(MAIN_LOOP_DELAY);
+        };
     }
 
 }

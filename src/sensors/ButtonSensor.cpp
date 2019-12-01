@@ -33,7 +33,7 @@ void ButtonSensor::update() {
         this->lastDebounceTime = millis();
     }
 
-    //TODO reset and/ or estop functionality
+    //TODO reset and/or estop functionality
 
     this->previousButtonState = currentState;
     this->lastUpdate = now;

@@ -2,12 +2,8 @@
 #include "ActionAgent.hpp"
 #include <Arduino.h>
 
-#define STATE_PRINTING 0
-
-
 NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Motor* rightMotor)
 : ActionAgent(state), leftMotor(leftMotor), rightMotor(rightMotor) {
-
     this->leftSpeed = 0; 
     this->rightSpeed = 0; 
     this->leftForward = true;
@@ -15,75 +11,70 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
 }
 
 void NavigationActionAgent::enact() {
-
-    // This agent is only active if we are armed and not in an emergency
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.print("\nNavigationActionAgent: ");}
+// This agent is only active if we are armed and not in an emergency
     if(this->state->emergencyStop) {
-        if(STATE_PRINTING){Serial.println("NO MOVING: ESTOP");}
+        if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("E-STOP");}
         stopMoving();
 
     } else if(this->state->robotState != ARMED) {
-        if(STATE_PRINTING){Serial.println("NO MOVING: NOT Armed");}
+        if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("NOT ARMED");}
         stopMoving();
 
     } else if(!this->state->move) {
-        if(STATE_PRINTING){Serial.println("NO MOVING: TESTING");}
+        if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("NOT MOVING");}
         stopMoving();
 
     } else if(this->state->finalTable == COMPLETED) {
-        if(STATE_PRINTING){Serial.println("NO MOVING: COMPLETED");}
+        if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FINAL TABLE COMPLETED");}
         stopMoving();
 
     } else {
 
         // The order of the condition is representative of the priority of actions
         if(this->state->northWestEntity != FLAT) {
-            if(STATE_PRINTING){Serial.println("AVOIDING NW");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW");}
             // Avoid the north west entity
             configNorthWestEntity();
 
         } else if(this->state->northEntity != FLAT) {
-            if(STATE_PRINTING){Serial.println("AVOIDING N");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING N");}
             // Avoid the north entity
             configNorthEntity();
 
         } else if(this->state->northEastEntity != FLAT) {
-            if(STATE_PRINTING){Serial.println("AVOIDING NE");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NE");}
             // Avoid the north east entity
             configNorthEastEntity();
 
         } else if(this->state->westEntity != FLAT) {
-            if(STATE_PRINTING){Serial.println("AVOIDING W");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
             // Avoid the west entity
             configWestEntity();
 
         } else if(this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
-            if(STATE_PRINTING){Serial.println("GO TO CIRCLE");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
             // Go to circle
             configCircleDirection();
 
         } else if(this->state->lineFollowingTable == CURRENT) {
-            if(STATE_PRINTING){Serial.println("FOLLOW LINE");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FOLLOWING LINE");}
             // Follow line
             configLineFollowing();
 
         } else if(this->state->ticTacState == CURRENT) {
-            if(STATE_PRINTING){Serial.println("DROP TICTAC Driving");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DROPPING TICTAC");}
             // Stop if dropping
             configTicTacDropping();
 
         } else {
-            if(STATE_PRINTING){Serial.println("DEFAULT Driving");}
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DEFAULT");}
             // Set the default configurations
             configureDefault();
         }
     }
 
     // Set motors
-    unsigned int now = millis();
-    if(now % 1000 > 990 && STATE_PRINTING) {
-    Serial.print("LEFT: ");Serial.print(this->leftSpeed);
-    Serial.print(" , RIGHT: ");Serial.println(this->rightSpeed);
-    }
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -120,13 +111,10 @@ void NavigationActionAgent::configCircleDirection() {
 
 void NavigationActionAgent::configLineFollowing() {
     if(this->state->lineState == LEFT) {
-        Serial.println("GOING LEFT");
         turnLeft();
     } else if(this->state->lineState == RIGHT) {
-        Serial.println("GOING RIGHT");
         turnRight();
     } else if(this->state->lineState == CENTER) {
-        Serial.println("GOING CENTER");
         goStraight();
     } else {
         goReverse(); //DISCUSS: what should happen at this point? stopping is probably not a good idea (maybe set max speed lower afterwards?)
@@ -138,7 +126,6 @@ void NavigationActionAgent::configTicTacDropping() {
 }
 
 void NavigationActionAgent::configNorthWestEntity() {
-    // TODO: less naive implementation
     turnRight();
 }
 
@@ -153,21 +140,18 @@ void NavigationActionAgent::configNorthEastEntity() {
 }
 
 void NavigationActionAgent::configWestEntity() {
-    // TODO: less naive implementation
     goStraightRight();
 }
 
 void NavigationActionAgent::configureDefault() {
-    goStraight();
-    //TODO change back after testing
-    //goStraightLeft();
+    goStraightLeft();
 }
 
 /********************
  * Basic navigation direction functions
 *********************/
 void NavigationActionAgent::goStraight() {
-    if(STATE_PRINTING){Serial.println("GO Straight");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT");}
     // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -176,7 +160,7 @@ void NavigationActionAgent::goStraight() {
 }
 
 void NavigationActionAgent::goReverse() {
-    if(STATE_PRINTING){Serial.println("GO Reverse");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING REVERSE");}
     // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -185,16 +169,16 @@ void NavigationActionAgent::goReverse() {
 }
 
 void NavigationActionAgent::goStraightLeft() {
-    if(STATE_PRINTING){Serial.println("GO Straight Left");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT LEFT");}
     // Go straight forward but deviate to the left
-    this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; // TODO: put in constant and do the same for straightright
+    this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR;
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
 }
 
 void NavigationActionAgent::turnLeft() {
-    if(STATE_PRINTING){Serial.println("GO Left");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN LEFT");}
     // Turn the robot left
     this->leftSpeed = 0; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -203,7 +187,7 @@ void NavigationActionAgent::turnLeft() {
 }
 
 void NavigationActionAgent::turnLeftSpot() {
-    if(STATE_PRINTING){Serial.println("GO Left Spot");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN LEFT SPOT");}
     // Turn the robot left on the spot
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -212,7 +196,7 @@ void NavigationActionAgent::turnLeftSpot() {
 }
 
 void NavigationActionAgent::goStraightRight() {
-    if(STATE_PRINTING){Serial.println("GO Straight Right");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT RIGHT");}
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -221,7 +205,7 @@ void NavigationActionAgent::goStraightRight() {
 }
 
 void NavigationActionAgent::turnRight() {
-    if(STATE_PRINTING){Serial.println("GO Right");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN RIGHT");}
     // Turn the robot right
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = 0; 
@@ -230,7 +214,7 @@ void NavigationActionAgent::turnRight() {
 }
 
 void NavigationActionAgent::turnRightSpot() {
-    if(STATE_PRINTING){Serial.println("GO Right Spot");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN RIGHT SPOT");}
     // Turn the robot right on the spot
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
@@ -239,7 +223,7 @@ void NavigationActionAgent::turnRightSpot() {
 }
 
 void NavigationActionAgent::stopMoving() {
-    if(STATE_PRINTING){Serial.println("Stop moving");}
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("STOP MOVING");}
     // Stop the robot
     this->leftSpeed = 0; 
     this->rightSpeed = 0; 

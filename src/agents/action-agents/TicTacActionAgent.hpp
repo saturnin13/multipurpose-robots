@@ -4,6 +4,7 @@
 #include "../../actuators/StepperMotor.hpp"
 #include "../../state/State.hpp"
 #include "ActionAgent.hpp"
+#include "../../Constants.hpp"
 
 class TicTacActionAgent : public ActionAgent {
   public:

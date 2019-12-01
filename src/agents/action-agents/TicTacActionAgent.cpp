@@ -16,15 +16,17 @@ TicTacActionAgent::TicTacActionAgent(State *state, StepperMotor *stepperMotor, i
 }
 
 void TicTacActionAgent::enact() {
-
-    // this agent is only active if we are armed
+    if(DEBUG && TICTAC_ACTION_AGENT_DEBUG){Serial.print("\nTicTacActionAgent: ");}
+// this agent is only active if we are armed
     if (this->state->robotState != ARMED) {
-        return;
+        if(DEBUG && TICTAC_ACTION_AGENT_DEBUG){Serial.println("NOT ARMED, RETURNING");}
+return;
     }
 
     // this agent is only active if we want to drop something
     if (this->state->ticTacState != CURRENT) {
-        return;
+        if(DEBUG && TICTAC_ACTION_AGENT_DEBUG){Serial.println("NOT DROPPING, RETURNING");}
+return;
     }
 
     // we just change something in the stepper motor if it is not working
@@ -48,8 +50,8 @@ void TicTacActionAgent::enact() {
                                   : NUMBER_STEPS_PER_TICTAC;
 
             // drop it
-            Serial.print("DROPPING NOW");
-            this->stepperMotor->configure(
+            if(DEBUG && TICTAC_ACTION_AGENT_DEBUG){Serial.println("DROPPING NOW");}
+this->stepperMotor->configure(
                 true, 2, numberSteps); // ca 3600 is one full turn
 
             // save how many steps we made
@@ -68,8 +70,8 @@ void TicTacActionAgent::enact() {
             // waited some time after last drop
         } else if (this->numberDrops == 0 &&
                    (now - this->timeLastDropEnd) > TIME_BETWEEN_DROPS) {
-
-            // get it back all the way
+            if(DEBUG && TICTAC_ACTION_AGENT_DEBUG){Serial.println("DRIVING MOTOR BACK IN");}
+// get it back all the way
             this->stepperMotor->configure(
                 false, 2,
                 this->stepsToStartPosition -
