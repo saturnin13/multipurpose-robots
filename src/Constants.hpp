@@ -31,6 +31,9 @@
 
 #define NOT_MOVING_DELAY_AFTER_START 3000
 
+#define TICTAC_TIME_RUNNING_AFTER_INCLINE 1000
+#define TOTAL_DROPPING_TIME 8000
+
 /********************
  * ROS
  *********************/

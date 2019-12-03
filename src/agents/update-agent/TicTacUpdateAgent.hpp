@@ -16,6 +16,7 @@ class TicTacUpdateAgent : public UpdateAgent {
 
   private:
     unsigned long timeDropStart;
+    unsigned long timeFinishedIncline;
 };
 
 #endif
