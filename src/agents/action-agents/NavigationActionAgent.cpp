@@ -29,6 +29,10 @@ void NavigationActionAgent::enact() {
         if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FINAL TABLE COMPLETED");}
         stopMoving();
 
+    } else if(this->state->ticTacState == CURRENT) {
+        if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DROPPING TIC TACS");}
+        stopMoving();
+
     } else {
 
         // The order of the condition is representative of the priority of actions
@@ -75,7 +79,8 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
-    this->leftMotor->configure(this->leftForward, this->leftSpeed);
+    // HACK the ! inverts the direction, because wires are incorectly
+    this->leftMotor->configure(!this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
     // Enact motors after all

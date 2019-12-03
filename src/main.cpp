@@ -245,7 +245,8 @@ void setup() {
     
     // Workaround for IMU
     Wire.endTransmission(true);
-
+    state.move = false;
+    
     Serial.begin(BAUD_RATE);
 
     if (DEBUG) {

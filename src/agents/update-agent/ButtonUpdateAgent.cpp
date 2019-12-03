@@ -20,7 +20,7 @@ this->state->robotState = ARMED;
     if (this->state->robotState == ARMED && !this->state->move && (millis()-this->timeSinceArming)> NOT_MOVING_DELAY_AFTER_START) {
         // make that the motors start after 3 sec and not before
         if(DEBUG && BUTTON_UP_UPDATE_AGENT_DEBUG){Serial.println("ENABLING MOVEMENT");}
-this->state->move = true;
+        this->state->move = true;
     }
 
     //TODO move this to own button or delete it for competition, but it is nice for testing, just quick fix for now
