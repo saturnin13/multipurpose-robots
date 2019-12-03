@@ -8,10 +8,10 @@ LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSen
 }
 
 void LineDetectionUpdateAgent::update() {
-    if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nLineDetectionUpdateAgent: ");}
+    if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nLineDetectionUpdateAgent: ");}
     
-    //if we already completed this table, we do not have to look for lines anymore
-    if(this->state->lineFollowingTable == COMPLETED) {
+    // if we already completed this table, we do not have to look for lines anymore
+    if (this->state->lineFollowingTable == COMPLETED) {
         if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
         return;
     }

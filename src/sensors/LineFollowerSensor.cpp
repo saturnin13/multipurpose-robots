@@ -26,12 +26,6 @@ void LineFollowerSensor::update() {
     this->lineDetected4 = analogRead(this->pin4) < IR_LF_THRESHOLD;
     this->lastUpdate = now;
 
-    //Serial.println(analogRead(this->pin0));
-    //Serial.println(analogRead(this->pin1));
-    //Serial.println(analogRead(this->pin2));
-    //Serial.println(analogRead(this->pin3));
-    //Serial.println(analogRead(this->pin4));
-
 }
 
 void LineFollowerSensor::reset() {
