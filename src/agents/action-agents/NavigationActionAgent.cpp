@@ -71,6 +71,10 @@ void NavigationActionAgent::enact() {
             // Stop if dropping
             configTicTacDropping();
 
+        } else if(this->state->incline == CURRENT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("ON INCLINE");}
+            // Stop if dropping
+            configIncline();
         } else {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DEFAULT");}
             // Set the default configurations
@@ -148,6 +152,10 @@ void NavigationActionAgent::configWestEntity() {
     goStraightRight();
 }
 
+void NavigationActionAgent::configIncline() {
+    goStraight();
+}
+
 void NavigationActionAgent::configureDefault() {
     goStraightLeft();
 }
@@ -177,7 +185,7 @@ void NavigationActionAgent::goStraightLeft() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT LEFT");}
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR;
-    this->rightSpeed = ROBOT_SPEED; 
+    this->rightSpeed = ROBOT_SPEED * RATIO_FAST_TO_SLOW_MOTOR;
     this->leftForward = true;
     this->rightForward = true;
 }
@@ -194,8 +202,8 @@ void NavigationActionAgent::turnLeft() {
 void NavigationActionAgent::turnLeftSpot() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN LEFT SPOT");}
     // Turn the robot left on the spot
-    this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = ROBOT_SPEED; 
+    this->leftSpeed = ROBOT_SPEED * 1.2;
+    this->rightSpeed = ROBOT_SPEED * 1.2 * 1.3;
     this->leftForward = false;
     this->rightForward = true;
 }
@@ -204,7 +212,7 @@ void NavigationActionAgent::goStraightRight() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT RIGHT");}
     // Go straight forward but deviate to the left
     this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; 
-    this->rightSpeed = ROBOT_SPEED; 
+    this->rightSpeed = ROBOT_SPEED * RATIO_FAST_TO_SLOW_MOTOR;
     this->leftForward = true;
     this->rightForward = true;
 }
@@ -221,8 +229,8 @@ void NavigationActionAgent::turnRight() {
 void NavigationActionAgent::turnRightSpot() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("TURN RIGHT SPOT");}
     // Turn the robot right on the spot
-    this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = ROBOT_SPEED; 
+    this->leftSpeed = ROBOT_SPEED * 1.2 * 1.3;
+    this->rightSpeed = ROBOT_SPEED * 1.2;
     this->leftForward = true;
     this->rightForward = false;
 }

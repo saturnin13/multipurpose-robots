@@ -16,10 +16,11 @@ class InclineUpdateAgent : public UpdateAgent {
     IMUSensor *imu;
 
     // The time at which the incline threshold was first exceeded.
-    unsigned long thresholdExceededTime = 0;
+    unsigned long firstInclineDetectedTime = 0;
+    unsigned long firstFlatDetectedTime = 0;
 
     // Whether an incline is being detected right now. Used internally for debouncing.
-    bool inclineDetected = false;
+    bool lastDetectedIsIncline = false;
 };
 
 #endif

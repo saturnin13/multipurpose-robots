@@ -18,6 +18,10 @@ private:
     LineFollowerSensor* lf;
     UltrasonicSensor* usNW;
     UltrasonicSensor* usNE;
+
+    bool hasCrossedLine;
+    int firstSeenSide;
+    int lastSeenLineTime;
 };
 
 #endif

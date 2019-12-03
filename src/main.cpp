@@ -282,6 +282,15 @@ void loop() {
         if(now > lastDebugUpdate + DEBUG_PRINTING_DELAY) {
             lastDebugUpdate = now;
             printDebug();
+//            Serial.println(usNEForward.distance);
+//            Serial.println(usNWForward.distance);
+//            Serial.println(usWForward.distance);
+//
+//            Serial.println();
+//
+//            Serial.println(usNEDown.distance);
+//            Serial.println(usNWDown.distance);
+//            Serial.println(usSWDown.distance);
         };
 //        delay(DEBUG_PRINTING_DELAY);
     }

@@ -4,7 +4,9 @@
 
 LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSensor* lf, UltrasonicSensor* usNW, UltrasonicSensor* usNE)
 : UpdateAgent(state), lf(lf), usNW(usNW), usNE(usNE) {
-
+    this->hasCrossedLine = false;
+    this->firstSeenSide = -1;
+    this->lastSeenLineTime = 0;
 }
 
 void LineDetectionUpdateAgent::update() {
@@ -13,7 +15,8 @@ void LineDetectionUpdateAgent::update() {
     //if we already completed this table, we do not have to look for lines anymore
     if(this->state->lineFollowingTable == COMPLETED) {
         if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
-        return;
+        // TODO: REMOVE COMMENTED CODE
+//        return;
     }
 
     // Get sensor values
@@ -26,31 +29,67 @@ void LineDetectionUpdateAgent::update() {
     bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
-    // Checking the current state of the table and updating if necessary
-    if (!lf0 && !lf1 && !lf2 && !lf3 && !lf4 && state->lineFollowingTable == CURRENT) {
-        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("SETTING LINE FOLLOWING TO COMPLETED");}
-        state->lineFollowingTable = COMPLETED;
-    
-    } else if ((lf0 || lf1 || lf2 || lf3 || lf4) && !usNWIsEdge && !usNEIsEdge) {
-        state->lineFollowingTable = CURRENT;
-        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Following the Line to the ");}
+    Serial.print(lf0);
+    Serial.print(lf1);
+    Serial.print(lf2);
+    Serial.print(lf3);
+    Serial.print(lf4);
 
-        // Updating the line state
-        if (lf0) {
-            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE LEFT");}
-            state->lineState = LEFT;
-        } else if (lf1) {
-            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE LEFT*");}
-            state->lineState = LEFT;
-        } else if (lf3) {
-            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE RIGHT");}
-            state->lineState = RIGHT;
-        } else if (lf4) {
-            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE RIGHT*");}
-            state->lineState = RIGHT;
-        } else if (lf2) {
-            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE CENTER");}
-            state->lineState = CENTER;
+    signed int sumSensors = 0;
+
+    // Checking the current state of the table and updating if necessary
+    if (!lf0 && !lf1 && !lf2 && !lf3 && !lf4) {
+        if(state->lineFollowingTable == CURRENT && millis() - this->lastSeenLineTime > LINE_FOLLOWING_COMPLETED_DELAY) {
+            if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) {Serial.println("SETTING LINE FOLLOWING TO COMPLETED");}
+            state->lineFollowingTable = COMPLETED;
+        }
+
+    } else {
+        if(!usNWIsEdge && !usNEIsEdge) {
+            if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("FOLLOWING THE LINE");}
+            this->lastSeenLineTime = millis();
+            state->lineFollowingTable = CURRENT;
+
+            if(this->firstSeenSide == -1) {
+                this->firstSeenSide = lf3 || lf4 ? 4: 0;
+            }
+
+            // For directly facing the line
+            if(lf0 && lf1 && lf2 && lf3 && lf4) {
+                state->lineState = LEFT;
+            }
+
+            if (!this->hasCrossedLine) {
+                if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NOT YET CROSSED THE LINE");}
+                if((!lf0 && this->firstSeenSide == 0) || (!lf4 && this->firstSeenSide == 4)) {
+                    this->hasCrossedLine = true;
+                }
+            } //else if (lf0 && lf1 && lf2 && lf3) {
+                //if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Special case of the line intersection");}
+                //state->lineFollowingTable = CURRENT;
+                //state->lineState = LEFT;
+            //}
+            else {
+                // Updating the line state
+                sumSensors += lf0 ? -2: 0;
+                sumSensors += lf1 ? -1: 0;
+                sumSensors += lf2 ? 0: 0;
+                sumSensors += lf3 ? 1: 0;
+                sumSensors += lf4 ? 2: 0;
+
+                if (sumSensors > 0) {
+                    if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) { Serial.println("LINE IS RIGHT"); }
+                    state->lineState = RIGHT;
+
+                } else if (sumSensors < 0) {
+                    if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) { Serial.println("LINE IS LEFT"); }
+                    state->lineState = LEFT;
+
+                } else {
+                    if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) { Serial.println("LINE IS CENTER"); }
+                    state->lineState = CENTER;
+                }
+            }
         }
     }
 }

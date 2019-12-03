@@ -30,6 +30,7 @@ class NavigationActionAgent : public ActionAgent {
     void configNorthEntity();
     void configNorthEastEntity();
     void configWestEntity();
+    void configIncline();
     void configureDefault();
 
     // Basic robot command

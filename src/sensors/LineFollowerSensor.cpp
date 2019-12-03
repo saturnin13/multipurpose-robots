@@ -4,7 +4,7 @@
 // Sampling rate in milliseconds
 #define SAMPLING_RATE 100
 
-#define IR_LF_THRESHOLD 550
+#define IR_LF_THRESHOLD 400
 
 LineFollowerSensor::LineFollowerSensor(int pin0, int pin1, int pin2, int pin3, int pin4)
     : pin0(pin0), pin1(pin1), pin2(pin2), pin3(pin3), pin4(pin4) {
@@ -26,11 +26,11 @@ void LineFollowerSensor::update() {
     this->lineDetected4 = analogRead(this->pin4) < IR_LF_THRESHOLD;
     this->lastUpdate = now;
 
-    //Serial.println(analogRead(this->pin0));
-    //Serial.println(analogRead(this->pin1));
-    //Serial.println(analogRead(this->pin2));
-    //Serial.println(analogRead(this->pin3));
-    //Serial.println(analogRead(this->pin4));
+//    Serial.println(analogRead(this->pin0));
+//    Serial.println(analogRead(this->pin1));
+//    Serial.println(analogRead(this->pin2));
+//    Serial.println(analogRead(this->pin3));
+//    Serial.println(analogRead(this->pin4));
 
 }
 
