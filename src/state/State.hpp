@@ -29,7 +29,7 @@ struct State {
 
     bool emergencyStop = false;
 
-    bool move = true;
+    bool move = false;
 };
 
 #endif
