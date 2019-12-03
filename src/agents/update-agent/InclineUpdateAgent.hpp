@@ -21,6 +21,7 @@ class InclineUpdateAgent : public UpdateAgent {
 
     // Whether an incline is being detected right now. Used internally for debouncing.
     bool lastDetectedIsIncline = false;
+    bool declineDetected = false;
 };
 
 #endif

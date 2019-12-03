@@ -23,8 +23,8 @@ void InclineUpdateAgent::update() {
         return;
     }
 
-    bool hasExceededAngle = (x < (DEGREES_CIRCLES - INCLINE_THRESHOLD) && x > INCLINE_THRESHOLD) ||
-                             (y < (DEGREES_CIRCLES - INCLINE_THRESHOLD) && y > INCLINE_THRESHOLD);
+    bool hasExceededAngle = (x < (DEGREES_CIRCLE - INCLINE_THRESHOLD) && x > INCLINE_THRESHOLD) ||
+                             (y < (DEGREES_CIRCLE - INCLINE_THRESHOLD) && y > INCLINE_THRESHOLD);
 
     if (hasExceededAngle) {
         // The threshold is exceeded.
@@ -36,8 +36,13 @@ void InclineUpdateAgent::update() {
         }
 
         if (this->state->incline == UNSEEN && millis() - this->firstInclineDetectedTime > INCLINE_DETECTION_DELAY) {
-            if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.println("SETTING INCLINE TO CURRENT"); }
+            if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.println("SETTING INCLINE TO CURRENT");} 
             this->state->incline = CURRENT;
+        }
+
+        if(this->state->incline == COMPLETED && !this->declineDetected) {
+            this->declineDetected = true;
+            this->state->decline = CURRENT;
         }
     } else {
         if(DEBUG && INCLINE_UPDATE_AGENT_DEBUG){Serial.println("NO INCLINE DETECTED");}
@@ -52,6 +57,12 @@ void InclineUpdateAgent::update() {
             if(DEBUG && INCLINE_UPDATE_AGENT_DEBUG){Serial.println("SETTING INCLINE TO COMPLETED");}
             this->state->incline = COMPLETED;
             this->lastDetectedIsIncline = false;
+        }
+
+        if (this->state->decline == CURRENT) {
+            if(DEBUG && INCLINE_UPDATE_AGENT_DEBUG){Serial.println("SETTING DECLINE TO COMPLETED");}
+            this->state->decline = COMPLETED;
+            this->declineDetected = false;
         }
     }
 }

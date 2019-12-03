@@ -32,12 +32,14 @@ class NavigationActionAgent : public ActionAgent {
     void configWestEntity();
     void configIncline();
     void configureDefault();
+    void configDecline();
+
 
     // Basic robot command
     void turnLeft();
     void goStraightLeft();
     void turnLeftSpot();
-    void goStraight();
+    void goStraight(int speed = ROBOT_SPEED);
     void goStraightRight();
     void turnRightSpot();
     void turnRight();

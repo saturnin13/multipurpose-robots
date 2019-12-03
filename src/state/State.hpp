@@ -16,6 +16,7 @@ struct State {
     Entity northWestEntity = FLAT;
 
     EventState incline = UNSEEN;
+    EventState decline = UNSEEN;
     EventState finalTable = UNSEEN;
 
     EventState ticTacState = UNSEEN;

@@ -258,6 +258,8 @@ void loop() {
     // 2. Let update agents compute state
     updateAgents();
 
+    state.move = false;
+    state.lineFollowingTable = COMPLETED;
     // 3. Make action agents carry out actions
     enactAgents();
 

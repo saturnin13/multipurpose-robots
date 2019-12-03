@@ -70,11 +70,17 @@ void NavigationActionAgent::enact() {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DROPPING TICTAC");}
             // Stop if dropping
             configTicTacDropping();
-
+            
         } else if(this->state->incline == CURRENT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("ON INCLINE");}
-            // Stop if dropping
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("CLIMBING");}
+            // Go faster up
             configIncline();
+
+        } else if(this->state->decline == CURRENT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DECLINING");}
+            // Go slower down
+            configDecline();
+            
         } else {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DEFAULT");}
             // Set the default configurations
@@ -130,6 +136,16 @@ void NavigationActionAgent::configLineFollowing() {
     }
 }
 
+void NavigationActionAgent::configIncline() {
+    int speed = ROBOT_SPEED * RATIO_INCLINE;
+    goStraight(speed);
+}
+
+void NavigationActionAgent::configDecline() {
+    int speed = ROBOT_SPEED * RATIO_DECLINE;
+    goStraight(speed);
+}
+
 void NavigationActionAgent::configTicTacDropping() {
     stopMoving();
 }
@@ -152,10 +168,6 @@ void NavigationActionAgent::configWestEntity() {
     goStraightRight();
 }
 
-void NavigationActionAgent::configIncline() {
-    goStraight();
-}
-
 void NavigationActionAgent::configureDefault() {
     goStraightLeft();
 }
@@ -163,14 +175,23 @@ void NavigationActionAgent::configureDefault() {
 /********************
  * Basic navigation direction functions
 *********************/
-void NavigationActionAgent::goStraight() {
+void NavigationActionAgent::goStraight(int speed) {
+    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT");}
+    // Go straight forward
+    this->leftSpeed = speed; 
+    this->rightSpeed = speed; 
+    this->leftForward = true;
+    this->rightForward = true;
+}
+
+/*void NavigationActionAgent::goStraight() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT");}
     // Go straight forward
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = true;
     this->rightForward = true;
-}
+}*/
 
 void NavigationActionAgent::goReverse() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING REVERSE");}
