@@ -79,8 +79,8 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
-    // HACK the ! inverts the direction, because wires are incorectly
-    this->leftMotor->configure(!this->leftForward, this->leftSpeed);
+    // TODO: HACK the ! inverts the direction, because wires are incorectly
+    this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
     // Enact motors after all
@@ -94,7 +94,7 @@ void NavigationActionAgent::enact() {
 
 void NavigationActionAgent::configCircleDirection() {
     if(this->state->circleDirection == WEST) {
-        turnLeft();
+        turnLeftSpot();
     } else if(this->state->circleDirection == SOUTHWEST) {
         turnLeftSpot();
     } else if(this->state->circleDirection == SOUTH) {
@@ -102,13 +102,13 @@ void NavigationActionAgent::configCircleDirection() {
     } else if(this->state->circleDirection == SOUTHEAST) {
         turnRightSpot();
     } else if(this->state->circleDirection == EAST) {
-        turnRight();
+        turnRightSpot();
     } else if(this->state->circleDirection == NORTHEAST) {
-        goStraightRight();
+        turnRightSpot();
     } else if(this->state->circleDirection == NORTH) {
         goStraight();
     } else if(this->state->circleDirection == NORTHWEST) {
-        goStraightLeft();
+        turnLeftSpot();
     } else {
         configureDefault(); //DISCUSS: what should happen at this point? stopping is probably not a good idea
     }
@@ -116,9 +116,9 @@ void NavigationActionAgent::configCircleDirection() {
 
 void NavigationActionAgent::configLineFollowing() {
     if(this->state->lineState == LEFT) {
-        turnLeft();
+        turnLeftSpot();
     } else if(this->state->lineState == RIGHT) {
-        turnRight();
+        turnRightSpot();
     } else if(this->state->lineState == CENTER) {
         goStraight();
     } else {
@@ -131,17 +131,17 @@ void NavigationActionAgent::configTicTacDropping() {
 }
 
 void NavigationActionAgent::configNorthWestEntity() {
-    turnRight();
+    turnRightSpot();
 }
 
 void NavigationActionAgent::configNorthEntity() {
     // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
-    turnRight();
+    turnRightSpot();
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
     // TODO: if there is something NE, we wont fit between; less naive implementation, maybe Spot?
-    turnLeft();
+    turnLeftSpot();
 }
 
 void NavigationActionAgent::configWestEntity() {

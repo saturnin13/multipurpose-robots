@@ -37,7 +37,7 @@ void Motor::enact() {
         this->stopped = false;
     }
 
-    if (this->forward) {
+    if (!this->forward) {
         // Forward
         digitalWrite(this->in1Pin, LOW);
         digitalWrite(this->in2Pin, HIGH);
