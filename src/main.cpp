@@ -108,10 +108,10 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 *********************/
 InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
-CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE, &lf);
+CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE);
 
 EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNWDown, &usNWForward, &usWForward, &usNEForward, &usNEDown);
-LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
+LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWDown, &usNEDown);
 
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);

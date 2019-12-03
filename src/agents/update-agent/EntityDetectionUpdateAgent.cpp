@@ -13,7 +13,7 @@ void EntityDetectionUpdateAgent::update() {
     if (DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG) {
         Serial.print("\nEntityDetectionUpdateAgent: ");
     }
-    
+
     // Get sensor values
     bool usNNWIsObstacle = usNNWForward->distance < US_OBSTACLE_THRESHOLD;
     bool usWIsObstacle = usWForward->distance < US_OBSTACLE_THRESHOLD;
@@ -24,16 +24,16 @@ void EntityDetectionUpdateAgent::update() {
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
     // Checking the W side
-    if (usWIsObstacle) {
-        if (DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG) {
-            Serial.println("W OBSTACLE");
-        }
-        this->state->westEntity = OBSTACLE;
-    } else if (usWIsEdge) {
+    if (usWIsEdge) {
         if (DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG) {
             Serial.println("W EDGE");
         }
         this->state->westEntity = EDGE;
+    } else if (usWIsObstacle) {
+        if (DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG) {
+            Serial.println("W OBSTACLE");
+        }
+        this->state->westEntity = OBSTACLE;
     } else {
         if (DEBUG && ENTITY_DETECTION_UPDATE_AGENT_DEBUG) {
             Serial.println("W FLAT");
