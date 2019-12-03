@@ -126,7 +126,7 @@ TicTacActionAgent ticTacAgent(&state, &stepperMotor, 1);
 /********************
  * Debug variable
 *********************/
-unsigned long lastDebugUpdate;
+unsigned long lastDebugUpdate = millis();
 
 /********************
  * ROS
@@ -135,15 +135,11 @@ unsigned long lastDebugUpdate;
 void eStopCallback(const std_msgs::Bool &msg) {
     bool stop = msg.data;
 
-    if (!stop && state.robotState == DISARMED) {
-        return;
-    }
-
     if (stop) {
-        state.emergencyStop = msg.data;
+        state.emergencyStop = true;
         state.robotState = ARMED;
     } else {
-        state.emergencyStop = msg.data;
+        state.emergencyStop = false;
         state.robotState = DISARMED;
     }
 }
@@ -160,7 +156,6 @@ ros::Subscriber<std_msgs::Empty> dropSubscriber(ROS_DROP_TOPIC, &dropCallback);
 #endif
 
 void updateSensors() {
-
     button.update();
 
     imu.update();
@@ -170,15 +165,7 @@ void updateSensors() {
     irSW.update();
     irSE.update();
 
-    lf.update();    // TODO: STATE_UPDATE_AGENT
-    if (state.emergencyStop) {
-        state.robotState = DISARMED;
-    }
-
-    if (state.finalTable == COMPLETED) {
-        state.robotState = DISARMED;
-    }
-
+    lf.update();
 
     usNWForward.update();
     usWForward.update();
@@ -205,9 +192,14 @@ void enactAgents() {
 }
 
 void printDebug() {
-    /********************
-     * State Printing
-    *********************/
+    auto now = millis();
+
+    if (now < lastDebugUpdate + DEBUG_PRINTING_DELAY) {
+        return;
+    }
+
+    lastDebugUpdate = now;
+
     Serial.print("The current robot state is: {");
 
     Serial.print("robotState: ");Serial.print(state.robotState);
@@ -239,16 +231,9 @@ void printDebug() {
 
 void setup() {
 
-    //TODO: testing hacks
-    //state.ticTacState = CURRENT;
-    //state.move = true;
-    //state.lineFollowingTable = COMPLETED;
-    //state.finalTable = CURRENT;
-    
     // Workaround for IMU
     Wire.endTransmission(true);
     
-
     Serial.begin(BAUD_RATE);
 
     if (DEBUG) {
@@ -260,7 +245,6 @@ void setup() {
     nh.subscribe(estopSubscriber);
     nh.subscribe(dropSubscriber);
 
-    lastDebugUpdate = millis();
 }
 
 void loop() {

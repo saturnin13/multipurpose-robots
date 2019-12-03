@@ -31,7 +31,6 @@ void LineFollowerSensor::update() {
 //    Serial.println(analogRead(this->pin2));
 //    Serial.println(analogRead(this->pin3));
 //    Serial.println(analogRead(this->pin4));
-
 }
 
 void LineFollowerSensor::reset() {
