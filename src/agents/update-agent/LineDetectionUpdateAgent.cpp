@@ -9,10 +9,11 @@ LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSen
 
 void LineDetectionUpdateAgent::update() {
     if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nLineDetectionUpdateAgent: ");}
-//if we already completed this table, we do not have to look for lines anymore
+    
+    //if we already completed this table, we do not have to look for lines anymore
     if(this->state->lineFollowingTable == COMPLETED) {
         if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
-return;
+        return;
     }
 
     // Get sensor values
@@ -28,27 +29,28 @@ return;
     // Checking the current state of the table and updating if necessary
     if (!lf0 && !lf1 && !lf2 && !lf3 && !lf4 && state->lineFollowingTable == CURRENT) {
         if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("SETTING LINE FOLLOWING TO COMPLETED");}
-state->lineFollowingTable = COMPLETED;
-
+        state->lineFollowingTable = COMPLETED;
+    
     } else if ((lf0 || lf1 || lf2 || lf3 || lf4) && !usNWIsEdge && !usNEIsEdge) {
         state->lineFollowingTable = CURRENT;
+        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Following the Line to the ");}
 
         // Updating the line state
         if (lf0) {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE LEFT");}
-state->lineState = LEFT;
+            state->lineState = LEFT;
         } else if (lf1) {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE LEFT*");}
-state->lineState = LEFT;
+            state->lineState = LEFT;
         } else if (lf3) {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE RIGHT");}
-state->lineState = RIGHT;
+            state->lineState = RIGHT;
         } else if (lf4) {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE RIGHT*");}
-state->lineState = RIGHT;
+            state->lineState = RIGHT;
         } else if (lf2) {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE CENTER");}
-state->lineState = CENTER;
+            state->lineState = CENTER;
         }
     }
 }

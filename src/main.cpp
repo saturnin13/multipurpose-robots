@@ -109,8 +109,10 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
 CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE, &lf);
+
 EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNWDown, &usNWForward, &usWForward, &usNEForward, &usNEDown);
 LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
+
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);
 
@@ -245,8 +247,8 @@ void setup() {
     
     // Workaround for IMU
     Wire.endTransmission(true);
-    state.move = false;
     
+
     Serial.begin(BAUD_RATE);
 
     if (DEBUG) {
@@ -271,7 +273,7 @@ void loop() {
 
     // 2. Let update agents compute state
     updateAgents();
-    
+
     // 3. Make action agents carry out actions
     enactAgents();
 
@@ -280,6 +282,8 @@ void loop() {
         if(now > lastDebugUpdate + DEBUG_PRINTING_DELAY) {
             lastDebugUpdate = now;
             printDebug();
+            Serial.println(usSWDown.distance);
+            Serial.println(usWForward.distance);
         };
     }
 
