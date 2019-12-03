@@ -91,8 +91,8 @@ LineFollowerSensor lf(LINE_FOLLOWER_PIN0, LINE_FOLLOWER_PIN1, LINE_FOLLOWER_PIN2
 UltrasonicSensor usNWForward(US_NW_FORWARD_TRIGGER_PIN, US_NW_FORWARD_ECHO_PIN);
 UltrasonicSensor usNEForward(US_NE_FORWARD_TRIGGER_PIN, US_NE_FORWARD_ECHO_PIN);
 UltrasonicSensor usWForward(US_W_FORWARD_TRIGGER_PIN, US_W_FORWARD_ECHO_PIN);
-UltrasonicSensor usNNWDown(US_NW_DOWN_TRIGGER_PIN, US_NW_DOWN_ECHO_PIN);
-UltrasonicSensor usNNEDown(US_NE_DOWN_TRIGGER_PIN, US_NE_DOWN_ECHO_PIN);
+UltrasonicSensor usNWDown(US_NW_DOWN_TRIGGER_PIN, US_NW_DOWN_ECHO_PIN);
+UltrasonicSensor usNEDown(US_NE_DOWN_TRIGGER_PIN, US_NE_DOWN_ECHO_PIN);
 UltrasonicSensor usSWDown(US_SW_DOWN_TRIGGER_PIN, US_SW_DOWN_ECHO_PIN);
 
 /********************
@@ -109,7 +109,7 @@ Motor rightMotor(MOTOR_PIN3, MOTOR_PIN4, MOTOR_ENA2);
 InclineUpdateAgent anglingUpdateAgent(&state, &imu);
 ButtonUpdateAgent buttonUpdateAgent(&state, &button);
 CircleDetectionUpdateAgent circleDetectionUpdateAgent(&state, &irNW, &irNE, &irSW, &irSE, &lf);
-EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNNWDown, &usNWForward, &usWForward, &usNEForward, &usNNEDown);
+EntityDetectionUpdateAgent entityDetectionUpdateAgent(&state, &usSWDown, &usNWDown, &usNWForward, &usWForward, &usNEForward, &usNEDown);
 LineDetectionUpdateAgent lineDetectionUpdateAgent(&state, &lf, &usNWForward, &usNEForward);
 LoopDetectionUpdateAgent loopDetectionUpdateAgent(&state, &imu);
 TicTacUpdateAgent ticTacUpdateAgent(&state);
@@ -181,8 +181,8 @@ void updateSensors() {
     usNWForward.update();
     usWForward.update();
     usNEForward.update();
-    usNNWDown.update();
-    usNNEDown.update();
+    usNWDown.update();
+    usNEDown.update();
     usSWDown.update();
 }
 
