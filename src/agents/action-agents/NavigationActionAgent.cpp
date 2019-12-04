@@ -54,22 +54,22 @@ void NavigationActionAgent::enact() {
             // Avoid the north east entity
             configNorthEastEntity();
 
-        } else if (this->state->westEntity != FLAT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
-            // Avoid the west entity
-            configWestEntity();
+        } else if (this->state->lineFollowingTable == COMPLETED && this->state->incline == COMPLETED && this->state->circleDirection != UNKNOWN) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
+            // Go to circle
+            configCircleDirection();
 
         } else if (nextManoeuver != NO_MANOEUVER){
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("PERFORMING MANOEUVER");}
             // Perform manoeuver
             configManoeuver();
 
-        } else if (this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
-            // Go to circle
-            configCircleDirection();
+        } else if (this->state->westEntity != FLAT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
+            // Avoid the west entity
+            configWestEntity();
 
-        } else if (this->state->lineFollowingTable == CURRENT) {
+        }   else if (this->state->lineFollowingTable == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FOLLOWING LINE");}
             // Follow line
             configLineFollowing();
@@ -97,7 +97,6 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
-    //goStraight(20);
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -194,11 +193,11 @@ void NavigationActionAgent::configDecline() {
 
 void NavigationActionAgent::configManoeuver() {
     if (this->nextManoeuver == TURN_60_DEGREE_RIGHT) {
-        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.8);
+        performTurnXDegreeRightManoeuver(ROBOT_SPEED *TURN_90_DEGREE_RIGHT_MANOEUVER_TIME / 15 * 0.8);
     } else if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
-        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME);
+        performTurnXDegreeRightManoeuver(ROBOT_SPEED *TURN_90_DEGREE_RIGHT_MANOEUVER_TIME / 15);
     } else if (this->nextManoeuver == TURN_120_DEGREE_RIGHT) {
-        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 1.33);
+        performTurnXDegreeRightManoeuver(ROBOT_SPEED *TURN_90_DEGREE_RIGHT_MANOEUVER_TIME / 15 * 1.33);
     }
 }
 

@@ -260,9 +260,9 @@ void loop() {
 
     //state.move = false;
     //TODO: DELETE
-    state.lineFollowingTable = COMPLETED;
-    state.incline = COMPLETED;
-    // 3. Make action agents carry out actions
+//    state.lineFollowingTable = COMPLETED;
+//    state.incline = COMPLETED;
+//     3. Make action agents carry out actions
     enactAgents();
 
     // TODO: REMOVE
@@ -270,6 +270,9 @@ void loop() {
 //    Serial.println(usNWForward.distance);
 //    Serial.println(usNEForward.distance);
 //    delay(300);
+    if(state.lineFollowingTable != 0) {
+        Serial.print(state.lineFollowingTable);
+    }
 
     if (DEBUG) {
         printDebug();

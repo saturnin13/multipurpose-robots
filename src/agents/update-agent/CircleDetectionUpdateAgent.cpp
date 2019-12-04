@@ -27,22 +27,22 @@ void CircleDetectionUpdateAgent::update() {
 
     // if there is an edges on the left, the IR sensors on the left are not
     // useful as they might detect not existing lines
-    if (this->state->northWestEntity == EDGE) {
+    if (this->state->northWestEntity != FLAT) {
         nw = false;
     }
 
-    if (this->state->westEntity == EDGE) {
-        sw = false;
-    }
-
-    // if there is an edge in the front, the IR sensors on the left are not
-    // useful as they might detect not existing lines
-    if (this->state->northEastEntity == EDGE) {
+    if (this->state->northEastEntity != FLAT) {
         ne = false;
     }
 
-    if (this->state->northWestEntity == EDGE) {
+    if (this->state->northEntity != FLAT) {
         nw = false;
+        ne = false;
+    }
+
+    if (this->state->westEntity != FLAT) {
+        nw = false;
+        sw = false;
     }
 
     //if every sensor detects a black surface, we are in the circle and have therefore the final table
