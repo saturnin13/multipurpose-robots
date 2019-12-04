@@ -198,7 +198,7 @@ void NavigationActionAgent::performTurn90DegreeManoeuver() {
     if(millis() - this->startedManoeuverTime < manoeuverTime) {
         turnRightSpot();
     } else {
-        this->startedManoeuverTime == 0;
+        this->startedManoeuverTime = 0;
         this->nextManoeuver = NO_MANOEUVER;
     }
 }

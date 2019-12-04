@@ -23,8 +23,8 @@ class NavigationActionAgent : public ActionAgent {
 
     // Manoeuver related
     Manoeuver nextManoeuver;
-    int startedManoeuverTime;
-    int manoeuverTime;
+    unsigned long startedManoeuverTime;
+    unsigned long manoeuverTime;
 
     void performTurn90DegreeManoeuver();
 
