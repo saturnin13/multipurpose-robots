@@ -242,11 +242,14 @@ void setup() {
         Serial.println("Setup completed");
     }
 
+    digitalWrite(13,HIGH);
+
+    #if ROS
     nh.getHardware()->setBaud(BAUD_RATE);
     nh.initNode();
     nh.subscribe(estopSubscriber);
     nh.subscribe(dropSubscriber);
-
+    #endif
 }
 
 void loop() {
@@ -271,13 +274,13 @@ void loop() {
             lastDebugUpdate = now;
             printDebug();
 //            Serial.println(usNEForward.distance);
-//            Serial.println(usNWForward.distance);
+            Serial.println(usNWForward.distance);
 //            Serial.println(usWForward.distance);
 //
 //            Serial.println();
 //
 //            Serial.println(usNEDown.distance);
-//            Serial.println(usNWDown.distance);
+            Serial.println(usNWDown.distance);
 //            Serial.println(usSWDown.distance);
         };
 //        delay(DEBUG_PRINTING_DELAY);
