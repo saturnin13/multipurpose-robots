@@ -54,6 +54,11 @@ void NavigationActionAgent::enact() {
             // Avoid the north east entity
             configNorthEastEntity();
 
+        } else if (this->state->westEntity != FLAT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
+            // Avoid the west entity
+            configWestEntity();
+
         } else if (this->state->lineFollowingTable == COMPLETED && this->state->incline == COMPLETED && this->state->circleDirection != UNKNOWN) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
             // Go to circle
@@ -64,12 +69,7 @@ void NavigationActionAgent::enact() {
             // Perform manoeuver
             configManoeuver();
 
-        } else if (this->state->westEntity != FLAT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
-            // Avoid the west entity
-            configWestEntity();
-
-        }   else if (this->state->lineFollowingTable == CURRENT) {
+        } else if (this->state->lineFollowingTable == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FOLLOWING LINE");}
             // Follow line
             configLineFollowing();
@@ -178,7 +178,7 @@ void NavigationActionAgent::configNorthEastEntity() {
 }
 
 void NavigationActionAgent::configWestEntity() {
-    goStraightRight();
+    goStraight();
 }
 
 void NavigationActionAgent::configIncline() {
@@ -273,8 +273,8 @@ void NavigationActionAgent::turnLeftSpot() {
 void NavigationActionAgent::goStraightRight() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT RIGHT");}
     // Go straight forward but deviate to the left
-    this->leftSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR; 
-    this->rightSpeed = ROBOT_SPEED * RATIO_FAST_TO_SLOW_MOTOR;
+    this->leftSpeed = ROBOT_SPEED * RATIO_FAST_TO_SLOW_MOTOR / RIGHT_TO_LEFT_RATIO_SPEED; 
+    this->rightSpeed = ROBOT_SPEED / RATIO_FAST_TO_SLOW_MOTOR * RIGHT_TO_LEFT_RATIO_SPEED;
     this->leftForward = true;
     this->rightForward = true;
 }
