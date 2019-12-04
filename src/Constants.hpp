@@ -8,8 +8,8 @@
 
 #define ROBOT_SPEED 15
 #define RATIO_FAST_TO_SLOW_MOTOR 2.0
-#define RATIO_INCLINE 1.5
-#define RATIO_DECLINE 1.5
+#define RATIO_INCLINE 1.0
+#define RATIO_DECLINE 0.6
 
 #define MAX_VELOCITY 1
 
