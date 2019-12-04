@@ -263,6 +263,10 @@ void loop() {
     // 3. Make action agents carry out actions
     enactAgents();
 
+    // TODO: REMOVE
+    state.incline = COMPLETED;
+    state.lineFollowingTable = COMPLETED;
+
     if (DEBUG) {
         printDebug();
     }

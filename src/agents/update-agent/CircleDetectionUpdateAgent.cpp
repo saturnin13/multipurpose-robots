@@ -14,7 +14,7 @@ void CircleDetectionUpdateAgent::update() {
     // finalTable == CURRENT
 
     //if we have not completed the line following, then we cannot be close to the circle
-    if(this->state->lineFollowingTable != COMPLETED || this->state->incline != COMPLETED|| this->state->robotState == DISARMED) {
+    if(this->state->lineFollowingTable != COMPLETED || this->state->incline != COMPLETED || this->state->robotState == DISARMED) {
         if(DEBUG && CIRCLE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING NOT COMPLETED OR ROBOT DISARMED, RETURNING");}
         return;
     }
