@@ -93,7 +93,7 @@ void NavigationActionAgent::enact() {
     //goStraight(25);
     // Set motors
     // TODO: HACK the ! inverts the direction, because wires are incorectly
-    this->leftMotor->configure(this->leftForward, this->leftSpeed+3);
+    this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
     // Enact motors after all
