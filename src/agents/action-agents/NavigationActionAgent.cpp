@@ -89,7 +89,7 @@ void NavigationActionAgent::enact() {
 //            // Go slower down
 //            configDecline();
 
-        } else {
+        else {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DEFAULT");}
             // Set the default configurations
             configureDefault();
