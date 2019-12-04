@@ -41,7 +41,7 @@ void CircleDetectionUpdateAgent::update() {
         ne = false;
     }
 
-    if(this->state->northWestEntity == EDGE) {
+    if (this->state->northWestEntity == EDGE) {
         nw = false;
     }
 

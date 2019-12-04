@@ -8,11 +8,14 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightSpeed = 0; 
     this->leftForward = true;
     this->rightForward = true;
+
+    this->nextManoeuver = NO_MANOEUVER;
+    this->startedManoeuverTime = 0;
 }
 
 void NavigationActionAgent::enact() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.print("\nNavigationActionAgent: ");}
-// This agent is only active if we are armed and not in an emergency
+
     if(this->state->emergencyStop) {
         if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("E-STOP");}
         stopMoving();
@@ -36,47 +39,51 @@ void NavigationActionAgent::enact() {
     } else {
 
         // The order of the condition is representative of the priority of actions
-        if(this->state->northWestEntity != FLAT) {
+        if (this->state->northWestEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW");}
             // Avoid the north west entity
             configNorthWestEntity();
 
-        } else if(this->state->northEntity != FLAT) {
+        } else if (this->state->northEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING N");}
             // Avoid the north entity
             configNorthEntity();
 
-        } else if(this->state->northEastEntity != FLAT) {
+        } else if (this->state->northEastEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NE");}
             // Avoid the north east entity
             configNorthEastEntity();
 
-        } else if(this->state->westEntity != FLAT) {
+        } else if (this->state->westEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING W");}
             // Avoid the west entity
             configWestEntity();
 
-        } else if(this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
+        } else if (nextManoeuver != NO_MANOEUVER){
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("PERFORMING MANOEUVER");}
+            // Perform manoeuver
+            configManoeuver();
+        } else if (this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
             // Go to circle
             configCircleDirection();
 
-        } else if(this->state->lineFollowingTable == CURRENT) {
+        } else if (this->state->lineFollowingTable == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("FOLLOWING LINE");}
             // Follow line
             configLineFollowing();
 
-        } else if(this->state->ticTacState == CURRENT) {
+        } else if (this->state->ticTacState == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DROPPING TICTAC");}
             // Stop if dropping
             configTicTacDropping();
             
-        } else if(this->state->incline == CURRENT) {
+        } else if (this->state->incline == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("CLIMBING");}
             // Go faster up
             configIncline();
 
-        } else if(this->state->decline == CURRENT) {
+        } else if (this->state->decline == CURRENT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DECLINING");}
             // Go slower down
             configDecline();
@@ -88,9 +95,6 @@ void NavigationActionAgent::enact() {
         }
     }
 
-    //left 9
-    //right 15
-    //goStraight(25);
     // Set motors
     // TODO: HACK the ! inverts the direction, because wires are incorectly
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
@@ -106,7 +110,7 @@ void NavigationActionAgent::enact() {
 *********************/
 
 void NavigationActionAgent::configCircleDirection() {
-    if(this->state->circleDirection == WEST) {
+    if (this->state->circleDirection == WEST) {
         turnLeftSpot();
     } else if(this->state->circleDirection == SOUTHWEST) {
         turnLeftSpot();
@@ -139,16 +143,6 @@ void NavigationActionAgent::configLineFollowing() {
     }
 }
 
-void NavigationActionAgent::configIncline() {
-    int speed = ROBOT_SPEED * RATIO_INCLINE;
-    goStraight(speed);
-}
-
-void NavigationActionAgent::configDecline() {
-    int speed = ROBOT_SPEED * RATIO_DECLINE;
-    goStraight(speed);
-}
-
 void NavigationActionAgent::configTicTacDropping() {
     stopMoving();
 }
@@ -159,7 +153,8 @@ void NavigationActionAgent::configNorthWestEntity() {
 
 void NavigationActionAgent::configNorthEntity() {
     // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
-    turnRightSpot();
+    goReverse();
+    this->nextManoeuver = TURN_90_DEGREE;
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
@@ -171,8 +166,41 @@ void NavigationActionAgent::configWestEntity() {
     goStraightRight();
 }
 
+void NavigationActionAgent::configIncline() {
+    int speed = ROBOT_SPEED * RATIO_INCLINE;
+    goStraight(speed);
+}
+
+void NavigationActionAgent::configDecline() {
+    int speed = ROBOT_SPEED * RATIO_DECLINE;
+    goStraight(speed);
+}
+
+void NavigationActionAgent::configManoeuver() {
+    if (this->nextManoeuver == TURN_90_DEGREE) {
+        performTurn90DegreeManoeuver();
+    }
+}
+
 void NavigationActionAgent::configureDefault() {
     goStraightLeft();
+}
+
+/********************
+ * Manoeuvers
+*********************/
+
+void NavigationActionAgent::performTurn90DegreeManoeuver() {
+    if(this->startedManoeuverTime == 0) {
+        this->startedManoeuverTime = millis();
+    }
+
+    if(millis() - this->startedManoeuverTime < manoeuverTime) {
+        turnRightSpot();
+    } else {
+        this->startedManoeuverTime == 0;
+        this->nextManoeuver = NO_MANOEUVER;
+    }
 }
 
 /********************
@@ -187,18 +215,9 @@ void NavigationActionAgent::goStraight(int speed) {
     this->rightForward = true;
 }
 
-/*void NavigationActionAgent::goStraight() {
-    if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING STRAIGHT");}
-    // Go straight forward
-    this->leftSpeed = ROBOT_SPEED; 
-    this->rightSpeed = ROBOT_SPEED; 
-    this->leftForward = true;
-    this->rightForward = true;
-}*/
-
 void NavigationActionAgent::goReverse() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING REVERSE");}
-    // Go straight forward
+    // Go straight backwards
     this->leftSpeed = ROBOT_SPEED; 
     this->rightSpeed = ROBOT_SPEED; 
     this->leftForward = false;
