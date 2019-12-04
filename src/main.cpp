@@ -264,8 +264,10 @@ void loop() {
     enactAgents();
 
     // TODO: REMOVE
-    state.incline = COMPLETED;
-    state.lineFollowingTable = COMPLETED;
+//    Serial.println();
+//    Serial.println(usNWForward.distance);
+//    Serial.println(usNEForward.distance);
+//    delay(300);
 
     if (DEBUG) {
         printDebug();

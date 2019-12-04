@@ -46,7 +46,6 @@ class NavigationActionAgent : public ActionAgent {
     void configManoeuver();
     void configureDefault();
 
-
     // Basic robot command
     void turnLeft();
     void goStraightLeft();
