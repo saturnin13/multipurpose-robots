@@ -59,7 +59,11 @@ void LineDetectionUpdateAgent::update() {
                 state->lineState = LEFT;
 
             // Case for before the robot line following sensor crossed the line
-            }  else if (!this->hasCrossedLine) {
+            } else if (lf0 && lf1 && lf3 && lf4) {
+                if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Special case of the line intersection");}
+                state->lineState = CENTER;
+
+            } else if (!this->hasCrossedLine) {
                 if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NOT YET CROSSED THE LINE");}
 
                 if((!lf0 && this->firstSeenSide == 0) || (!lf4 && this->firstSeenSide == 4)) {
