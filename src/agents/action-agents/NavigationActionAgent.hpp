@@ -7,9 +7,9 @@
 #include "ActionAgent.hpp"
 
 #define MANOEUVERS
-#define TURN_90_DEGREE_MANOEUVER_TIME 1000
+#define TURN_90_DEGREE_RIGHT_MANOEUVER_TIME 500
 
-enum Manoeuver { NO_MANOEUVER, TURN_90_DEGREE };
+enum Manoeuver { NO_MANOEUVER, TURN_90_DEGREE_RIGHT };
 
 class NavigationActionAgent : public ActionAgent {
   public:
@@ -26,7 +26,7 @@ class NavigationActionAgent : public ActionAgent {
     int startedManoeuverTime;
     int manoeuverTime;
 
-    void performTurn90DegreeManoeuver();
+    void performTurn90DegreeRightManoeuver();
 
     // Robot speed and orientation
     int leftSpeed;
