@@ -39,15 +39,15 @@ void NavigationActionAgent::enact() {
     } else {
 
         // The order of the condition is representative of the priority of actions
-        if (this->state->northWestEntity != FLAT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW");}
-            // Avoid the north west entity
-            configNorthWestEntity();
-
-        } else if (this->state->northEntity != FLAT) {
+        if (this->state->northEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING N");}
             // Avoid the north entity
             configNorthEntity();
+
+        } else if (this->state->northWestEntity != FLAT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW");}
+            // Avoid the north west entity
+            configNorthWestEntity();
 
         } else if (this->state->northEastEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NE");}
@@ -63,6 +63,7 @@ void NavigationActionAgent::enact() {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("PERFORMING MANOEUVER");}
             // Perform manoeuver
             configManoeuver();
+
         } else if (this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
             // Go to circle
@@ -148,18 +149,28 @@ void NavigationActionAgent::configTicTacDropping() {
 }
 
 void NavigationActionAgent::configNorthWestEntity() {
-    turnRightSpot();
+    if(this->state->northWestEntity == EDGE) {
+        goReverse();
+        this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+    } else {
+        turnRightSpot();
+    }
 }
 
 void NavigationActionAgent::configNorthEntity() {
     // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
     goReverse();
-    this->nextManoeuver = TURN_90_DEGREE;
+    this->nextManoeuver = TURN_90_DEGREE_RIGHT;
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
     // TODO: if there is something NE, we wont fit between; less naive implementation, maybe Spot?
-    turnLeftSpot();
+    if(this->state->northWestEntity == EDGE) {
+        goReverse();
+        this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+    } else {
+        turnLeftSpot();
+    }
 }
 
 void NavigationActionAgent::configWestEntity() {
@@ -177,8 +188,8 @@ void NavigationActionAgent::configDecline() {
 }
 
 void NavigationActionAgent::configManoeuver() {
-    if (this->nextManoeuver == TURN_90_DEGREE) {
-        performTurn90DegreeManoeuver();
+    if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
+        performTurn90DegreeRightManoeuver();
     }
 }
 
@@ -190,7 +201,7 @@ void NavigationActionAgent::configureDefault() {
  * Manoeuvers
 *********************/
 
-void NavigationActionAgent::performTurn90DegreeManoeuver() {
+void NavigationActionAgent::performTurn90DegreeRightManoeuver() {
     if(this->startedManoeuverTime == 0) {
         this->startedManoeuverTime = millis();
     }
