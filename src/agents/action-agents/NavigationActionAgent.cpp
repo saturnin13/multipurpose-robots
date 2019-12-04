@@ -8,16 +8,13 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightSpeed = 0; 
     this->leftForward = true;
     this->rightForward = true;
+
+    this->nextManoeuver = NO_MANOEUVER;
+    this->startedManoeuverTime = 0;
 }
 
 void NavigationActionAgent::enact() {
     if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.print("\nNavigationActionAgent: ");}
-    // This agent is only active if we are armed and not emergency stopped.
-    bool stop = this->state->emergencyStop ||
-                this->state->robotState == DISARMED ||
-                !this->state->move ||
-                this->state->finalTable == COMPLETED ||
-                this->state->ticTacState == CURRENT;
 
     if(this->state->emergencyStop) {
         if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("E-STOP");}
@@ -62,6 +59,10 @@ void NavigationActionAgent::enact() {
             // Avoid the west entity
             configWestEntity();
 
+        } else if (nextManoeuver != NO_MANOEUVER){
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("PERFORMING MANOEUVER");}
+            // Perform manoeuver
+            configManoeuver();
         } else if (this->state->lineFollowingTable == COMPLETED && this->state->circleDirection != UNKNOWN) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("GOING TO CIRCLE");}
             // Go to circle
@@ -141,16 +142,6 @@ void NavigationActionAgent::configLineFollowing() {
     }
 }
 
-void NavigationActionAgent::configIncline() {
-    int speed = ROBOT_SPEED * RATIO_INCLINE;
-    goStraight(speed);
-}
-
-void NavigationActionAgent::configDecline() {
-    int speed = ROBOT_SPEED * RATIO_DECLINE;
-    goStraight(speed);
-}
-
 void NavigationActionAgent::configTicTacDropping() {
     stopMoving();
 }
@@ -161,7 +152,8 @@ void NavigationActionAgent::configNorthWestEntity() {
 
 void NavigationActionAgent::configNorthEntity() {
     // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
-    turnRightSpot();
+    goReverse();
+    this->nextManoeuver = TURN_90_DEGREE;
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
@@ -173,8 +165,41 @@ void NavigationActionAgent::configWestEntity() {
     goStraightRight();
 }
 
+void NavigationActionAgent::configIncline() {
+    int speed = ROBOT_SPEED * RATIO_INCLINE;
+    goStraight(speed);
+}
+
+void NavigationActionAgent::configDecline() {
+    int speed = ROBOT_SPEED * RATIO_DECLINE;
+    goStraight(speed);
+}
+
+void NavigationActionAgent::configManoeuver() {
+    if (this->nextManoeuver == TURN_90_DEGREE) {
+        performTurn90DegreeManoeuver();
+    }
+}
+
 void NavigationActionAgent::configureDefault() {
     goStraightLeft();
+}
+
+/********************
+ * Manoeuvers
+*********************/
+
+void NavigationActionAgent::performTurn90DegreeManoeuver() {
+    if(this->startedManoeuverTime == 0) {
+        this->startedManoeuverTime = millis();
+    }
+
+    if(millis() - this->startedManoeuverTime < manoeuverTime) {
+        turnRightSpot();
+    } else {
+        this->startedManoeuverTime == 0;
+        this->nextManoeuver = NO_MANOEUVER;
+    }
 }
 
 /********************

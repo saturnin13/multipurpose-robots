@@ -6,6 +6,11 @@
 #include "../../state/State.hpp"
 #include "ActionAgent.hpp"
 
+#define MANOEUVERS
+#define TURN_90_DEGREE_MANOEUVER_TIME 1000
+
+enum Manoeuver { NO_MANOEUVER, TURN_90_DEGREE };
+
 class NavigationActionAgent : public ActionAgent {
   public:
     NavigationActionAgent(State *state, Motor *leftMotor, Motor *rightMotor);
@@ -15,6 +20,13 @@ class NavigationActionAgent : public ActionAgent {
   private:
     Motor *leftMotor;
     Motor *rightMotor;
+
+    // Manoeuver related
+    Manoeuver nextManoeuver;
+    int startedManoeuverTime;
+    int manoeuverTime;
+
+    void performTurn90DegreeManoeuver();
 
     // Robot speed and orientation
     int leftSpeed;
@@ -31,8 +43,9 @@ class NavigationActionAgent : public ActionAgent {
     void configNorthEastEntity();
     void configWestEntity();
     void configIncline();
-    void configureDefault();
     void configDecline();
+    void configManoeuver();
+    void configureDefault();
 
 
     // Basic robot command
