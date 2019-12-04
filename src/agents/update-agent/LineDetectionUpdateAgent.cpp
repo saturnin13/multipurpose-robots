@@ -48,7 +48,7 @@ void LineDetectionUpdateAgent::update() {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("FOLLOWING THE LINE");}
             this->lastSeenLineTime = millis();
             state->lineFollowingTable = CURRENT;
-
+            /*
             // Evaluating if the first pin to see the line is the left most or right most
             if(this->firstSeenSide == -1) {
                 this->firstSeenSide = lf3 || lf4 ? 4: 0;
@@ -78,7 +78,7 @@ void LineDetectionUpdateAgent::update() {
             }
 
             // Normal line following case
-            else {
+            else {*/
                 // Updating the line state
                 sumSensors += lf0 ? -2: 0;
                 sumSensors += lf1 ? -1: 0;
@@ -98,7 +98,7 @@ void LineDetectionUpdateAgent::update() {
                     if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) { Serial.println("LINE IS CENTER"); }
                     state->lineState = CENTER;
                 }
-            }
+            //}
         }
     }
 }
