@@ -29,11 +29,11 @@ void LineDetectionUpdateAgent::update() {
     bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
 
-    Serial.print(lf0);
-    Serial.print(lf1);
-    Serial.print(lf2);
-    Serial.print(lf3);
-    Serial.print(lf4);
+    //Serial.print(lf0);
+    //Serial.print(lf1);
+    //Serial.print(lf2);
+    //Serial.print(lf3);
+    //Serial.print(lf4);
 
     signed int sumSensors = 0;
 

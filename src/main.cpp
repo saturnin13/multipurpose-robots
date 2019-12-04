@@ -133,6 +133,8 @@ unsigned long lastDebugUpdate = millis();
  *********************/
 #if ROS
 void eStopCallback(const std_msgs::Bool &msg) {
+    digitalWrite(13,!digitalRead(13));
+
     bool stop = msg.data;
 
     if (stop) {
@@ -258,7 +260,7 @@ void loop() {
     // 2. Let update agents compute state
     updateAgents();
 
-    state.move = false;
+    //state.move = false;
     state.lineFollowingTable = COMPLETED;
     // 3. Make action agents carry out actions
     enactAgents();

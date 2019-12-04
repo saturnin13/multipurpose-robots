@@ -28,9 +28,14 @@ void InclineUpdateAgent::update() {
 
     if (hasExceededAngle) {
         // The threshold is exceeded.
-        if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.println("INCLINE DETECTED"); }
+        if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.print("DETECTING "); }
+        if(this->lastDetectedIsIncline) {
+            if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.print("INCLINE"); }
+        } else if (this->declineDetected) {
+            if (DEBUG && INCLINE_UPDATE_AGENT_DEBUG) { Serial.print("DECLINE"); }
+        }
 
-        if (!this->lastDetectedIsIncline) {
+        if (!this->lastDetectedIsIncline && this->state->incline != COMPLETED) {
             this->firstInclineDetectedTime = millis();
             this->lastDetectedIsIncline = true;
         }
