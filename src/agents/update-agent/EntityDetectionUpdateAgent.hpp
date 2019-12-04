@@ -10,8 +10,8 @@
 
 class EntityDetectionUpdateAgent : public UpdateAgent {
 public:
-    EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usWForward,
-    UltrasonicSensor* usNForward, UltrasonicSensor* usNE);
+    EntityDetectionUpdateAgent(State* state, UltrasonicSensor* usSW, UltrasonicSensor* usNW, UltrasonicSensor* usNNWForward, UltrasonicSensor* usWForward,
+    UltrasonicSensor* usNNEForward, UltrasonicSensor* usNE);
 
     void update();
 
@@ -19,8 +19,9 @@ private:
     LineFollowerSensor* lf;
     UltrasonicSensor* usSW;
     UltrasonicSensor* usNW;
+    UltrasonicSensor* usNNWForward;
     UltrasonicSensor* usWForward;
-    UltrasonicSensor* usNForward;
+    UltrasonicSensor* usNNEForward;
     UltrasonicSensor* usNE;
 
 };
