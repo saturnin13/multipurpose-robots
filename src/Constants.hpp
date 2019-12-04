@@ -41,7 +41,7 @@
 /********************
  * ROS
  *********************/
-#define ROS 1
+#define ROS 0
 #define ROS_ESTOP_TOPIC "ESTOP"
 #define ROS_DROP_TOPIC "DROPTICTAC"
 
