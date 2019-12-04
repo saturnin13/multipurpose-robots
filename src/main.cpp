@@ -259,7 +259,9 @@ void loop() {
     updateAgents();
 
     //state.move = false;
-    //state.lineFollowingTable = COMPLETED;
+    //TODO: DELETE
+    state.lineFollowingTable = COMPLETED;
+    state.incline = COMPLETED;
     // 3. Make action agents carry out actions
     enactAgents();
 

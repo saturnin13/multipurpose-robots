@@ -97,6 +97,7 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
+    //goStraight(20);
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
