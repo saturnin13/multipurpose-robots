@@ -68,7 +68,6 @@
         DONE -> motor
 
     Sensor:
-    TODO -> Error correction: weighted average values over several measurements, make sure no negative distances occur
     DISCUSS -> problem with detection speed for edges (if we average over several values, new things need time to take effect?)
     OPTIONAL -> Update everything at once
     */

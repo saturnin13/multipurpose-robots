@@ -97,7 +97,6 @@ void NavigationActionAgent::enact() {
     }
 
     // Set motors
-    // TODO: HACK the ! inverts the direction, because wires are incorectly
     this->leftMotor->configure(this->leftForward, this->leftSpeed);
     this->rightMotor->configure(this->rightForward, this->rightSpeed);
     
@@ -158,13 +157,11 @@ void NavigationActionAgent::configNorthWestEntity() {
 }
 
 void NavigationActionAgent::configNorthEntity() {
-    // TODO: if there is something N, we wont fit between; less naive implementation, maybe Spot?
     goReverse();
     this->nextManoeuver = TURN_90_DEGREE_RIGHT;
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
-    // TODO: if there is something NE, we wont fit between; less naive implementation, maybe Spot?
     if(this->state->northWestEntity == EDGE) {
         goReverse();
         this->nextManoeuver = TURN_120_DEGREE_RIGHT;

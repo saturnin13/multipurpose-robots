@@ -47,7 +47,6 @@ void CircleDetectionUpdateAgent::update() {
 
     //if every sensor detects a black surface, we are in the circle and have therefore the final table
     if(nw && ne && sw && se) {
-        //TODO: start timer here and stop after some time passed (stopping in the middle of the table
         //maybe make timer for time on circle (drive forward) and after leaving the circle reverse for half the time?
 
         //this means we finished the last table, so we are done

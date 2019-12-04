@@ -15,8 +15,7 @@ void LineDetectionUpdateAgent::update() {
     // if we already completed this table, we do not have to look for lines anymore
     if (this->state->lineFollowingTable == COMPLETED) {
         if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
-        // TODO: REMOVE COMMENTED CODE
-//        return;
+        return;
     }
 
     // Get sensor values
@@ -50,25 +49,30 @@ void LineDetectionUpdateAgent::update() {
             this->lastSeenLineTime = millis();
             state->lineFollowingTable = CURRENT;
 
+            // Evaluating if the first pin to see the line is the left most or right most
             if(this->firstSeenSide == -1) {
                 this->firstSeenSide = lf3 || lf4 ? 4: 0;
             }
 
-            // For directly facing the line
+            // For case when directly facing the line
             if(lf0 && lf1 && lf2 && lf3 && lf4) {
                 state->lineState = LEFT;
-            }
 
-            if (!this->hasCrossedLine) {
+            // Case for before the robot line following sensor crossed the line
+            } else if (!this->hasCrossedLine) {
                 if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NOT YET CROSSED THE LINE");}
+
                 if((!lf0 && this->firstSeenSide == 0) || (!lf4 && this->firstSeenSide == 4)) {
                     this->hasCrossedLine = true;
                 }
-            } //else if (lf0 && lf1 && lf2 && lf3) {
-                //if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Special case of the line intersection");}
-                //state->lineFollowingTable = CURRENT;
-                //state->lineState = LEFT;
-            //}
+
+            // Case for the intersection of lines
+            } else if ((lf0 && lf1 && lf2 && lf3) || (lf1 && lf2 && lf3 && lf4)) {
+                if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("Special case of the line intersection");}
+                state->lineState = lf0 ? RIGHT: LEFT;
+            }
+
+            // Normal line following case
             else {
                 // Updating the line state
                 sumSensors += lf0 ? -2: 0;
