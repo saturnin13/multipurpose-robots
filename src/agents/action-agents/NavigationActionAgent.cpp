@@ -10,7 +10,7 @@ NavigationActionAgent::NavigationActionAgent(State* state, Motor* leftMotor, Mot
     this->rightForward = true;
 
     this->nextManoeuver = NO_MANOEUVER;
-    this->startedManoeuverTime = 0;
+    this->manoeuverStartTime = 0;
 }
 
 void NavigationActionAgent::enact() {
@@ -151,7 +151,7 @@ void NavigationActionAgent::configTicTacDropping() {
 void NavigationActionAgent::configNorthWestEntity() {
     if(this->state->northWestEntity == EDGE) {
         goReverse();
-        this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+        this->nextManoeuver = TURN_60_DEGREE_RIGHT;
     } else {
         turnRightSpot();
     }
@@ -167,7 +167,7 @@ void NavigationActionAgent::configNorthEastEntity() {
     // TODO: if there is something NE, we wont fit between; less naive implementation, maybe Spot?
     if(this->state->northWestEntity == EDGE) {
         goReverse();
-        this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+        this->nextManoeuver = TURN_120_DEGREE_RIGHT;
     } else {
         turnLeftSpot();
     }
@@ -188,8 +188,12 @@ void NavigationActionAgent::configDecline() {
 }
 
 void NavigationActionAgent::configManoeuver() {
-    if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
-        performTurn90DegreeRightManoeuver();
+    if (this->nextManoeuver == TURN_60_DEGREE_RIGHT) {
+        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.66);
+    } else if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
+        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME);
+    } else if (this->nextManoeuver == TURN_120_DEGREE_RIGHT) {
+        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 1.33);
     }
 }
 
@@ -201,15 +205,15 @@ void NavigationActionAgent::configureDefault() {
  * Manoeuvers
 *********************/
 
-void NavigationActionAgent::performTurn90DegreeRightManoeuver() {
-    if(this->startedManoeuverTime == 0) {
-        this->startedManoeuverTime = millis();
+void NavigationActionAgent::performTurnXDegreeRightManoeuver(unsigned long manoeuverAmountTime) {
+    if(this->manoeuverStartTime == 0) {
+        this->manoeuverStartTime = millis();
     }
 
-    if(millis() - this->startedManoeuverTime < manoeuverTime) {
+    if(millis() - this->manoeuverStartTime < manoeuverAmountTime) {
         turnRightSpot();
     } else {
-        this->startedManoeuverTime = 0;
+        this->manoeuverStartTime = 0;
         this->nextManoeuver = NO_MANOEUVER;
     }
 }

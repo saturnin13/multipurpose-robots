@@ -9,7 +9,7 @@
 #define MANOEUVERS
 #define TURN_90_DEGREE_RIGHT_MANOEUVER_TIME 500
 
-enum Manoeuver { NO_MANOEUVER, TURN_90_DEGREE_RIGHT };
+enum Manoeuver { NO_MANOEUVER, TURN_120_DEGREE_RIGHT, TURN_90_DEGREE_RIGHT, TURN_60_DEGREE_RIGHT };
 
 class NavigationActionAgent : public ActionAgent {
   public:
@@ -23,10 +23,9 @@ class NavigationActionAgent : public ActionAgent {
 
     // Manoeuver related
     Manoeuver nextManoeuver;
-    unsigned long startedManoeuverTime;
-    unsigned long manoeuverTime;
+    unsigned long manoeuverStartTime;
 
-    void performTurn90DegreeRightManoeuver();
+    void performTurnXDegreeRightManoeuver(unsigned long manoeuverAmountTime);
 
     // Robot speed and orientation
     int leftSpeed;
