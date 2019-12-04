@@ -258,21 +258,8 @@ void loop() {
     // 2. Let update agents compute state
     updateAgents();
 
-    //state.move = false;
-    //TODO: DELETE
-//    state.lineFollowingTable = COMPLETED;
-//    state.incline = COMPLETED;
-//     3. Make action agents carry out actions
+    // 3. Make action agents carry out actions
     enactAgents();
-
-    // TODO: REMOVE
-//    Serial.println();
-//    Serial.println(usNWForward.distance);
-//    Serial.println(usNEForward.distance);
-//    delay(300);
-    if(state.lineFollowingTable != 0) {
-        Serial.print(state.lineFollowingTable);
-    }
 
     if (DEBUG) {
         printDebug();
