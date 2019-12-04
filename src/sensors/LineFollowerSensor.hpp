@@ -24,6 +24,13 @@ class LineFollowerSensor : public Sensor {
     int pin2;
     int pin3;
     int pin4;
+    
+    int line0DetectionCount = 0;
+    int line1DetectionCount = 0;
+    int line2DetectionCount = 0;
+    int line3DetectionCount = 0;
+    int line4DetectionCount = 0;
+  
 };
 
 #endif
