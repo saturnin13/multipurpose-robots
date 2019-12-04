@@ -79,15 +79,15 @@ void NavigationActionAgent::enact() {
             // Stop if dropping
             configTicTacDropping();
             
-        } else if (this->state->incline == CURRENT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("CLIMBING");}
-            // Go faster up
-            configIncline();
-
-        } else if (this->state->decline == CURRENT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DECLINING");}
-            // Go slower down
-            configDecline();
+        } //else if (this->state->incline == CURRENT) {
+//            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("CLIMBING");}
+//            // Go faster up
+//            configIncline();
+//
+//        } else if (this->state->decline == CURRENT) {
+//            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DECLINING");}
+//            // Go slower down
+//            configDecline();
 
         } else {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("DEFAULT");}
@@ -157,8 +157,14 @@ void NavigationActionAgent::configNorthWestEntity() {
 }
 
 void NavigationActionAgent::configNorthEntity() {
-    goReverse();
-    this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+
+    if(this->state->northEntity == EDGE) {
+        goReverse();
+        this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+    } else {
+        // TODO: Should not be able to reach this
+        //turnLeftSpot();
+    }
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
@@ -167,8 +173,7 @@ void NavigationActionAgent::configNorthEastEntity() {
         goReverse();
         this->nextManoeuver = TURN_120_DEGREE_RIGHT;
     } else {
-        // TODO: Should not be able to reach this
-        //turnLeftSpot();
+        turnLeftSpot();
     }
 }
 
@@ -188,7 +193,7 @@ void NavigationActionAgent::configDecline() {
 
 void NavigationActionAgent::configManoeuver() {
     if (this->nextManoeuver == TURN_60_DEGREE_RIGHT) {
-        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.9);
+        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.7);
     } else if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
         performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME);
     } else if (this->nextManoeuver == TURN_120_DEGREE_RIGHT) {
