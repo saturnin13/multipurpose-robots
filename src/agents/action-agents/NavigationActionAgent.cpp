@@ -162,11 +162,13 @@ void NavigationActionAgent::configNorthEntity() {
 }
 
 void NavigationActionAgent::configNorthEastEntity() {
-    if(this->state->northWestEntity == EDGE) {
+
+    if(this->state->northEastEntity == EDGE) {
         goReverse();
         this->nextManoeuver = TURN_120_DEGREE_RIGHT;
     } else {
-        turnLeftSpot();
+        // TODO: Should not be able to reach this
+        //turnLeftSpot();
     }
 }
 
@@ -186,7 +188,7 @@ void NavigationActionAgent::configDecline() {
 
 void NavigationActionAgent::configManoeuver() {
     if (this->nextManoeuver == TURN_60_DEGREE_RIGHT) {
-        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.66);
+        performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME * 0.9);
     } else if (this->nextManoeuver == TURN_90_DEGREE_RIGHT) {
         performTurnXDegreeRightManoeuver(TURN_90_DEGREE_RIGHT_MANOEUVER_TIME);
     } else if (this->nextManoeuver == TURN_120_DEGREE_RIGHT) {
