@@ -11,12 +11,6 @@ LineDetectionUpdateAgent::LineDetectionUpdateAgent(State* state, LineFollowerSen
 
 void LineDetectionUpdateAgent::update() {
     if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.print("\nLineDetectionUpdateAgent: ");}
-    
-    // if we already completed this table, we do not have to look for lines anymore
-    if (this->state->lineFollowingTable == COMPLETED) {
-        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
-        return;
-    }
 
     // Get sensor values
     bool lf0 = lf->lineDetected0;
@@ -27,6 +21,17 @@ void LineDetectionUpdateAgent::update() {
 
     bool usNWIsEdge = usNW->distance > US_EDGE_THRESHOLD;
     bool usNEIsEdge = usNE->distance > US_EDGE_THRESHOLD;
+
+    // if we already completed this table, we do not have to look for lines anymore
+    if (this->state->lineFollowingTable == COMPLETED) {
+        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("LINE FOLLOWING COMPLETED, RETURNING");}
+        return;
+    }
+
+    if (this->state->lineFollowingTable == UNSEEN && !lf0 && !lf1) {
+        if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NO EXTERNAL SENSOR ACTIVATED, RETURNING");}
+        return;
+    }
 
     //Serial.print(lf0);
     //Serial.print(lf1);
@@ -48,7 +53,7 @@ void LineDetectionUpdateAgent::update() {
             if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("FOLLOWING THE LINE");}
             this->lastSeenLineTime = millis();
             state->lineFollowingTable = CURRENT;
-            /*
+
             // Evaluating if the first pin to see the line is the left most or right most
             if(this->firstSeenSide == -1) {
                 this->firstSeenSide = lf3 || lf4 ? 4: 0;
@@ -67,6 +72,7 @@ void LineDetectionUpdateAgent::update() {
             } else if (!this->hasCrossedLine) {
                 if(DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NOT YET CROSSED THE LINE");}
 
+                state->lineState = CENTER;
                 if((!lf0 && this->firstSeenSide == 0) || (!lf4 && this->firstSeenSide == 4)) {
                     this->hasCrossedLine = true;
                 }
@@ -78,7 +84,7 @@ void LineDetectionUpdateAgent::update() {
             }
 
             // Normal line following case
-            else {*/
+            else {
                 // Updating the line state
                 sumSensors += lf0 ? -2: 0;
                 sumSensors += lf1 ? -1: 0;
@@ -98,7 +104,7 @@ void LineDetectionUpdateAgent::update() {
                     if (DEBUG && LINE_DETECTION_UPDATE_AGENT_DEBUG) { Serial.println("LINE IS CENTER"); }
                     state->lineState = CENTER;
                 }
-            //}
+            }
         }
     }
 }

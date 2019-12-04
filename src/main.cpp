@@ -238,6 +238,9 @@ void setup() {
     if (DEBUG) {
         Serial.println("Setup completed");
     }
+    state.incline = COMPLETED;
+    state.decline = COMPLETED;
+    state.ticTacState = COMPLETED;
 
     #if ROS
     nh.getHardware()->setBaud(BAUD_RATE);
