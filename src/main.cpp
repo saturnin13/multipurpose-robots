@@ -133,8 +133,6 @@ unsigned long lastDebugUpdate = millis();
  *********************/
 #if ROS
 void eStopCallback(const std_msgs::Bool &msg) {
-    digitalWrite(13,!digitalRead(13));
-
     bool stop = msg.data;
 
     if (stop) {
@@ -242,8 +240,6 @@ void setup() {
         Serial.println("Setup completed");
     }
 
-    digitalWrite(13,HIGH);
-
     #if ROS
     nh.getHardware()->setBaud(BAUD_RATE);
     nh.initNode();
@@ -263,27 +259,11 @@ void loop() {
     // 2. Let update agents compute state
     updateAgents();
 
-    //state.move = false;
-    state.lineFollowingTable = COMPLETED;
     // 3. Make action agents carry out actions
     enactAgents();
 
     if (DEBUG) {
-        unsigned long now = millis();
-        if(now > lastDebugUpdate + DEBUG_PRINTING_DELAY) {
-            lastDebugUpdate = now;
-            printDebug();
-//            Serial.println(usNEForward.distance);
-            Serial.println(usNWForward.distance);
-//            Serial.println(usWForward.distance);
-//
-//            Serial.println();
-//
-//            Serial.println(usNEDown.distance);
-            Serial.println(usNWDown.distance);
-//            Serial.println(usSWDown.distance);
-        };
-//        delay(DEBUG_PRINTING_DELAY);
+        printDebug();
     }
 
 }
