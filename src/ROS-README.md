@@ -74,7 +74,8 @@ source ~/catkin_ws/devel/setup.bash
 
 3. and
 ```bash
-rosrun rosserial_arduino serial_node.py _port:=/dev/ttyArduino _baud:=9600
+rosrun rosserial_arduino serial_node.py _port:=/dev/ttyArduino _baud:=57600
+57600
 ```
 If this works, we are on track, if not, probably fix the arduino code first.
 
@@ -96,7 +97,7 @@ rostopic list
 
 4. This line will trigger the action (light LED in the example) on the arduino, as it is the specified message
 ```bash
-rostopic pub ESTOP std_msgs/Bool true --once
+rostopic pub ESTOP std_msgs/Bool false --once
 ```
 
 OR
