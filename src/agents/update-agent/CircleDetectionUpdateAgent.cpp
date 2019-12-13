@@ -25,6 +25,11 @@ void CircleDetectionUpdateAgent::update() {
     bool sw = !irSW->lineDetected;
     bool se = !irSE->lineDetected;
 
+    if(this->state->circleDirection == UNKNOWN && !ne && !se) {
+        if(DEBUG && CIRCLE_DETECTION_UPDATE_AGENT_DEBUG){Serial.println("NO EAST SENSORS ON RETURNING, RETURNING");}
+        return;
+    }
+
     // if there is an edges on the left, the IR sensors on the left are not
     // useful as they might detect not existing lines
     if (this->state->northWestEntity != FLAT) {

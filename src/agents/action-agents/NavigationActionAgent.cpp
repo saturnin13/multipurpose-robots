@@ -44,13 +44,18 @@ void NavigationActionAgent::enact() {
             // Avoid the north entity
             configNorthEntity();
 
+        } else if (this->state->westEntity != FLAT && this->state->northWestEntity != FLAT) {
+            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW and W");}
+            // Avoid the north west entity
+            configWestNorthWestEntity();
+
         } else if (this->state->northWestEntity != FLAT) {
             if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NW");}
             // Avoid the north west entity
             configNorthWestEntity();
 
         } else if (this->state->northEastEntity != FLAT) {
-            if(DEBUG && NAVIGATION_ACTION_AGENT_DEBUG){Serial.println("AVOIDING NE");}
+            if (DEBUG && NAVIGATION_ACTION_AGENT_DEBUG) { Serial.println("AVOIDING NE"); }
             // Avoid the north east entity
             configNorthEastEntity();
 
@@ -166,6 +171,10 @@ void NavigationActionAgent::configNorthEntity() {
     }
     goReverse();
     this->nextManoeuver = TURN_90_DEGREE_RIGHT;
+}
+
+void NavigationActionAgent::configWestNorthWestEntity () {
+    goStraightRight();
 }
 
 void NavigationActionAgent::configNorthEastEntity() {

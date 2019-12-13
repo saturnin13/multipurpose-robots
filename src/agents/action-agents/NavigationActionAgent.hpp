@@ -40,6 +40,7 @@ class NavigationActionAgent : public ActionAgent {
     void configNorthWestEntity();
     void configNorthEntity();
     void configNorthEastEntity();
+    void configWestNorthWestEntity();
     void configWestEntity();
     void configIncline();
     void configDecline();
